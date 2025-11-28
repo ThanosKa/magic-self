@@ -15,12 +15,3 @@ export const logger = pino({
     },
   }),
 });
-
-// Create child loggers for different modules
-export const createLogger = (module: string) => logger.child({ module });
-
-// Pre-configured loggers for common modules
-export const aiLogger = createLogger("ai");
-export const uploadLogger = createLogger("upload");
-export const pdfLogger = createLogger("pdf");
-export const dbLogger = createLogger("db");

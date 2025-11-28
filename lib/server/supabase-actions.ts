@@ -5,7 +5,7 @@ import {
   MIN_USERNAME_LENGTH,
 } from "@/lib/config";
 import type { ResumeData } from "@/lib/schemas/resume";
-import { dbLogger } from "@/lib/server/logger";
+import { logger } from "@/lib/server/logger";
 
 const supabase = createAdminClient();
 
@@ -18,7 +18,7 @@ export async function getResume(userId: string) {
     .single();
 
   if (error && error.code !== "PGRST116") {
-    dbLogger.error({ userId, error: error.message }, "Failed to get resume");
+    logger.error({ userId, error: error.message }, "Failed to get resume");
     throw error;
   }
 
@@ -63,14 +63,11 @@ export async function storeResume(
       .single();
 
     if (error) {
-      dbLogger.error(
-        { userId, error: error.message },
-        "Failed to update resume"
-      );
+      logger.error({ userId, error: error.message }, "Failed to update resume");
       throw error;
     }
 
-    dbLogger.debug({ userId }, "Resume updated");
+    logger.debug({ userId }, "Resume updated");
     return updated;
   }
 
@@ -84,11 +81,11 @@ export async function storeResume(
     .single();
 
   if (error) {
-    dbLogger.error({ userId, error: error.message }, "Failed to create resume");
+    logger.error({ userId, error: error.message }, "Failed to create resume");
     throw error;
   }
 
-  dbLogger.info({ userId }, "Resume created");
+  logger.info({ userId }, "Resume created");
   return created;
 }
 

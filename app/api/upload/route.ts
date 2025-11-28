@@ -3,7 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { storeResume, getResume } from "@/lib/server/supabase-actions";
 import { MAX_FILE_SIZE, ALLOWED_FILE_TYPES } from "@/lib/config";
-import { uploadLogger } from "@/lib/server/logger";
+import { logger } from "@/lib/server/logger";
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,13 +13,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    uploadLogger.info({ userId: user.id }, "Upload request received");
+    logger.info({ userId: user.id }, "Upload request received");
 
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
 
     if (!file) {
-      uploadLogger.warn({ userId: user.id }, "No file provided");
+      logger.warn({ userId: user.id }, "No file provided");
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         file.type as (typeof ALLOWED_FILE_TYPES)[number]
       )
     ) {
-      uploadLogger.warn(
+      logger.warn(
         { userId: user.id, fileType: file.type },
         "Invalid file type"
       );
@@ -41,10 +41,7 @@ export async function POST(request: NextRequest) {
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
-      uploadLogger.warn(
-        { userId: user.id, fileSize: file.size },
-        "File too large"
-      );
+      logger.warn({ userId: user.id, fileSize: file.size }, "File too large");
       return NextResponse.json(
         { error: "File size must be less than 10MB" },
         { status: 400 }
@@ -58,7 +55,7 @@ export async function POST(request: NextRequest) {
     if (existingResume?.file_url) {
       const oldPath = existingResume.file_url.split("/").slice(-2).join("/");
       await supabase.storage.from("resumes").remove([oldPath]);
-      uploadLogger.debug({ userId: user.id, oldPath }, "Old file deleted");
+      logger.debug({ userId: user.id, oldPath }, "Old file deleted");
     }
 
     // Upload new file
@@ -75,7 +72,7 @@ export async function POST(request: NextRequest) {
       });
 
     if (uploadError) {
-      uploadLogger.error(
+      logger.error(
         { userId: user.id, error: uploadError.message },
         "Upload failed"
       );
@@ -98,10 +95,7 @@ export async function POST(request: NextRequest) {
       resumeData: undefined, // Clear previous resume data so it gets re-generated
     });
 
-    uploadLogger.info(
-      { userId: user.id, fileName: file.name },
-      "Upload successful"
-    );
+    logger.info({ userId: user.id, fileName: file.name }, "Upload successful");
 
     return NextResponse.json({
       success: true,
@@ -110,7 +104,7 @@ export async function POST(request: NextRequest) {
       fileSize: file.size,
     });
   } catch (error) {
-    uploadLogger.error(
+    logger.error(
       { error: error instanceof Error ? error.message : "Unknown error" },
       "Upload error"
     );

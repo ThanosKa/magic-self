@@ -9,7 +9,7 @@ import {
   checkUsernameAvailability,
 } from "@/lib/server/supabase-actions";
 import { generateResumeObject } from "@/lib/server/ai/generate-resume-object";
-import { aiLogger } from "@/lib/server/logger";
+import { logger } from "@/lib/server/logger";
 import { Spinner } from "@/components/ui/spinner";
 import { PreviewClient } from "@/components/preview/preview-client";
 import { nanoid } from "nanoid";
@@ -36,7 +36,7 @@ async function ProcessPreview() {
   const resume = await getResume(userId);
 
   if (!resume?.file_content) {
-    aiLogger.warn({ userId }, "No PDF content found, redirecting to upload");
+    logger.warn({ userId }, "No PDF content found, redirecting to upload");
     redirect("/upload");
   }
 
@@ -45,7 +45,7 @@ async function ProcessPreview() {
 
   // Generate resume data if not exists
   if (!resumeData) {
-    aiLogger.info({ userId }, "Generating resume data from PDF content");
+    logger.info({ userId }, "Generating resume data from PDF content");
 
     const result = await generateResumeObject(resume.file_content);
     resumeData = result.data;
@@ -54,7 +54,7 @@ async function ProcessPreview() {
     // Save generated data to database
     await storeResume(userId, { resumeData });
 
-    aiLogger.info(
+    logger.info(
       { userId, usedFallback: result.usedFallback },
       "Resume data saved"
     );
@@ -80,13 +80,13 @@ async function ProcessPreview() {
     if (availability.available) {
       await createUsernameLookup({ userId, username: candidateUsername });
       username = candidateUsername;
-      aiLogger.info({ userId, username }, "Username created");
+      logger.info({ userId, username }, "Username created");
     } else {
       // Try with a different salt
       candidateUsername = `${baseName}-${nanoid(8)}`;
       await createUsernameLookup({ userId, username: candidateUsername });
       username = candidateUsername;
-      aiLogger.info({ userId, username }, "Username created with longer salt");
+      logger.info({ userId, username }, "Username created with longer salt");
     }
   }
 

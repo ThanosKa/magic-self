@@ -3,7 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getResume, storeResume } from "@/lib/server/supabase-actions";
 import { scrapePdfContent } from "@/lib/server/scrape-pdf-content";
-import { pdfLogger } from "@/lib/server/logger";
+import { logger } from "@/lib/server/logger";
 import { Spinner } from "@/components/ui/spinner";
 
 export const maxDuration = 40;
@@ -18,13 +18,13 @@ async function ProcessPdf() {
   const resume = await getResume(userId);
 
   if (!resume?.file_url) {
-    pdfLogger.warn({ userId }, "No PDF file found, redirecting to upload");
+    logger.warn({ userId }, "No PDF file found, redirecting to upload");
     redirect("/upload");
   }
 
   // If content already extracted, go to preview
   if (resume.file_content) {
-    pdfLogger.info(
+    logger.info(
       { userId },
       "PDF content already extracted, redirecting to preview"
     );
@@ -33,7 +33,7 @@ async function ProcessPdf() {
 
   try {
     // Extract text from PDF
-    pdfLogger.info(
+    logger.info(
       { userId, fileUrl: resume.file_url },
       "Extracting PDF content"
     );
@@ -42,9 +42,9 @@ async function ProcessPdf() {
     // Save extracted content to database
     await storeResume(userId, { fileContent });
 
-    pdfLogger.info({ userId }, "PDF content saved, redirecting to preview");
+    logger.info({ userId }, "PDF content saved, redirecting to preview");
   } catch (error) {
-    pdfLogger.error(
+    logger.error(
       {
         userId,
         error: error instanceof Error ? error.message : "Unknown error",

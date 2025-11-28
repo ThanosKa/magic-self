@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { getResume, storeResume } from "@/lib/server/supabase-actions";
 import { ResumeDataSchema } from "@/lib/schemas/resume";
-import { dbLogger } from "@/lib/server/logger";
+import { logger } from "@/lib/server/logger";
 
 export async function GET() {
   try {
@@ -16,7 +16,7 @@ export async function GET() {
 
     return NextResponse.json({ resume });
   } catch (error) {
-    dbLogger.error(
+    logger.error(
       { error: error instanceof Error ? error.message : "Unknown error" },
       "Get resume error"
     );
@@ -53,7 +53,7 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json({ resume });
   } catch (error) {
-    dbLogger.error(
+    logger.error(
       { error: error instanceof Error ? error.message : "Unknown error" },
       "Update resume error"
     );
@@ -80,14 +80,14 @@ export async function PATCH(request: NextRequest) {
     }
 
     const resume = await storeResume(user.id, { status: body.status });
-    dbLogger.info(
+    logger.info(
       { userId: user.id, status: body.status },
       "Resume status updated"
     );
 
     return NextResponse.json({ resume });
   } catch (error) {
-    dbLogger.error(
+    logger.error(
       { error: error instanceof Error ? error.message : "Unknown error" },
       "Update status error"
     );

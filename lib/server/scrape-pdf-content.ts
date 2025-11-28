@@ -1,8 +1,8 @@
-import { pdfLogger } from "@/lib/server/logger";
+import { logger } from "@/lib/server/logger";
 
 export async function scrapePdfContent(pdfUrl: string): Promise<string> {
   try {
-    pdfLogger.info({ pdfUrl }, "Starting PDF content extraction");
+    logger.info({ pdfUrl }, "Starting PDF content extraction");
 
     // Fetch the PDF file
     const response = await fetch(pdfUrl);
@@ -14,10 +14,7 @@ export async function scrapePdfContent(pdfUrl: string): Promise<string> {
     const arrayBuffer = await response.arrayBuffer();
     const uint8Array = new Uint8Array(arrayBuffer);
 
-    pdfLogger.debug(
-      { byteLength: uint8Array.length },
-      "PDF fetched successfully"
-    );
+    logger.debug({ byteLength: uint8Array.length }, "PDF fetched successfully");
 
     // Use pdf-parse to extract text
     const { default: pdfParse } = (await import("pdf-parse")) as unknown as {
@@ -27,14 +24,14 @@ export async function scrapePdfContent(pdfUrl: string): Promise<string> {
 
     const text = data.text.trim();
 
-    pdfLogger.info(
+    logger.info(
       { extractedLength: text.length, pages: data.numpages },
       "PDF content extracted successfully"
     );
 
     return text;
   } catch (error) {
-    pdfLogger.error(
+    logger.error(
       {
         error: error instanceof Error ? error.message : "Unknown error",
         pdfUrl,

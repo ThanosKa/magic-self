@@ -1,7 +1,7 @@
 import { generateObject } from "ai";
 import { openrouter } from "@openrouter/ai-sdk-provider";
 import { ResumeDataSchema, type ResumeData } from "@/lib/schemas/resume";
-import { aiLogger } from "@/lib/server/logger";
+import { logger } from "@/lib/server/logger";
 
 const SYSTEM_PROMPT = `You are a professional resume parser. Extract structured resume data from the provided text content.
 
@@ -61,8 +61,8 @@ export async function generateResumeObject(
   pdfContent: string
 ): Promise<GenerateResumeResult> {
   try {
-    aiLogger.info("Starting resume generation from PDF content");
-    aiLogger.debug({ contentLength: pdfContent.length }, "PDF content stats");
+    logger.info("Starting resume generation from PDF content");
+    logger.debug({ contentLength: pdfContent.length }, "PDF content stats");
 
     const model = openrouter("openai/gpt-4o");
 
@@ -73,7 +73,7 @@ export async function generateResumeObject(
       prompt: `Parse the following resume text and extract structured data:\n\n${pdfContent}`,
     });
 
-    aiLogger.info("Successfully generated resume object");
+    logger.info("Successfully generated resume object");
 
     return {
       success: true,
@@ -81,7 +81,7 @@ export async function generateResumeObject(
       usedFallback: false,
     };
   } catch (error) {
-    aiLogger.error(
+    logger.error(
       { error: error instanceof Error ? error.message : "Unknown error" },
       "Failed to generate resume object"
     );

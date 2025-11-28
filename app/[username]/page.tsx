@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { clerkClient } from "@clerk/nextjs/server";
 import { getUserIdByUsername, getResume } from "@/lib/server/supabase-actions";
 import { FullResume } from "@/components/resume/full-resume";
 import { SITE_CONFIG } from "@/lib/config";
@@ -81,6 +82,18 @@ export default async function ProfilePage({
 
   const resumeData = resume.resume_data as ResumeData;
 
+  // Fetch user data from Clerk to get profile image
+  const client = await clerkClient();
+  let profileImageUrl: string | null = null;
+
+  try {
+    const user = await client.users.getUser(userId);
+    profileImageUrl = user.imageUrl;
+  } catch (error) {
+    // Silently fail if user data can't be fetched - the avatar will show initials fallback
+    console.error("Failed to fetch user data from Clerk:", error);
+  }
+
   // JSON-LD structured data
   const jsonLd = {
     "@context": "https://schema.org",
@@ -93,10 +106,10 @@ export default async function ProfilePage({
     knowsAbout: resumeData.header.skills,
     worksFor: resumeData.workExperience[0]
       ? {
-          "@type": "Organization",
-          name: resumeData.workExperience[0].company,
-          url: resumeData.workExperience[0].link,
-        }
+        "@type": "Organization",
+        name: resumeData.workExperience[0].company,
+        url: resumeData.workExperience[0].link,
+      }
       : undefined,
     alumniOf: resumeData.education.map((edu) => ({
       "@type": "EducationalOrganization",
@@ -120,7 +133,7 @@ export default async function ProfilePage({
       />
       <main className="min-h-screen bg-background">
         <div className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-16">
-          <FullResume data={resumeData} />
+          <FullResume data={resumeData} profileImageUrl={profileImageUrl} />
 
           {/* Footer */}
           <footer className="mt-16 border-t pt-8">

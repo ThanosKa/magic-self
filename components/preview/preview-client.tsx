@@ -37,11 +37,13 @@ type ResumeRecord = {
 interface PreviewClientProps {
   initialResume: ResumeRecord | null;
   initialUsername: string | null;
+  profileImageUrl: string | null;
 }
 
 export function PreviewClient({
   initialResume,
   initialUsername,
+  profileImageUrl,
 }: PreviewClientProps) {
   const [resume, setResume] = useState<ResumeRecord | null>(initialResume);
   const [resumeData, setResumeData] = useState<ResumeData | null>(
@@ -254,9 +256,9 @@ export function PreviewClient({
         </CardHeader>
         <CardContent>
           {isEditMode ? (
-            <EditResume data={resumeData} onChange={handleDataChange} />
+            <EditResume data={resumeData} onChange={handleDataChange} profileImageUrl={profileImageUrl} />
           ) : (
-            <FullResume data={resumeData} />
+            <FullResume data={resumeData} profileImageUrl={profileImageUrl} />
           )}
         </CardContent>
       </Card>

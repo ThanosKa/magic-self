@@ -23,6 +23,7 @@ import { AddSkillDialog } from "@/components/resume/add-skill-dialog";
 interface EditResumeProps {
   data: ResumeData;
   onChange: (data: ResumeData) => void;
+  profileImageUrl?: string | null;
 }
 
 export function EditResume({ data, onChange }: EditResumeProps) {

@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getResume, getUsernameById } from "@/lib/server/supabase-actions";
 import { PreviewClient } from "@/components/preview/preview-client";
@@ -10,9 +10,10 @@ export default async function PreviewPage() {
     redirect("/sign-in");
   }
 
-  const [resume, username] = await Promise.all([
+  const [resume, username, user] = await Promise.all([
     getResume(userId),
     getUsernameById(userId),
+    currentUser(),
   ]);
 
   if (!resume || !resume.resume_data) {
@@ -21,7 +22,11 @@ export default async function PreviewPage() {
 
   return (
     <main className="min-h-screen bg-background px-4 py-8 md:px-6 md:py-12">
-      <PreviewClient initialResume={resume} initialUsername={username} />
+      <PreviewClient 
+        initialResume={resume} 
+        initialUsername={username}
+        profileImageUrl={user?.imageUrl ?? null}
+      />
     </main>
   );
 }

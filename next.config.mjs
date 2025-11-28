@@ -14,6 +14,7 @@ const nextConfig = {
   turbopack: {
     root: path.join(__dirname, "."),
   },
+  serverExternalPackages: ["pino", "pino-pretty", "thread-stream", "sonic-boom"],
 };
 
 export default nextConfig;

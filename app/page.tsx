@@ -19,7 +19,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <TopMenu />
+      <TopMenu userId={userId} />
 
       <main className="flex-1">
         {/* Hero Section */}

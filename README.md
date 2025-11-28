@@ -71,6 +71,7 @@ Fill in your credentials:
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+SUPABASE_DB_URL=your_supabase_connection_string
 
 # Clerk
 
@@ -91,11 +92,10 @@ NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=http://localhost:3000
 
 1. Create a new Supabase project at [supabase.com](https://supabase.com)
 
-2. Run the SQL migrations in order:
+2. Run the SQL migrations (stored in `scripts/`) with a single command:
 
-\`\`\`sql
--- Run scripts/001_create_resumes_table.sql
--- Run scripts/002_create_usernames_table.sql
+\`\`\`bash
+psql "$SUPABASE_DB_URL" -f scripts/001_create_resumes_table.sql -f scripts/002_create_usernames_table.sql
 \`\`\`
 
 3. Create a Storage bucket:

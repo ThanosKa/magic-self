@@ -55,6 +55,8 @@ async function ProcessPdf() {
   }
 
   redirect("/preview");
+
+  return null;
 }
 
 function LoadingFallback() {

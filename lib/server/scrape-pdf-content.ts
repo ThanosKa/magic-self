@@ -20,7 +20,9 @@ export async function scrapePdfContent(pdfUrl: string): Promise<string> {
     );
 
     // Use pdf-parse to extract text
-    const pdfParse = (await import("pdf-parse")).default;
+    const { default: pdfParse } = (await import("pdf-parse")) as unknown as {
+      default: (data: Buffer) => Promise<{ text: string; numpages: number }>;
+    };
     const data = await pdfParse(Buffer.from(uint8Array));
 
     const text = data.text.trim();

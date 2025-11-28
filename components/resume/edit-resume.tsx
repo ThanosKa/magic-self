@@ -1,32 +1,40 @@
-"use client"
+"use client";
 
-import type { ResumeData, WorkExperience, Education } from "@/lib/schemas/resume"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { ChevronDown, Plus, Trash2, X } from "lucide-react"
-import { useState } from "react"
-import { AddSkillDialog } from "@/components/resume/add-skill-dialog"
+import type {
+  ResumeData,
+  WorkExperience,
+  Education,
+} from "@/lib/schemas/resume";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown, Plus, Trash2, X } from "lucide-react";
+import { useState } from "react";
+import { AddSkillDialog } from "@/components/resume/add-skill-dialog";
 
 interface EditResumeProps {
-  data: ResumeData
-  onChange: (data: ResumeData) => void
+  data: ResumeData;
+  onChange: (data: ResumeData) => void;
 }
 
 export function EditResume({ data, onChange }: EditResumeProps) {
-  const [openWorkItems, setOpenWorkItems] = useState<number[]>([0])
-  const [openEduItems, setOpenEduItems] = useState<number[]>([0])
+  const [openWorkItems, setOpenWorkItems] = useState<number[]>([0]);
+  const [openEduItems, setOpenEduItems] = useState<number[]>([0]);
 
   const updateHeader = (field: string, value: string | string[]) => {
     onChange({
       ...data,
       header: { ...data.header, [field]: value },
-    })
-  }
+    });
+  };
 
   const updateContacts = (field: string, value: string) => {
     onChange({
@@ -35,14 +43,18 @@ export function EditResume({ data, onChange }: EditResumeProps) {
         ...data.header,
         contacts: { ...data.header.contacts, [field]: value },
       },
-    })
-  }
+    });
+  };
 
-  const updateWorkExperience = (index: number, field: keyof WorkExperience, value: string | null) => {
-    const updated = [...data.workExperience]
-    updated[index] = { ...updated[index], [field]: value }
-    onChange({ ...data, workExperience: updated })
-  }
+  const updateWorkExperience = (
+    index: number,
+    field: keyof WorkExperience,
+    value: string | null
+  ) => {
+    const updated = [...data.workExperience];
+    updated[index] = { ...updated[index], [field]: value };
+    onChange({ ...data, workExperience: updated });
+  };
 
   const addWorkExperience = () => {
     const newWork: WorkExperience = {
@@ -54,23 +66,27 @@ export function EditResume({ data, onChange }: EditResumeProps) {
       start: new Date().toISOString().split("T")[0],
       end: null,
       description: "",
-    }
-    onChange({ ...data, workExperience: [...data.workExperience, newWork] })
-    setOpenWorkItems([...openWorkItems, data.workExperience.length])
-  }
+    };
+    onChange({ ...data, workExperience: [...data.workExperience, newWork] });
+    setOpenWorkItems([...openWorkItems, data.workExperience.length]);
+  };
 
   const removeWorkExperience = (index: number) => {
     onChange({
       ...data,
       workExperience: data.workExperience.filter((_, i) => i !== index),
-    })
-  }
+    });
+  };
 
-  const updateEducation = (index: number, field: keyof Education, value: string) => {
-    const updated = [...data.education]
-    updated[index] = { ...updated[index], [field]: value }
-    onChange({ ...data, education: updated })
-  }
+  const updateEducation = (
+    index: number,
+    field: keyof Education,
+    value: string
+  ) => {
+    const updated = [...data.education];
+    updated[index] = { ...updated[index], [field]: value };
+    onChange({ ...data, education: updated });
+  };
 
   const addEducation = () => {
     const newEdu: Education = {
@@ -78,30 +94,30 @@ export function EditResume({ data, onChange }: EditResumeProps) {
       degree: "",
       start: new Date().getFullYear().toString(),
       end: new Date().getFullYear().toString(),
-    }
-    onChange({ ...data, education: [...data.education, newEdu] })
-    setOpenEduItems([...openEduItems, data.education.length])
-  }
+    };
+    onChange({ ...data, education: [...data.education, newEdu] });
+    setOpenEduItems([...openEduItems, data.education.length]);
+  };
 
   const removeEducation = (index: number) => {
     onChange({
       ...data,
       education: data.education.filter((_, i) => i !== index),
-    })
-  }
+    });
+  };
 
   const addSkill = (skill: string) => {
     if (!data.header.skills.includes(skill)) {
-      updateHeader("skills", [...data.header.skills, skill])
+      updateHeader("skills", [...data.header.skills, skill]);
     }
-  }
+  };
 
   const removeSkill = (skill: string) => {
     updateHeader(
       "skills",
-      data.header.skills.filter((s) => s !== skill),
-    )
-  }
+      data.header.skills.filter((s) => s !== skill)
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -114,7 +130,11 @@ export function EditResume({ data, onChange }: EditResumeProps) {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
-              <Input id="name" value={data.header.name} onChange={(e) => updateHeader("name", e.target.value)} />
+              <Input
+                id="name"
+                value={data.header.name}
+                onChange={(e) => updateHeader("name", e.target.value)}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="location">Location</Label>
@@ -226,7 +246,11 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                 </button>
               </Badge>
             ))}
-            {data.header.skills.length === 0 && <p className="text-sm text-muted-foreground">No skills added yet.</p>}
+            {data.header.skills.length === 0 && (
+              <p className="text-sm text-muted-foreground">
+                No skills added yet.
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -262,9 +286,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
               open={openWorkItems.includes(index)}
               onOpenChange={(open) => {
                 if (open) {
-                  setOpenWorkItems([...openWorkItems, index])
+                  setOpenWorkItems([...openWorkItems, index]);
                 } else {
-                  setOpenWorkItems(openWorkItems.filter((i) => i !== index))
+                  setOpenWorkItems(openWorkItems.filter((i) => i !== index));
                 }
               }}
             >
@@ -272,7 +296,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                 <CollapsibleTrigger className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
                   <div className="text-left">
                     <p className="font-medium">{job.title || "New Position"}</p>
-                    <p className="text-sm text-muted-foreground">{job.company || "Company"}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {job.company || "Company"}
+                    </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Button
@@ -280,8 +306,8 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                       size="icon"
                       className="h-8 w-8"
                       onClick={(e) => {
-                        e.stopPropagation()
-                        removeWorkExperience(index)
+                        e.stopPropagation();
+                        removeWorkExperience(index);
                       }}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
@@ -296,14 +322,22 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                         <Label>Job Title</Label>
                         <Input
                           value={job.title}
-                          onChange={(e) => updateWorkExperience(index, "title", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "title", e.target.value)
+                          }
                         />
                       </div>
                       <div className="space-y-2">
                         <Label>Company</Label>
                         <Input
                           value={job.company}
-                          onChange={(e) => updateWorkExperience(index, "company", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkExperience(
+                              index,
+                              "company",
+                              e.target.value
+                            )
+                          }
                         />
                       </div>
                       <div className="space-y-2">
@@ -311,7 +345,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                         <Input
                           type="url"
                           value={job.link || ""}
-                          onChange={(e) => updateWorkExperience(index, "link", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "link", e.target.value)
+                          }
                           placeholder="https://company.com"
                         />
                       </div>
@@ -319,14 +355,26 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                         <Label>Location</Label>
                         <Input
                           value={job.location}
-                          onChange={(e) => updateWorkExperience(index, "location", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkExperience(
+                              index,
+                              "location",
+                              e.target.value
+                            )
+                          }
                         />
                       </div>
                       <div className="space-y-2">
                         <Label>Contract Type</Label>
                         <Input
                           value={job.contract}
-                          onChange={(e) => updateWorkExperience(index, "contract", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkExperience(
+                              index,
+                              "contract",
+                              e.target.value
+                            )
+                          }
                           placeholder="Full-time, Part-time, Contract"
                         />
                       </div>
@@ -335,7 +383,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                         <Input
                           type="date"
                           value={job.start}
-                          onChange={(e) => updateWorkExperience(index, "start", e.target.value)}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "start", e.target.value)
+                          }
                         />
                       </div>
                       <div className="space-y-2">
@@ -343,7 +393,13 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                         <Input
                           type="date"
                           value={job.end || ""}
-                          onChange={(e) => updateWorkExperience(index, "end", e.target.value || null)}
+                          onChange={(e) =>
+                            updateWorkExperience(
+                              index,
+                              "end",
+                              e.target.value || null
+                            )
+                          }
                           placeholder="Leave empty if current"
                         />
                       </div>
@@ -352,7 +408,13 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                       <Label>Description</Label>
                       <Textarea
                         value={job.description}
-                        onChange={(e) => updateWorkExperience(index, "description", e.target.value)}
+                        onChange={(e) =>
+                          updateWorkExperience(
+                            index,
+                            "description",
+                            e.target.value
+                          )
+                        }
                         rows={3}
                       />
                     </div>
@@ -362,7 +424,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
             </Collapsible>
           ))}
           {data.workExperience.length === 0 && (
-            <p className="text-sm text-muted-foreground">No work experience added yet.</p>
+            <p className="text-sm text-muted-foreground">
+              No work experience added yet.
+            </p>
           )}
         </CardContent>
       </Card>
@@ -383,9 +447,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
               open={openEduItems.includes(index)}
               onOpenChange={(open) => {
                 if (open) {
-                  setOpenEduItems([...openEduItems, index])
+                  setOpenEduItems([...openEduItems, index]);
                 } else {
-                  setOpenEduItems(openEduItems.filter((i) => i !== index))
+                  setOpenEduItems(openEduItems.filter((i) => i !== index));
                 }
               }}
             >
@@ -393,7 +457,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                 <CollapsibleTrigger className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
                   <div className="text-left">
                     <p className="font-medium">{edu.school || "New School"}</p>
-                    <p className="text-sm text-muted-foreground">{edu.degree || "Degree"}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {edu.degree || "Degree"}
+                    </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Button
@@ -401,8 +467,8 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                       size="icon"
                       className="h-8 w-8"
                       onClick={(e) => {
-                        e.stopPropagation()
-                        removeEducation(index)
+                        e.stopPropagation();
+                        removeEducation(index);
                       }}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
@@ -415,13 +481,20 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
                         <Label>School / University</Label>
-                        <Input value={edu.school} onChange={(e) => updateEducation(index, "school", e.target.value)} />
+                        <Input
+                          value={edu.school}
+                          onChange={(e) =>
+                            updateEducation(index, "school", e.target.value)
+                          }
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label>Degree</Label>
                         <Input
                           value={edu.degree}
-                          onChange={(e) => updateEducation(index, "degree", e.target.value)}
+                          onChange={(e) =>
+                            updateEducation(index, "degree", e.target.value)
+                          }
                           placeholder="B.S. Computer Science"
                         />
                       </div>
@@ -429,7 +502,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                         <Label>Start Year</Label>
                         <Input
                           value={edu.start}
-                          onChange={(e) => updateEducation(index, "start", e.target.value)}
+                          onChange={(e) =>
+                            updateEducation(index, "start", e.target.value)
+                          }
                           placeholder="2018"
                         />
                       </div>
@@ -437,7 +512,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                         <Label>End Year</Label>
                         <Input
                           value={edu.end}
-                          onChange={(e) => updateEducation(index, "end", e.target.value)}
+                          onChange={(e) =>
+                            updateEducation(index, "end", e.target.value)
+                          }
                           placeholder="2022"
                         />
                       </div>
@@ -447,9 +524,13 @@ export function EditResume({ data, onChange }: EditResumeProps) {
               </div>
             </Collapsible>
           ))}
-          {data.education.length === 0 && <p className="text-sm text-muted-foreground">No education added yet.</p>}
+          {data.education.length === 0 && (
+            <p className="text-sm text-muted-foreground">
+              No education added yet.
+            </p>
+          )}
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

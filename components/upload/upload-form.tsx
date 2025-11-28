@@ -1,12 +1,18 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useCallback, useState } from "react"
-import { useRouter } from "next/navigation"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import type React from "react";
+import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -14,78 +20,81 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { useFileUpload } from "@/hooks/use-file-upload"
-import { toast } from "sonner"
-import { FileText, HelpCircle, Upload, X } from "lucide-react"
+} from "@/components/ui/dialog";
+import { useFileUpload } from "@/hooks/use-file-upload";
+import { toast } from "sonner";
+import { FileText, HelpCircle, Upload, X } from "lucide-react";
 
 interface UploadFormProps {
   existingFile?: {
-    name: string
-    size: number
-    url?: string
-  }
+    name: string;
+    size: number;
+    url?: string;
+  };
 }
 
 function formatFileSize(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 export function UploadForm({ existingFile }: UploadFormProps) {
-  const router = useRouter()
-  const [dragActive, setDragActive] = useState(false)
-  const [uploadedFile, setUploadedFile] = useState<{ name: string; size: number } | null>(
-    existingFile ? { name: existingFile.name, size: existingFile.size } : null,
-  )
+  const router = useRouter();
+  const [dragActive, setDragActive] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<{
+    name: string;
+    size: number;
+  } | null>(
+    existingFile ? { name: existingFile.name, size: existingFile.size } : null
+  );
 
   const { upload, isUploading } = useFileUpload({
     onSuccess: (result) => {
       if (result.fileName && result.fileSize) {
-        setUploadedFile({ name: result.fileName, size: result.fileSize })
+        setUploadedFile({ name: result.fileName, size: result.fileSize });
       }
-      toast.success("Resume uploaded successfully!")
+      toast.success("Resume uploaded successfully!");
     },
     onError: () => {
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     },
-  })
+  });
 
   const handleDrag = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true)
+      setDragActive(true);
     } else if (e.type === "dragleave") {
-      setDragActive(false)
+      setDragActive(false);
     }
-  }, [])
+  }, []);
 
   const handleDrop = useCallback(
     async (e: React.DragEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
-      setDragActive(false)
+      e.preventDefault();
+      e.stopPropagation();
+      setDragActive(false);
 
-      const file = e.dataTransfer.files?.[0]
+      const file = e.dataTransfer.files?.[0];
       if (file) {
-        await upload(file)
+        await upload(file);
       }
     },
-    [upload],
-  )
+    [upload]
+  );
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
+    const file = e.target.files?.[0];
     if (file) {
-      await upload(file)
+      await upload(file);
     }
-  }
+  };
 
   const handleGenerateWebsite = () => {
-    router.push("/pdf")
-  }
+    router.push("/pdf");
+  };
 
   return (
     <Card>
@@ -104,18 +113,23 @@ export function UploadForm({ existingFile }: UploadFormProps) {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>How to export your LinkedIn profile</DialogTitle>
-                <DialogDescription>Follow these steps to download your LinkedIn profile as a PDF:</DialogDescription>
+                <DialogDescription>
+                  Follow these steps to download your LinkedIn profile as a PDF:
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 text-sm">
                 <ol className="list-inside list-decimal space-y-2">
                   <li>Go to your LinkedIn profile page</li>
-                  <li>Click the &quot;More&quot; button below your profile photo</li>
+                  <li>
+                    Click the &quot;More&quot; button below your profile photo
+                  </li>
                   <li>Select &quot;Save to PDF&quot; from the dropdown menu</li>
                   <li>Wait for the PDF to generate and download</li>
                   <li>Upload the downloaded PDF here</li>
                 </ol>
                 <p className="text-muted-foreground">
-                  Tip: Make sure your LinkedIn profile is up to date before exporting!
+                  Tip: Make sure your LinkedIn profile is up to date before
+                  exporting!
                 </p>
               </div>
             </DialogContent>
@@ -129,10 +143,17 @@ export function UploadForm({ existingFile }: UploadFormProps) {
               <FileText className="h-8 w-8 text-muted-foreground" />
               <div>
                 <p className="font-medium">{uploadedFile.name}</p>
-                <p className="text-sm text-muted-foreground">{formatFileSize(uploadedFile.size)}</p>
+                <p className="text-sm text-muted-foreground">
+                  {formatFileSize(uploadedFile.size)}
+                </p>
               </div>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => setUploadedFile(null)} disabled={isUploading}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setUploadedFile(null)}
+              disabled={isUploading}
+            >
               <X className="h-4 w-4" />
             </Button>
           </div>
@@ -151,7 +172,9 @@ export function UploadForm({ existingFile }: UploadFormProps) {
           >
             <Upload className="mb-4 h-10 w-10 text-muted-foreground" />
             <div className="text-center">
-              <p className="mb-2 text-lg font-medium">{isUploading ? "Uploading..." : "Drag and drop your PDF here"}</p>
+              <p className="mb-2 text-lg font-medium">
+                {isUploading ? "Uploading..." : "Drag and drop your PDF here"}
+              </p>
               <p className="mb-4 text-sm text-muted-foreground">or</p>
               <Label htmlFor="file-upload" className="sr-only">
                 Choose file
@@ -172,11 +195,14 @@ export function UploadForm({ existingFile }: UploadFormProps) {
           <Button variant="outline" onClick={() => router.push("/dashboard")}>
             Back to Dashboard
           </Button>
-          <Button onClick={handleGenerateWebsite} disabled={!uploadedFile || isUploading}>
+          <Button
+            onClick={handleGenerateWebsite}
+            disabled={!uploadedFile || isUploading}
+          >
             Generate Website
           </Button>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

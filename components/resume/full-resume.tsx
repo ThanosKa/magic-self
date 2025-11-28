@@ -1,18 +1,18 @@
-import type { ResumeData } from "@/lib/schemas/resume"
-import { ResumeHeader } from "@/components/resume/resume-header"
-import { ResumeSummary } from "@/components/resume/resume-summary"
-import { ResumeWorkExperience } from "@/components/resume/resume-work-experience"
-import { ResumeEducation } from "@/components/resume/resume-education"
-import { ResumeSkills } from "@/components/resume/resume-skills"
-import { ResumeSection } from "@/components/resume/resume-section"
+import type { ResumeData } from "@/lib/schemas/resume";
+import { ResumeHeader } from "@/components/resume/resume-header";
+import { ResumeSummary } from "@/components/resume/resume-summary";
+import { ResumeWorkExperience } from "@/components/resume/resume-work-experience";
+import { ResumeEducation } from "@/components/resume/resume-education";
+import { ResumeSkills } from "@/components/resume/resume-skills";
+import { ResumeSection } from "@/components/resume/resume-section";
 
 interface FullResumeProps {
-  data: ResumeData
-  profileImageUrl?: string | null
+  data: ResumeData;
+  profileImageUrl?: string | null;
 }
 
 export function FullResume({ data, profileImageUrl }: FullResumeProps) {
-  const { header, summary, workExperience, education } = data
+  const { header, summary, workExperience, education } = data;
 
   return (
     <div className="space-y-8 print:space-y-6">
@@ -42,5 +42,5 @@ export function FullResume({ data, profileImageUrl }: FullResumeProps) {
         </ResumeSection>
       )}
     </div>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { Github, Twitter } from "lucide-react"
+import Link from "next/link";
+import { Github, Twitter } from "lucide-react";
 
 export function Footer() {
   return (
@@ -7,7 +7,11 @@ export function Footer() {
       <div className="container flex flex-col items-center justify-between gap-4 sm:flex-row">
         <p className="text-sm text-muted-foreground">
           Built with Next.js, Supabase, and Clerk.{" "}
-          <Link href="https://github.com/yourusername/folio" className="font-medium hover:underline" target="_blank">
+          <Link
+            href="https://github.com/yourusername/folio"
+            className="font-medium hover:underline"
+            target="_blank"
+          >
             Open Source
           </Link>
           .
@@ -33,5 +37,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 
 interface ResumeSkillsProps {
-  skills: string[]
+  skills: string[];
 }
 
 export function ResumeSkills({ skills }: ResumeSkillsProps) {
@@ -13,5 +13,5 @@ export function ResumeSkills({ skills }: ResumeSkillsProps) {
         </Badge>
       ))}
     </div>
-  )
+  );
 }

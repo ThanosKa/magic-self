@@ -1,8 +1,8 @@
-import type { Education } from "@/lib/schemas/resume"
-import { Card, CardContent } from "@/components/ui/card"
+import type { Education } from "@/lib/schemas/resume";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface ResumeEducationProps {
-  education: Education[]
+  education: Education[];
 }
 
 export function ResumeEducation({ education }: ResumeEducationProps) {
@@ -20,5 +20,5 @@ export function ResumeEducation({ education }: ResumeEducationProps) {
         </Card>
       ))}
     </div>
-  )
+  );
 }

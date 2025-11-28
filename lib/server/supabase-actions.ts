@@ -1,48 +1,57 @@
-import { createAdminClient } from "@/lib/supabase/admin"
-import { FORBIDDEN_USERNAMES, MAX_USERNAME_LENGTH, MIN_USERNAME_LENGTH } from "@/lib/config"
-import type { ResumeData } from "@/lib/schemas/resume"
-import { dbLogger } from "@/lib/server/logger"
+import { createAdminClient } from "@/lib/supabase/admin";
+import {
+  FORBIDDEN_USERNAMES,
+  MAX_USERNAME_LENGTH,
+  MIN_USERNAME_LENGTH,
+} from "@/lib/config";
+import type { ResumeData } from "@/lib/schemas/resume";
+import { dbLogger } from "@/lib/server/logger";
 
-const supabase = createAdminClient()
+const supabase = createAdminClient();
 
 // Resume operations
 export async function getResume(userId: string) {
-  const { data, error } = await supabase.from("resumes").select("*").eq("user_id", userId).single()
+  const { data, error } = await supabase
+    .from("resumes")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
 
   if (error && error.code !== "PGRST116") {
-    dbLogger.error({ userId, error: error.message }, "Failed to get resume")
-    throw error
+    dbLogger.error({ userId, error: error.message }, "Failed to get resume");
+    throw error;
   }
 
-  return data
+  return data;
 }
 
 export async function storeResume(
   userId: string,
   data: {
-    fileName?: string
-    fileUrl?: string
-    fileSize?: number
-    fileContent?: string | null
-    resumeData?: ResumeData | null
-    status?: "draft" | "live"
-  },
+    fileName?: string;
+    fileUrl?: string;
+    fileSize?: number;
+    fileContent?: string | null;
+    resumeData?: ResumeData | null;
+    status?: "draft" | "live";
+  }
 ) {
-  const existing = await getResume(userId)
+  const existing = await getResume(userId);
 
-  const updateData: Record<string, unknown> = {}
+  const updateData: Record<string, unknown> = {};
 
-  if (data.status !== undefined) updateData.status = data.status
-  if (data.fileName !== undefined) updateData.file_name = data.fileName
-  if (data.fileUrl !== undefined) updateData.file_url = data.fileUrl
-  if (data.fileSize !== undefined) updateData.file_size = data.fileSize
+  if (data.status !== undefined) updateData.status = data.status;
+  if (data.fileName !== undefined) updateData.file_name = data.fileName;
+  if (data.fileUrl !== undefined) updateData.file_url = data.fileUrl;
+  if (data.fileSize !== undefined) updateData.file_size = data.fileSize;
 
   // Handle explicit null to clear fields
   if (data.fileContent !== undefined) {
-    updateData.file_content = data.fileContent === null ? null : data.fileContent
+    updateData.file_content =
+      data.fileContent === null ? null : data.fileContent;
   }
   if (data.resumeData !== undefined) {
-    updateData.resume_data = data.resumeData === null ? null : data.resumeData
+    updateData.resume_data = data.resumeData === null ? null : data.resumeData;
   }
 
   if (existing) {
@@ -51,15 +60,18 @@ export async function storeResume(
       .update(updateData)
       .eq("user_id", userId)
       .select()
-      .single()
+      .single();
 
     if (error) {
-      dbLogger.error({ userId, error: error.message }, "Failed to update resume")
-      throw error
+      dbLogger.error(
+        { userId, error: error.message },
+        "Failed to update resume"
+      );
+      throw error;
     }
 
-    dbLogger.debug({ userId }, "Resume updated")
-    return updated
+    dbLogger.debug({ userId }, "Resume updated");
+    return updated;
   }
 
   const { data: created, error } = await supabase
@@ -69,15 +81,15 @@ export async function storeResume(
       ...updateData,
     })
     .select()
-    .single()
+    .single();
 
   if (error) {
-    dbLogger.error({ userId, error: error.message }, "Failed to create resume")
-    throw error
+    dbLogger.error({ userId, error: error.message }, "Failed to create resume");
+    throw error;
   }
 
-  dbLogger.info({ userId }, "Resume created")
-  return created
+  dbLogger.info({ userId }, "Resume created");
+  return created;
 }
 
 // Username operations
@@ -85,27 +97,31 @@ export async function createUsernameLookup({
   userId,
   username,
 }: {
-  userId: string
-  username: string
+  userId: string;
+  username: string;
 }) {
   const { data, error } = await supabase
     .from("usernames")
     .insert({ user_id: userId, username: username.toLowerCase() })
     .select()
-    .single()
+    .single();
 
-  if (error) throw error
-  return data
+  if (error) throw error;
+  return data;
 }
 
 export async function getUsernameById(userId: string) {
-  const { data, error } = await supabase.from("usernames").select("username").eq("user_id", userId).single()
+  const { data, error } = await supabase
+    .from("usernames")
+    .select("username")
+    .eq("user_id", userId)
+    .single();
 
   if (error && error.code !== "PGRST116") {
-    throw error
+    throw error;
   }
 
-  return data?.username || null
+  return data?.username || null;
 }
 
 export async function getUserIdByUsername(username: string) {
@@ -113,57 +129,74 @@ export async function getUserIdByUsername(username: string) {
     .from("usernames")
     .select("user_id")
     .eq("username", username.toLowerCase())
-    .single()
+    .single();
 
   if (error && error.code !== "PGRST116") {
-    throw error
+    throw error;
   }
 
-  return data?.user_id || null
+  return data?.user_id || null;
 }
 
 export async function checkUsernameAvailability(username: string): Promise<{
-  available: boolean
-  reason?: string
+  available: boolean;
+  reason?: string;
 }> {
-  const normalized = username.toLowerCase().trim()
+  const normalized = username.toLowerCase().trim();
 
   // Check length
   if (normalized.length < MIN_USERNAME_LENGTH) {
-    return { available: false, reason: `Username must be at least ${MIN_USERNAME_LENGTH} characters` }
+    return {
+      available: false,
+      reason: `Username must be at least ${MIN_USERNAME_LENGTH} characters`,
+    };
   }
 
   if (normalized.length > MAX_USERNAME_LENGTH) {
-    return { available: false, reason: `Username must be at most ${MAX_USERNAME_LENGTH} characters` }
+    return {
+      available: false,
+      reason: `Username must be at most ${MAX_USERNAME_LENGTH} characters`,
+    };
   }
 
   // Check format (alphanumeric and hyphens only)
   if (!/^[a-z0-9-]+$/.test(normalized)) {
-    return { available: false, reason: "Username can only contain letters, numbers, and hyphens" }
+    return {
+      available: false,
+      reason: "Username can only contain letters, numbers, and hyphens",
+    };
   }
 
   // Check forbidden usernames
-  if (FORBIDDEN_USERNAMES.includes(normalized as (typeof FORBIDDEN_USERNAMES)[number])) {
-    return { available: false, reason: "This username is reserved" }
+  if (
+    FORBIDDEN_USERNAMES.includes(
+      normalized as (typeof FORBIDDEN_USERNAMES)[number]
+    )
+  ) {
+    return { available: false, reason: "This username is reserved" };
   }
 
   // Check if already taken
-  const { data } = await supabase.from("usernames").select("id").eq("username", normalized).single()
+  const { data } = await supabase
+    .from("usernames")
+    .select("id")
+    .eq("username", normalized)
+    .single();
 
   if (data) {
-    return { available: false, reason: "Username is already taken" }
+    return { available: false, reason: "Username is already taken" };
   }
 
-  return { available: true }
+  return { available: true };
 }
 
 export async function updateUsername(userId: string, newUsername: string) {
-  const availability = await checkUsernameAvailability(newUsername)
+  const availability = await checkUsernameAvailability(newUsername);
   if (!availability.available) {
-    throw new Error(availability.reason)
+    throw new Error(availability.reason);
   }
 
-  const existing = await getUsernameById(userId)
+  const existing = await getUsernameById(userId);
 
   if (existing) {
     const { data, error } = await supabase
@@ -171,11 +204,11 @@ export async function updateUsername(userId: string, newUsername: string) {
       .update({ username: newUsername.toLowerCase() })
       .eq("user_id", userId)
       .select()
-      .single()
+      .single();
 
-    if (error) throw error
-    return data
+    if (error) throw error;
+    return data;
   }
 
-  return createUsernameLookup({ userId, username: newUsername })
+  return createUsernameLookup({ userId, username: newUsername });
 }

@@ -1,14 +1,16 @@
-import type { WorkExperience } from "@/lib/schemas/resume"
-import { Badge } from "@/components/ui/badge"
-import { ExternalLink } from "lucide-react"
-import { formatDateRange } from "@/lib/utils"
-import { SITE_CONFIG } from "@/lib/config"
+import type { WorkExperience } from "@/lib/schemas/resume";
+import { Badge } from "@/components/ui/badge";
+import { ExternalLink } from "lucide-react";
+import { formatDateRange } from "@/lib/utils";
+import { SITE_CONFIG } from "@/lib/config";
 
 interface ResumeWorkExperienceProps {
-  experiences: WorkExperience[]
+  experiences: WorkExperience[];
 }
 
-export function ResumeWorkExperience({ experiences }: ResumeWorkExperienceProps) {
+export function ResumeWorkExperience({
+  experiences,
+}: ResumeWorkExperienceProps) {
   return (
     <div className="space-y-6 print:space-y-4">
       {experiences.map((job, index) => (
@@ -41,9 +43,11 @@ export function ResumeWorkExperience({ experiences }: ResumeWorkExperienceProps)
               {formatDateRange(job.start, job.end)}
             </span>
           </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">{job.description}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {job.description}
+          </p>
         </div>
       ))}
     </div>
-  )
+  );
 }

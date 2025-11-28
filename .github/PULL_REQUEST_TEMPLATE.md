@@ -5,6 +5,7 @@
 ## Related Issue
 
 <!-- Link to the issue this PR addresses -->
+
 Fixes #(issue number)
 
 ## Type of Change
@@ -38,9 +39,9 @@ Fixes #(issue number)
 
 <!-- Describe how reviewers can test your changes -->
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Additional Notes
 

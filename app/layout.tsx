@@ -1,16 +1,16 @@
-import type React from "react"
-import type { Metadata, Viewport } from "next"
-import { JetBrains_Mono } from "next/font/google"
-import { ClerkProvider } from "@clerk/nextjs"
-import { Analytics } from "@vercel/analytics/next"
-import { Toaster } from "sonner"
-import { ReactQueryProvider } from "@/components/providers/react-query-provider"
-import "./globals.css"
+import type React from "react";
+import type { Metadata, Viewport } from "next";
+import { JetBrains_Mono } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Analytics } from "@vercel/analytics/next";
+import { Toaster } from "sonner";
+import { ReactQueryProvider } from "@/components/providers/react-query-provider";
+import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
-})
+});
 
 export const metadata: Metadata = {
   title: "Resume Builder",
@@ -33,18 +33,18 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
-}
+};
 
 export const viewport: Viewport = {
   themeColor: "#1f1f1f",
   width: "device-width",
   initialScale: 1,
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <ClerkProvider>
@@ -58,5 +58,5 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }

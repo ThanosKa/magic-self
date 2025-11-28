@@ -1,20 +1,20 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { auth } from "@clerk/nextjs/server"
-import { redirect } from "next/navigation"
-import { TopMenu } from "@/components/landing/top-menu"
-import { Footer } from "@/components/landing/footer"
-import { BlurFade } from "@/components/ui/blur-fade"
-import { BorderBeam } from "@/components/ui/border-beam"
-import { SITE_CONFIG } from "@/lib/config"
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { TopMenu } from "@/components/landing/top-menu";
+import { Footer } from "@/components/landing/footer";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { BorderBeam } from "@/components/ui/border-beam";
+import { SITE_CONFIG } from "@/lib/config";
 
 export default async function HomePage() {
-  const { userId } = await auth()
+  const { userId } = await auth();
 
   if (userId) {
-    redirect("/dashboard")
+    redirect("/dashboard");
   }
 
   return (
@@ -25,7 +25,10 @@ export default async function HomePage() {
         {/* Hero Section */}
         <section className="container flex flex-col items-center justify-center gap-8 py-20 text-center md:py-32">
           <BlurFade delay={0}>
-            <Badge variant="secondary" className="px-4 py-1.5 text-sm font-medium">
+            <Badge
+              variant="secondary"
+              className="px-4 py-1.5 text-sm font-medium"
+            >
               100% free & open source
             </Badge>
           </BlurFade>
@@ -38,15 +41,19 @@ export default async function HomePage() {
 
           <BlurFade delay={0.2}>
             <p className="max-w-xl text-lg text-muted-foreground text-pretty">
-              Turn your resume or LinkedIn PDF export into a beautiful, professional website. Share your profile with a
-              simple link.
+              Turn your resume or LinkedIn PDF export into a beautiful,
+              professional website. Share your profile with a simple link.
             </p>
           </BlurFade>
 
           <BlurFade delay={0.3}>
             <div className="flex flex-col items-center gap-4 sm:flex-row">
               <div className="relative">
-                <Button size="lg" className="relative overflow-hidden px-8" asChild>
+                <Button
+                  size="lg"
+                  className="relative overflow-hidden px-8"
+                  asChild
+                >
                   <Link href="/upload">Upload Resume</Link>
                 </Button>
                 <BorderBeam size={100} duration={12} />
@@ -147,5 +154,5 @@ export default async function HomePage() {
 
       <Footer />
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-import { generateObject } from "ai"
-import { openrouter } from "@openrouter/ai-sdk-provider"
-import { ResumeDataSchema, type ResumeData } from "@/lib/schemas/resume"
-import { aiLogger } from "@/lib/server/logger"
+import { generateObject } from "ai";
+import { openrouter } from "@openrouter/ai-sdk-provider";
+import { ResumeDataSchema, type ResumeData } from "@/lib/schemas/resume";
+import { aiLogger } from "@/lib/server/logger";
 
 const SYSTEM_PROMPT = `You are a professional resume parser. Extract structured resume data from the provided text content.
 
@@ -14,7 +14,7 @@ Guidelines:
 - Education years should be in YYYY format
 - If contract type is unclear, default to "Full-time"
 - If location is missing, use "Remote" or extract from context
-- Be thorough but concise in descriptions`
+- Be thorough but concise in descriptions`;
 
 const FALLBACK_RESUME: ResumeData = {
   header: {
@@ -48,41 +48,43 @@ const FALLBACK_RESUME: ResumeData = {
       end: "2020",
     },
   ],
-}
+};
 
 export interface GenerateResumeResult {
-  success: boolean
-  data: ResumeData
-  usedFallback: boolean
-  error?: string
+  success: boolean;
+  data: ResumeData;
+  usedFallback: boolean;
+  error?: string;
 }
 
-export async function generateResumeObject(pdfContent: string): Promise<GenerateResumeResult> {
+export async function generateResumeObject(
+  pdfContent: string
+): Promise<GenerateResumeResult> {
   try {
-    aiLogger.info("Starting resume generation from PDF content")
-    aiLogger.debug({ contentLength: pdfContent.length }, "PDF content stats")
+    aiLogger.info("Starting resume generation from PDF content");
+    aiLogger.debug({ contentLength: pdfContent.length }, "PDF content stats");
 
-    const model = openrouter("openai/gpt-4o")
+    const model = openrouter("openai/gpt-4o");
 
     const { object } = await generateObject({
       model,
       schema: ResumeDataSchema,
       system: SYSTEM_PROMPT,
       prompt: `Parse the following resume text and extract structured data:\n\n${pdfContent}`,
-    })
+    });
 
-    aiLogger.info("Successfully generated resume object")
+    aiLogger.info("Successfully generated resume object");
 
     return {
       success: true,
       data: object,
       usedFallback: false,
-    }
+    };
   } catch (error) {
     aiLogger.error(
       { error: error instanceof Error ? error.message : "Unknown error" },
-      "Failed to generate resume object",
-    )
+      "Failed to generate resume object"
+    );
 
     // Return fallback instead of throwing
     return {
@@ -90,6 +92,6 @@ export async function generateResumeObject(pdfContent: string): Promise<Generate
       data: FALLBACK_RESUME,
       usedFallback: true,
       error: error instanceof Error ? error.message : "Failed to parse resume",
-    }
+    };
   }
 }

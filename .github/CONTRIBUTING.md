@@ -33,17 +33,22 @@ Feature suggestions are tracked as GitHub issues. Create an issue using our [fea
 ## Development Setup
 
 \`\`\`bash
+
 # Clone your fork
+
 git clone https://github.com/YOUR_USERNAME/folio-sh.git
 cd folio-sh
 
 # Install dependencies
+
 pnpm install
 
 # Copy environment variables
+
 cp .env.example .env.local
 
 # Start development server
+
 pnpm dev
 \`\`\`
 
@@ -93,28 +98,32 @@ Example: `feat: add dark mode toggle to preview page`
 ## Project Structure
 
 \`\`\`
-├── app/                 # Next.js App Router pages
-├── components/          # React components
-│   ├── ui/             # shadcn/ui components
-│   └── [feature]/      # Feature-specific components
-├── lib/                 # Utilities and shared code
-│   ├── schemas/        # Zod validation schemas
-│   ├── server/         # Server-only code
-│   └── supabase/       # Supabase clients
-├── hooks/              # Custom React hooks
-└── scripts/            # Database migrations
+├── app/ # Next.js App Router pages
+├── components/ # React components
+│ ├── ui/ # shadcn/ui components
+│ └── [feature]/ # Feature-specific components
+├── lib/ # Utilities and shared code
+│ ├── schemas/ # Zod validation schemas
+│ ├── server/ # Server-only code
+│ └── supabase/ # Supabase clients
+├── hooks/ # Custom React hooks
+└── scripts/ # Database migrations
 \`\`\`
 
 ## Testing
 
 \`\`\`bash
+
 # Run type checking
+
 pnpm typecheck
 
 # Run linting
+
 pnpm lint
 
 # Run all checks
+
 pnpm check
 \`\`\`
 

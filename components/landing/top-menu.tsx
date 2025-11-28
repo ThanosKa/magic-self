@@ -1,12 +1,12 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Github } from "lucide-react"
-import { SITE_CONFIG } from "@/lib/config"
-import { auth } from "@clerk/nextjs/server"
-import { UserButton } from "@clerk/nextjs"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Github } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/config";
+import { auth } from "@clerk/nextjs/server";
+import { UserButton } from "@clerk/nextjs";
 
 export async function TopMenu() {
-  const { userId } = await auth()
+  const { userId } = await auth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -42,5 +42,5 @@ export async function TopMenu() {
         </div>
       </div>
     </header>
-  )
+  );
 }

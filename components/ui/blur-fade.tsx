@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useRef, type ReactNode } from "react"
-import { motion, useInView, type Variants } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { useRef, type ReactNode } from "react";
+import { motion, useInView, type Variants } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface BlurFadeProps {
-  children: ReactNode
-  className?: string
-  delay?: number
-  duration?: number
-  yOffset?: number
-  blur?: string
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  duration?: number;
+  yOffset?: number;
+  blur?: string;
 }
 
 const variants: Variants = {
@@ -24,11 +24,18 @@ const variants: Variants = {
     opacity: 1,
     filter: "blur(0px)",
   },
-}
+};
 
-export function BlurFade({ children, className, delay = 0, duration = 0.4, yOffset = 6, blur = "6px" }: BlurFadeProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
+export function BlurFade({
+  children,
+  className,
+  delay = 0,
+  duration = 0.4,
+  yOffset = 6,
+  blur = "6px",
+}: BlurFadeProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
     <motion.div
@@ -46,5 +53,5 @@ export function BlurFade({ children, className, delay = 0, duration = 0.4, yOffs
     >
       {children}
     </motion.div>
-  )
+  );
 }

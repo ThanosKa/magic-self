@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -12,24 +12,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Plus } from "lucide-react"
+} from "@/components/ui/dialog";
+import { Plus } from "lucide-react";
 
 interface AddSkillDialogProps {
-  onAdd: (skill: string) => void
+  onAdd: (skill: string) => void;
 }
 
 export function AddSkillDialog({ onAdd }: AddSkillDialogProps) {
-  const [open, setOpen] = useState(false)
-  const [skill, setSkill] = useState("")
+  const [open, setOpen] = useState(false);
+  const [skill, setSkill] = useState("");
 
   const handleAdd = () => {
     if (skill.trim()) {
-      onAdd(skill.trim())
-      setSkill("")
-      setOpen(false)
+      onAdd(skill.trim());
+      setSkill("");
+      setOpen(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -42,7 +42,9 @@ export function AddSkillDialog({ onAdd }: AddSkillDialogProps) {
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>
           <DialogTitle>Add Skill</DialogTitle>
-          <DialogDescription>Enter a skill to add to your resume.</DialogDescription>
+          <DialogDescription>
+            Enter a skill to add to your resume.
+          </DialogDescription>
         </DialogHeader>
         <div className="space-y-2">
           <Label htmlFor="skill">Skill</Label>
@@ -53,8 +55,8 @@ export function AddSkillDialog({ onAdd }: AddSkillDialogProps) {
             placeholder="React, TypeScript, etc."
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                e.preventDefault()
-                handleAdd()
+                e.preventDefault();
+                handleAdd();
               }
             }}
           />
@@ -69,5 +71,5 @@ export function AddSkillDialog({ onAdd }: AddSkillDialogProps) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

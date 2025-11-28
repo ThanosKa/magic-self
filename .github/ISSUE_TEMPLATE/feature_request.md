@@ -1,9 +1,9 @@
 ---
 name: Feature Request
 about: Suggest an idea for folio.sh
-title: '[FEATURE] '
-labels: 'enhancement'
-assignees: ''
+title: "[FEATURE] "
+labels: "enhancement"
+assignees: ""
 ---
 
 ## Is your feature request related to a problem?

@@ -1,35 +1,38 @@
-import { ImageResponse } from "next/og"
-import { getUserIdByUsername, getResume } from "@/lib/server/supabase-actions"
-import { SITE_CONFIG } from "@/lib/config"
-import { truncateText } from "@/lib/utils"
+import { ImageResponse } from "next/og";
+import { getUserIdByUsername, getResume } from "@/lib/server/supabase-actions";
+import { SITE_CONFIG } from "@/lib/config";
+import { truncateText } from "@/lib/utils";
 
-export const runtime = "edge"
+export const runtime = "edge";
 
-export async function GET(request: Request, { params }: { params: Promise<{ username: string }> }) {
-  const { username } = await params
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ username: string }> }
+) {
+  const { username } = await params;
 
   try {
-    const userId = await getUserIdByUsername(username)
+    const userId = await getUserIdByUsername(username);
 
     if (!userId) {
-      return new Response("Not found", { status: 404 })
+      return new Response("Not found", { status: 404 });
     }
 
-    const resume = await getResume(userId)
+    const resume = await getResume(userId);
 
     if (!resume?.resume_data || resume.status !== "live") {
-      return new Response("Not found", { status: 404 })
+      return new Response("Not found", { status: 404 });
     }
 
     const resumeData = resume.resume_data as {
       header: {
-        name: string
-        shortAbout: string
-        location?: string
-      }
-    }
+        name: string;
+        shortAbout: string;
+        location?: string;
+      };
+    };
 
-    const { name, shortAbout, location } = resumeData.header
+    const { name, shortAbout, location } = resumeData.header;
 
     return new ImageResponse(
       <div
@@ -126,9 +129,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ user
       {
         width: 1200,
         height: 630,
-      },
-    )
+      }
+    );
   } catch {
-    return new Response("Error generating image", { status: 500 })
+    return new Response("Error generating image", { status: 500 });
   }
 }

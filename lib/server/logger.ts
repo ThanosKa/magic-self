@@ -1,6 +1,6 @@
-import pino from "pino"
+import pino from "pino";
 
-const isDev = process.env.NODE_ENV !== "production"
+const isDev = process.env.NODE_ENV !== "production";
 
 export const logger = pino({
   level: process.env.LOG_LEVEL || (isDev ? "debug" : "info"),
@@ -14,13 +14,13 @@ export const logger = pino({
       },
     },
   }),
-})
+});
 
 // Create child loggers for different modules
-export const createLogger = (module: string) => logger.child({ module })
+export const createLogger = (module: string) => logger.child({ module });
 
 // Pre-configured loggers for common modules
-export const aiLogger = createLogger("ai")
-export const uploadLogger = createLogger("upload")
-export const pdfLogger = createLogger("pdf")
-export const dbLogger = createLogger("db")
+export const aiLogger = createLogger("ai");
+export const uploadLogger = createLogger("upload");
+export const pdfLogger = createLogger("pdf");
+export const dbLogger = createLogger("db");

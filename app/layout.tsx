@@ -1,16 +1,12 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
 import { ReactQueryProvider } from "@/components/providers/react-query-provider";
 import "./globals.css";
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-});
 
 export const metadata: Metadata = {
   title: "Resume Builder",
@@ -36,7 +32,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1f1f1f",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
 };
@@ -49,7 +45,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${jetbrainsMono.variable} font-sans antialiased`}>
+        <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}>
           <ReactQueryProvider>
             {children}
             <Toaster position="bottom-right" richColors />

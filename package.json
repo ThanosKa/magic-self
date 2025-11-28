@@ -53,6 +53,7 @@
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "framer-motion": "latest",
+    "geist": "^1.5.1",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
     "nanoid": "latest",

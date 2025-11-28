@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 
 import { Spinner } from "@/components/ui/spinner";
+import FileUpload04 from "@/components/upload/file-upload";
 
 type ResumeRecord = {
   id: string;
@@ -108,17 +109,16 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
         <Card>
           <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <CardTitle>Upload</CardTitle>
+              <CardTitle>Upload Resume</CardTitle>
               <CardDescription>
-                Upload a PDF of your LinkedIn or your resume and generate your
-                personal site
+                Upload your LinkedIn PDF export or standard resume to generate your site.
               </CardDescription>
             </div>
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-2">
                   <HelpCircle className="h-4 w-4" />
-                  How to upload LinkedIn profile
+                  LinkedIn Help
                 </Button>
               </DialogTrigger>
               <DialogContent>
@@ -138,41 +138,19 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
               </DialogContent>
             </Dialog>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <Label
-              htmlFor="resume-upload"
-              className="text-sm font-medium text-muted-foreground"
-            >
-              Upload a PDF
-            </Label>
-            <div className="flex flex-col gap-3 md:flex-row md:items-center">
-              <div className="flex flex-1 items-center gap-3 rounded-lg border border-dashed bg-muted/40 p-4">
-                <UploadIcon className="h-5 w-5 text-muted-foreground" />
-                <div>
-                  <p className="text-sm font-medium">
-                    {resume?.file_name || "No file chosen"}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {resume?.file_name
-                      ? formatFileSize(resume?.file_size)
-                      : "PDF up to 10MB"}
-                  </p>
-                </div>
-              </div>
-              <Input
-                id="resume-upload"
-                type="file"
-                accept=".pdf"
-                onChange={handleFileChange}
-                disabled={isUploading || isGenerating}
-                className="max-w-xs"
-              />
-            </div>
+          <CardContent className="space-y-6">
+            <FileUpload04
+              onFileSelect={(file) => upload(file)}
+              isUploading={isUploading}
+              acceptedFileTypes={["application/pdf"]}
+            />
+
             <div className="flex justify-end">
               <Button
                 onClick={handleGenerateWebsite}
                 disabled={!hasFile || isGenerating || isUploading}
                 className="gap-2"
+                size="lg"
               >
                 {isGenerating ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -186,20 +164,22 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
         </Card>
       </section>
 
-      {isGenerating && (
-        <Card>
-          <CardContent className="flex items-center gap-3 py-6">
-            <Spinner className="h-6 w-6" />
-            <div>
-              <p className="text-sm font-medium">Creating your personal site</p>
-              <p className="text-sm text-muted-foreground">
-                We&apos;re extracting your resume content and shaping it into a
-                website.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+      {
+        isGenerating && (
+          <Card>
+            <CardContent className="flex items-center gap-3 py-6">
+              <Spinner className="h-6 w-6" />
+              <div>
+                <p className="text-sm font-medium">Creating your personal site</p>
+                <p className="text-sm text-muted-foreground">
+                  We&apos;re extracting your resume content and shaping it into a
+                  website.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )
+      }
+    </div >
   );
 }

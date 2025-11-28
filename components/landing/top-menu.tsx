@@ -12,7 +12,7 @@ export function TopMenu({ userId }: TopMenuProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-mono font-bold">
+        <Link href="/" className="flex items-center gap-2 font-bold tracking-tight">
           {SITE_CONFIG.name}
         </Link>
 

@@ -91,8 +91,8 @@ export async function POST(request: NextRequest) {
       fileName: file.name,
       fileUrl: urlData.publicUrl,
       fileSize: file.size,
-      fileContent: undefined, // Clear previous content so it gets re-extracted
-      resumeData: undefined, // Clear previous resume data so it gets re-generated
+      fileContent: null, // Clear previous content so it gets re-extracted
+      resumeData: null, // Clear previous resume data so it gets re-generated
     });
 
     logger.info({ userId: user.id, fileName: file.name }, "Upload successful");

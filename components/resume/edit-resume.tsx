@@ -4,6 +4,7 @@ import type {
   ResumeData,
   WorkExperience,
   Education,
+  Project,
 } from "@/lib/schemas/resume";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ interface EditResumeProps {
 
 export function EditResume({ data, onChange }: EditResumeProps) {
   const [openWorkItems, setOpenWorkItems] = useState<number[]>([0]);
+  const [openProjectItems, setOpenProjectItems] = useState<number[]>([0]);
   const [openEduItems, setOpenEduItems] = useState<number[]>([0]);
 
   const updateHeader = (field: string, value: string | string[]) => {
@@ -117,6 +119,80 @@ export function EditResume({ data, onChange }: EditResumeProps) {
     updateHeader(
       "skills",
       data.header.skills.filter((s) => s !== skill)
+    );
+  };
+
+  const updateProject = (
+    index: number,
+    field: keyof Project,
+    value: string | string[]
+  ) => {
+    const updated = [...data.projects];
+    updated[index] = { ...updated[index], [field]: value };
+    onChange({ ...data, projects: updated });
+  };
+
+  const addProject = () => {
+    const newProject: Project = {
+      name: "",
+      description: "",
+      link: "",
+      technologies: [],
+      date: "",
+      highlights: [],
+    };
+    onChange({ ...data, projects: [...data.projects, newProject] });
+    setOpenProjectItems([...openProjectItems, data.projects.length]);
+  };
+
+  const removeProject = (index: number) => {
+    onChange({
+      ...data,
+      projects: data.projects.filter((_, i) => i !== index),
+    });
+  };
+
+  const addProjectTechnology = (index: number, tech: string) => {
+    const project = data.projects[index];
+    if (!project.technologies.includes(tech)) {
+      updateProject(index, "technologies", [...project.technologies, tech]);
+    }
+  };
+
+  const removeProjectTechnology = (index: number, tech: string) => {
+    const project = data.projects[index];
+    updateProject(
+      index,
+      "technologies",
+      project.technologies.filter((t) => t !== tech)
+    );
+  };
+
+  const addProjectHighlight = (index: number) => {
+    const project = data.projects[index];
+    updateProject(index, "highlights", [...project.highlights, ""]);
+  };
+
+  const updateProjectHighlight = (
+    projectIndex: number,
+    highlightIndex: number,
+    value: string
+  ) => {
+    const project = data.projects[projectIndex];
+    const updated = [...project.highlights];
+    updated[highlightIndex] = value;
+    updateProject(projectIndex, "highlights", updated);
+  };
+
+  const removeProjectHighlight = (
+    projectIndex: number,
+    highlightIndex: number
+  ) => {
+    const project = data.projects[projectIndex];
+    updateProject(
+      projectIndex,
+      "highlights",
+      project.highlights.filter((_, i) => i !== highlightIndex)
     );
   };
 
@@ -302,17 +378,16 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
+                    <button
+                      type="button"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                       onClick={(e) => {
                         e.stopPropagation();
                         removeWorkExperience(index);
                       }}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
+                    </button>
                     <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
                   </div>
                 </CollapsibleTrigger>
@@ -432,6 +507,171 @@ export function EditResume({ data, onChange }: EditResumeProps) {
         </CardContent>
       </Card>
 
+      {/* Projects Section */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0">
+          <CardTitle>Projects</CardTitle>
+          <Button variant="outline" size="sm" onClick={addProject}>
+            <Plus className="mr-1.5 h-4 w-4" />
+            Add
+          </Button>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {data.projects.map((project, index) => (
+            <Collapsible
+              key={index}
+              open={openProjectItems.includes(index)}
+              onOpenChange={(open) => {
+                if (open) {
+                  setOpenProjectItems([...openProjectItems, index]);
+                } else {
+                  setOpenProjectItems(openProjectItems.filter((i) => i !== index));
+                }
+              }}
+            >
+              <div className="rounded-lg border">
+                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
+                  <div className="text-left">
+                    <p className="font-medium">{project.name || "New Project"}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {project.technologies.slice(0, 3).join(", ") || "No technologies"}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeProject(index);
+                      }}
+                    >
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </button>
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+                  </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="space-y-4 border-t p-4">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label>Project Name</Label>
+                        <Input
+                          value={project.name}
+                          onChange={(e) =>
+                            updateProject(index, "name", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Date (YYYY-MM)</Label>
+                        <Input
+                          value={project.date || ""}
+                          onChange={(e) =>
+                            updateProject(index, "date", e.target.value)
+                          }
+                          placeholder="2024-03"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Project Link</Label>
+                      <Input
+                        type="url"
+                        value={project.link || ""}
+                        onChange={(e) =>
+                          updateProject(index, "link", e.target.value)
+                        }
+                        placeholder="https://github.com/username/project"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Description</Label>
+                      <Textarea
+                        value={project.description}
+                        onChange={(e) =>
+                          updateProject(index, "description", e.target.value)
+                        }
+                        rows={3}
+                        placeholder="Brief description of the project..."
+                      />
+                    </div>
+
+                    {/* Technologies */}
+                    <div className="space-y-2">
+                      <Label>Technologies</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.map((tech) => (
+                          <Badge key={tech} variant="secondary" className="gap-1 pr-1">
+                            {tech}
+                            <button
+                              type="button"
+                              onClick={() => removeProjectTechnology(index, tech)}
+                              className="ml-1 rounded-full p-0.5 hover:bg-muted"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </Badge>
+                        ))}
+                        <AddSkillDialog
+                          onAdd={(tech) => addProjectTechnology(index, tech)}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Highlights */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label>Highlights / Achievements</Label>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => addProjectHighlight(index)}
+                        >
+                          <Plus className="mr-1 h-3.5 w-3.5" />
+                          Add Highlight
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        {project.highlights.map((highlight, hIndex) => (
+                          <div key={hIndex} className="flex gap-2">
+                            <Input
+                              value={highlight}
+                              onChange={(e) =>
+                                updateProjectHighlight(
+                                  index,
+                                  hIndex,
+                                  e.target.value
+                                )
+                              }
+                              placeholder="Key achievement or feature..."
+                            />
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() =>
+                                removeProjectHighlight(index, hIndex)
+                              }
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </CollapsibleContent>
+              </div>
+            </Collapsible>
+          ))}
+          {data.projects.length === 0 && (
+            <p className="text-sm text-muted-foreground">
+              No projects added yet.
+            </p>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Education Section */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -463,17 +703,16 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
+                    <button
+                      type="button"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
                       onClick={(e) => {
                         e.stopPropagation();
                         removeEducation(index);
                       }}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
+                    </button>
                     <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
                   </div>
                 </CollapsibleTrigger>

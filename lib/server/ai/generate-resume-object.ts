@@ -10,9 +10,13 @@ Guidelines:
 - LinkedIn and website URLs should be complete URLs
 - Dates should be in YYYY-MM-DD format for work experience start/end
 - Education years should be in YYYY format
+- Project dates should be in YYYY-MM format (e.g., "2024-03" for March 2024)
 - If contract type is unclear, default to "Full-time"
 - If location is missing, use "Remote" or extract from context
 - Be thorough but concise in descriptions
+- Look for personal projects, side projects, open source contributions, or portfolio items
+- Extract project technologies/tech stack as an array
+- Extract project highlights or key achievements as an array
 - Return ONLY valid JSON matching this structure:
 {
   "header": {
@@ -39,6 +43,14 @@ Guidelines:
     "start": "YYYY-MM-DD",
     "end": "YYYY-MM-DD or null",
     "description": "string"
+  }],
+  "projects": [{
+    "name": "string",
+    "description": "string",
+    "link": "string (optional)",
+    "technologies": ["string"],
+    "date": "YYYY-MM (optional)",
+    "highlights": ["string"]
   }],
   "education": [{
     "school": "string",
@@ -70,6 +82,16 @@ const FALLBACK_RESUME: ResumeData = {
       start: "2020-01-01",
       end: null,
       description: "Please update with your actual work experience.",
+    },
+  ],
+  projects: [
+    {
+      name: "Sample Project",
+      description: "Please update with your actual projects.",
+      link: "",
+      technologies: ["Technology 1", "Technology 2"],
+      date: "",
+      highlights: [],
     },
   ],
   education: [
@@ -174,8 +196,8 @@ function sanitizeResumeData(data: unknown): unknown {
         },
         skills: Array.isArray(header.skills)
           ? header.skills
-              .filter((s): s is string => typeof s === "string")
-              .map((s) => s.trim())
+            .filter((s): s is string => typeof s === "string")
+            .map((s) => s.trim())
           : [],
       };
     })(),
@@ -203,6 +225,36 @@ function sanitizeResumeData(data: unknown): unknown {
           end: normalizeDate(job.end) || null,
           description:
             typeof job.description === "string" ? job.description.trim() : "",
+        }));
+    })(),
+    projects: (() => {
+      if (!Array.isArray(resume.projects)) return [];
+
+      return resume.projects
+        .filter(
+          (item): item is Record<string, unknown> => typeof item === "object"
+        )
+        .map((project) => ({
+          name: typeof project.name === "string" ? project.name.trim() : "",
+          description:
+            typeof project.description === "string"
+              ? project.description.trim()
+              : "",
+          link:
+            typeof project.link === "string"
+              ? normalizeUrl(project.link, "website")
+              : "",
+          technologies: Array.isArray(project.technologies)
+            ? project.technologies
+              .filter((t): t is string => typeof t === "string")
+              .map((t) => t.trim())
+            : [],
+          date: typeof project.date === "string" ? project.date.trim() : "",
+          highlights: Array.isArray(project.highlights)
+            ? project.highlights
+              .filter((h): h is string => typeof h === "string")
+              .map((h) => h.trim())
+            : [],
         }));
     })(),
     education: (() => {

@@ -35,10 +35,20 @@ const EducationSchema = z.object({
   end: z.string().default(""),
 });
 
+const ProjectSchema = z.object({
+  name: z.string().default(""),
+  description: z.string().default(""),
+  link: z.string().optional(),
+  technologies: z.array(z.string()).default([]),
+  date: z.string().optional(),
+  highlights: z.array(z.string()).default([]),
+});
+
 export const ResumeDataSchema = z.object({
   header: HeaderSchema,
   summary: z.string().default(""),
   workExperience: z.array(WorkExperienceSchema).default([]),
+  projects: z.array(ProjectSchema).default([]),
   education: z.array(EducationSchema).default([]),
 });
 
@@ -47,6 +57,7 @@ export type Contacts = z.infer<typeof ContactsSchema>;
 export type Header = z.infer<typeof HeaderSchema>;
 export type WorkExperience = z.infer<typeof WorkExperienceSchema>;
 export type Education = z.infer<typeof EducationSchema>;
+export type Project = z.infer<typeof ProjectSchema>;
 
 // Full resume type including database fields
 export interface Resume {

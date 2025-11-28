@@ -5,6 +5,7 @@ import { ResumeWorkExperience } from "@/components/resume/resume-work-experience
 import { ResumeEducation } from "@/components/resume/resume-education";
 import { ResumeSkills } from "@/components/resume/resume-skills";
 import { ResumeSection } from "@/components/resume/resume-section";
+import { ResumeProjects } from "@/components/resume/resume-projects";
 
 interface FullResumeProps {
   data: ResumeData;
@@ -12,7 +13,7 @@ interface FullResumeProps {
 }
 
 export function FullResume({ data, profileImageUrl }: FullResumeProps) {
-  const { header, summary, workExperience, education } = data;
+  const { header, summary, workExperience, projects, education } = data;
 
   return (
     <div className="space-y-8 print:space-y-6">
@@ -33,6 +34,12 @@ export function FullResume({ data, profileImageUrl }: FullResumeProps) {
       {workExperience.length > 0 && (
         <ResumeSection title="Experience">
           <ResumeWorkExperience experiences={workExperience} />
+        </ResumeSection>
+      )}
+
+      {projects.length > 0 && (
+        <ResumeSection title="Projects">
+          <ResumeProjects projects={projects} />
         </ResumeSection>
       )}
 

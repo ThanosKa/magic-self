@@ -32,7 +32,7 @@
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - pnpm (recommended) or npm
 - Supabase account
 - Clerk account
@@ -62,18 +62,23 @@ cp .env.example .env.local
 Fill in your credentials:
 
 \`\`\`env
+
 # Supabase
+
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
 # Clerk
+
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 CLERK_SECRET_KEY=your_clerk_secret_key
 
 # OpenRouter
+
 OPENROUTER_API_KEY=your_openrouter_api_key
 
 # App URL (for local dev)
+
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL=http://localhost:3000
 \`\`\`
@@ -139,29 +144,29 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 \`\`\`
 ├── app/
-│   ├── [username]/       # Public profile pages
-│   ├── api/              # API routes
-│   │   ├── resume/       # Resume CRUD
-│   │   ├── upload/       # PDF upload
-│   │   └── username/     # Username management
-│   ├── dashboard/        # User dashboard
-│   ├── pdf/              # PDF processing page
-│   ├── preview/          # Resume preview/edit
-│   ├── sign-in/          # Clerk sign-in
-│   ├── sign-up/          # Clerk sign-up
-│   └── upload/           # Upload page
+│ ├── [username]/ # Public profile pages
+│ ├── api/ # API routes
+│ │ ├── resume/ # Resume CRUD
+│ │ ├── upload/ # PDF upload
+│ │ └── username/ # Username management
+│ ├── dashboard/ # User dashboard
+│ ├── pdf/ # PDF processing page
+│ ├── preview/ # Resume preview/edit
+│ ├── sign-in/ # Clerk sign-in
+│ ├── sign-up/ # Clerk sign-up
+│ └── upload/ # Upload page
 ├── components/
-│   ├── preview/          # Preview components
-│   ├── resume/           # Resume display components
-│   ├── ui/               # shadcn/ui components
-│   └── upload/           # Upload components
+│ ├── preview/ # Preview components
+│ ├── resume/ # Resume display components
+│ ├── ui/ # shadcn/ui components
+│ └── upload/ # Upload components
 ├── lib/
-│   ├── schemas/          # Zod schemas
-│   ├── server/           # Server-only utilities
-│   │   └── ai/           # AI generation
-│   └── supabase/         # Supabase clients
-├── scripts/              # SQL migrations
-└── hooks/                # React hooks
+│ ├── schemas/ # Zod schemas
+│ ├── server/ # Server-only utilities
+│ │ └── ai/ # AI generation
+│ └── supabase/ # Supabase clients
+├── scripts/ # SQL migrations
+└── hooks/ # React hooks
 \`\`\`
 
 ## Key Flows
@@ -180,6 +185,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Data Model
 
 **resumes table:**
+
 - `id` - UUID primary key
 - `user_id` - Clerk user ID (unique)
 - `status` - 'draft' | 'live'
@@ -188,6 +194,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - `resume_data` - Structured JSONB data
 
 **usernames table:**
+
 - `id` - UUID primary key
 - `user_id` - Clerk user ID (unique)
 - `username` - Unique URL slug
@@ -206,6 +213,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Environment Variables for Production
 
 Make sure to update:
+
 - `NEXT_PUBLIC_APP_URL` to your production domain
 - Use production Clerk keys
 - Enable Supabase connection pooling for better performance

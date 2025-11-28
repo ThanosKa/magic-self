@@ -1,6 +1,5 @@
 ---
-description: General development rules for folio.sh
-globs: **/*
+alwaysApply: true
 ---
 
 # folio.sh Development Rules

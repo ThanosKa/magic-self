@@ -1,6 +1,7 @@
 ---
 description: Code style and conventions for folio.sh
-globs: **/*.{ts,tsx}
+globs: *.ts,*.tsx
+alwaysApply: false
 ---
 
 # Code Style Guide

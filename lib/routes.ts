@@ -1,10 +1,4 @@
-export const PROTECTED_ROUTES = [
-  "/upload",
-  "/preview",
-  "/pdf",
-  "/dashboard",
-  "/settings",
-] as const;
+export const PROTECTED_ROUTES = ["/upload", "/settings"] as const;
 
 export const PUBLIC_ROUTES = ["/", "/sign-in", "/sign-up"] as const;
 
@@ -12,6 +6,7 @@ export const API_ROUTES = [
   "/api/upload",
   "/api/resume",
   "/api/username",
+  "/api/generate",
 ] as const;
 
 export function isProtectedRoute(pathname: string): boolean {

@@ -3,13 +3,11 @@ import { NextFetchEvent, NextRequest } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/upload(.*)",
-  "/preview(.*)",
-  "/pdf(.*)",
-  "/dashboard(.*)",
   "/settings(.*)",
   "/api/upload(.*)",
   "/api/resume(.*)",
   "/api/username(.*)",
+  "/api/generate(.*)",
 ]);
 
 const handler = clerkMiddleware(async (auth, req) => {

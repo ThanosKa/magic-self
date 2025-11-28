@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import { TopMenu } from "@/components/landing/top-menu";
 import { Footer } from "@/components/landing/footer";
 import { BlurFade } from "@/components/ui/blur-fade";
@@ -12,10 +11,7 @@ import { SITE_CONFIG } from "@/lib/config";
 
 export default async function HomePage() {
   const { userId } = await auth();
-
-  if (userId) {
-    redirect("/dashboard");
-  }
+  const ctaLabel = userId ? "Open workspace" : "Upload resume";
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -54,7 +50,7 @@ export default async function HomePage() {
                   className="relative overflow-hidden px-8"
                   asChild
                 >
-                  <Link href="/upload">Upload Resume</Link>
+                  <Link href="/upload">{ctaLabel}</Link>
                 </Button>
                 <BorderBeam size={100} duration={12} />
               </div>

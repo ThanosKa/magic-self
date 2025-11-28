@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { getResume } from "@/lib/server/supabase-actions";
-import { UploadForm } from "@/components/upload/upload-form";
+import { getResume, getUsernameById } from "@/lib/server/supabase-actions";
+import { WorkspaceClient } from "@/components/upload/workspace-client";
 
 export default async function UploadPage() {
   const { userId } = await auth();
@@ -10,24 +10,14 @@ export default async function UploadPage() {
     redirect("/sign-in");
   }
 
-  const resume = await getResume(userId);
+  const [resume, username] = await Promise.all([
+    getResume(userId),
+    getUsernameById(userId),
+  ]);
 
   return (
-    <main className="min-h-screen p-6 md:p-10">
-      <div className="mx-auto max-w-2xl">
-        <h1 className="mb-6 text-2xl font-bold">Upload Resume</h1>
-        <UploadForm
-          existingFile={
-            resume?.file_name
-              ? {
-                  name: resume.file_name,
-                  size: resume.file_size || 0,
-                  url: resume.file_url || undefined,
-                }
-              : undefined
-          }
-        />
-      </div>
+    <main className="min-h-screen bg-background px-4 py-8 md:px-6 md:py-12">
+      <WorkspaceClient initialResume={resume} initialUsername={username} />
     </main>
   );
 }

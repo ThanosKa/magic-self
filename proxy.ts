@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextRequest } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/upload(.*)",
@@ -11,11 +12,15 @@ const isProtectedRoute = createRouteMatcher([
   "/api/username(.*)",
 ]);
 
-export default clerkMiddleware(async (auth, req) => {
+const handler = clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {
     await auth.protect();
   }
 });
+
+export default function proxy(request: NextRequest) {
+  return handler(request);
+}
 
 export const config = {
   matcher: [

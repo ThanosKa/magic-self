@@ -22,6 +22,8 @@ folio.sh - A web application that converts PDF resumes into beautiful personal w
 
 - Lint: `pnpm lint`
 
+- Type check (no emit): `pnpm tsc --noEmit`
+
 - Format: `pnpm format`
 
 - Start (after build): `pnpm start`

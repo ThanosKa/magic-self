@@ -17,7 +17,7 @@ export default async function UploadPage() {
 
   return (
     <main className="min-h-screen bg-background px-4 py-8 md:px-6 md:py-12">
-      <WorkspaceClient initialResume={resume} initialUsername={username} />
+      <WorkspaceClient initialResume={resume} />
     </main>
   );
 }

@@ -44,7 +44,8 @@ export async function ensureUsername(userId: string): Promise<string> {
   let base = "user";
 
   try {
-    const user = await clerkClient.users.getUser(userId);
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
     const name = `${user.firstName || ""} ${user.lastName || ""}`.trim();
     base = name ? slugifyName(name) : "user";
   } catch (error) {

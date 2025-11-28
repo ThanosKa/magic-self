@@ -89,6 +89,139 @@ export interface GenerateResumeResult {
   error?: string;
 }
 
+function normalizeUrl(
+  value: unknown,
+  type: "linkedin" | "github" | "website" | "company"
+): string {
+  if (!value || typeof value !== "string") return "";
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
+  }
+
+  if (type === "linkedin") {
+    const username = trimmed.replace(/^@/, "").replace(/\//g, "");
+    return `https://linkedin.com/in/${username}`;
+  }
+
+  if (type === "github") {
+    const username = trimmed.replace(/^@/, "").replace(/\//g, "");
+    return `https://github.com/${username}`;
+  }
+
+  if (type === "company") {
+    return `https://${trimmed}`;
+  }
+
+  if (type === "website") {
+    if (!trimmed.includes(".")) return "";
+    return `https://${trimmed}`;
+  }
+
+  return "";
+}
+
+function normalizeDate(value: unknown): string {
+  if (!value || typeof value !== "string") return "";
+  const trimmed = value.trim().toLowerCase();
+
+  if (!trimmed || trimmed === "present" || trimmed === "current") return "";
+
+  return trimmed;
+}
+
+function sanitizeResumeData(data: unknown): unknown {
+  if (!data || typeof data !== "object") return data;
+
+  const resume = data as Record<string, unknown>;
+
+  return {
+    header: (() => {
+      const header = resume.header as Record<string, unknown>;
+      if (!header || typeof header !== "object") return {};
+
+      const contacts = header.contacts as Record<string, unknown> | undefined;
+
+      return {
+        name: typeof header.name === "string" ? header.name.trim() : "",
+        shortAbout:
+          typeof header.shortAbout === "string" ? header.shortAbout.trim() : "",
+        location:
+          typeof header.location === "string" ? header.location.trim() : "",
+        contacts: {
+          email:
+            typeof contacts?.email === "string" ? contacts.email.trim() : "",
+          phone:
+            typeof contacts?.phone === "string" ? contacts.phone.trim() : "",
+          twitter:
+            typeof contacts?.twitter === "string"
+              ? contacts.twitter.trim()
+              : "",
+          linkedin:
+            typeof contacts?.linkedin === "string"
+              ? normalizeUrl(contacts.linkedin, "linkedin")
+              : "",
+          github:
+            typeof contacts?.github === "string"
+              ? normalizeUrl(contacts.github, "github")
+              : "",
+          website:
+            typeof contacts?.website === "string"
+              ? normalizeUrl(contacts.website, "website")
+              : "",
+        },
+        skills: Array.isArray(header.skills)
+          ? header.skills
+              .filter((s): s is string => typeof s === "string")
+              .map((s) => s.trim())
+          : [],
+      };
+    })(),
+    summary: typeof resume.summary === "string" ? resume.summary.trim() : "",
+    workExperience: (() => {
+      if (!Array.isArray(resume.workExperience)) return [];
+
+      return resume.workExperience
+        .filter(
+          (item): item is Record<string, unknown> => typeof item === "object"
+        )
+        .map((job) => ({
+          company: typeof job.company === "string" ? job.company.trim() : "",
+          link:
+            typeof job.link === "string"
+              ? normalizeUrl(job.link, "company")
+              : "",
+          location: typeof job.location === "string" ? job.location.trim() : "",
+          contract:
+            typeof job.contract === "string"
+              ? job.contract.trim()
+              : "Full-time",
+          title: typeof job.title === "string" ? job.title.trim() : "",
+          start: normalizeDate(job.start),
+          end: normalizeDate(job.end) || null,
+          description:
+            typeof job.description === "string" ? job.description.trim() : "",
+        }));
+    })(),
+    education: (() => {
+      if (!Array.isArray(resume.education)) return [];
+
+      return resume.education
+        .filter(
+          (item): item is Record<string, unknown> => typeof item === "object"
+        )
+        .map((edu) => ({
+          school: typeof edu.school === "string" ? edu.school.trim() : "",
+          degree: typeof edu.degree === "string" ? edu.degree.trim() : "",
+          start: typeof edu.start === "string" ? edu.start.trim() : "",
+          end: typeof edu.end === "string" ? edu.end.trim() : "",
+        }));
+    })(),
+  };
+}
+
 export async function generateResumeObject(
   pdfContent: string
 ): Promise<GenerateResumeResult> {
@@ -163,7 +296,8 @@ export async function generateResumeObject(
       throw new Error("Invalid JSON response from AI");
     }
 
-    const validationResult = ResumeDataSchema.safeParse(parsedData);
+    const sanitizedData = sanitizeResumeData(parsedData);
+    const validationResult = ResumeDataSchema.safeParse(sanitizedData);
 
     if (!validationResult.success) {
       logger.error(

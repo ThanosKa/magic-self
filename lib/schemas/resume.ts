@@ -1,49 +1,43 @@
 import { z } from "zod";
 
 const ContactsSchema = z.object({
-  website: z.string().url().optional().or(z.literal("")),
-  email: z.string().email().optional().or(z.literal("")),
+  website: z.string().optional(),
+  email: z.string().optional(),
   phone: z.string().optional(),
   twitter: z.string().optional(),
-  linkedin: z.string().url().optional().or(z.literal("")),
-  github: z.string().url().optional().or(z.literal("")),
+  linkedin: z.string().optional(),
+  github: z.string().optional(),
 });
 
 const HeaderSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  shortAbout: z.string().min(1, "Short description is required"),
+  shortAbout: z.string().default(""),
   location: z.string().optional(),
   contacts: ContactsSchema.optional(),
   skills: z.array(z.string()).default([]),
 });
 
 const WorkExperienceSchema = z.object({
-  company: z.string().min(1, "Company name is required"),
-  link: z.string().url().optional().or(z.literal("")),
-  location: z.string().min(1, "Location is required"),
-  contract: z.string().min(1, "Contract type is required"),
-  title: z.string().min(1, "Job title is required"),
-  start: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Start date must be in YYYY-MM-DD format"),
-  end: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "End date must be in YYYY-MM-DD format")
-    .nullable()
-    .optional(),
-  description: z.string().min(1, "Description is required"),
+  company: z.string().default(""),
+  link: z.string().optional(),
+  location: z.string().default(""),
+  contract: z.string().default("Full-time"),
+  title: z.string().default(""),
+  start: z.string().default(""),
+  end: z.string().nullable().optional(),
+  description: z.string().default(""),
 });
 
 const EducationSchema = z.object({
-  school: z.string().min(1, "School name is required"),
-  degree: z.string().min(1, "Degree is required"),
-  start: z.string().regex(/^\d{4}$/, "Start year must be in YYYY format"),
-  end: z.string().regex(/^\d{4}$/, "End year must be in YYYY format"),
+  school: z.string().default(""),
+  degree: z.string().default(""),
+  start: z.string().default(""),
+  end: z.string().default(""),
 });
 
 export const ResumeDataSchema = z.object({
   header: HeaderSchema,
-  summary: z.string().min(1, "Summary is required"),
+  summary: z.string().default(""),
   workExperience: z.array(WorkExperienceSchema).default([]),
   education: z.array(EducationSchema).default([]),
 });

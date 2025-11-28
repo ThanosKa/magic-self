@@ -62,6 +62,23 @@ Perfect for:
 - **Secure & Private** — Your data is encrypted and stored securely
 - **100% Open Source** — MIT licensed and self-hostable
 
+### 🚀 SEO & Performance
+
+- **Search Engine Optimized** — Comprehensive metadata with Open Graph and Twitter Cards
+- **Structured Data** — JSON-LD schema markup for better search visibility
+- **Dynamic Sitemap** — Auto-generated sitemap.xml with all published resumes
+- **Fast Loading** — Optimized images, preloaded assets, and Core Web Vitals tracking
+- **Robots.txt** — Proper crawl directives for search engines
+- **Canonical URLs** — Prevent duplicate content issues
+- **Rich Social Previews** — Beautiful link previews on Twitter, LinkedIn, and Facebook
+
+### ✨ Enhanced UX
+
+- **Smooth Navigation** — Scroll-to-section links in the navbar (Features, FAQ)
+- **Animated Components** — Polished micro-interactions and shimmer effects
+- **Interactive Buttons** — Hover animations on CTAs and navigation elements
+- **Performance Monitoring** — Real-time Web Vitals tracking in development
+
 ---
 
 ## Demo
@@ -79,17 +96,28 @@ Visit [folio.sh](https://folio.sh) to try it out!
 
 ## Built With
 
-| Technology                                    | Purpose                            |
-| --------------------------------------------- | ---------------------------------- |
-| [Next.js 15](https://nextjs.org/)             | React framework with App Router    |
-| [TypeScript](https://www.typescriptlang.org/) | Type-safe development              |
-| [Tailwind CSS v4](https://tailwindcss.com/)   | Utility-first styling              |
-| [shadcn/ui](https://ui.shadcn.com/)           | Accessible component library       |
-| [Supabase](https://supabase.com/)             | PostgreSQL database & storage      |
-| [Clerk](https://clerk.com/)                   | Authentication                     |
-| [OpenRouter](https://openrouter.ai/)          | AI-powered resume parsing (GPT-4o) |
-| [TanStack Query](https://tanstack.com/query)  | Server state management            |
-| [Zod](https://zod.dev/)                       | Schema validation                  |
+**Core Stack:**
+
+| Technology                                    | Purpose                               |
+| --------------------------------------------- | ------------------------------------- |
+| [Next.js 15](https://nextjs.org/)             | React framework with App Router + SEO |
+| [TypeScript](https://www.typescriptlang.org/) | Type-safe development                 |
+| [Tailwind CSS v4](https://tailwindcss.com/)   | Utility-first styling                 |
+| [shadcn/ui](https://ui.shadcn.com/)           | Accessible component library          |
+| [Supabase](https://supabase.com/)             | PostgreSQL database & storage         |
+| [Clerk](https://clerk.com/)                   | Authentication                        |
+| [OpenRouter](https://openrouter.ai/)          | AI-powered resume parsing (GPT-4o)    |
+| [TanStack Query](https://tanstack.com/query)  | Server state management               |
+| [Zod](https://zod.dev/)                       | Schema validation                     |
+
+**SEO & Performance:**
+
+- **Next.js Metadata API** — Dynamic SEO tags per route
+- **JSON-LD** — Structured data for rich search results
+- **Web Vitals** — Core Web Vitals monitoring (LCP, CLS, INP)
+- **Open Graph** — Social media previews
+- **Dynamic Sitemap** — Auto-generated from database
+- **robots.txt** — Search engine crawl optimization
 
 ---
 

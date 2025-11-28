@@ -1,5 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { NextRequest } from "next/server";
+import { NextFetchEvent, NextRequest } from "next/server";
 
 const isProtectedRoute = createRouteMatcher([
   "/upload(.*)",
@@ -18,8 +18,8 @@ const handler = clerkMiddleware(async (auth, req) => {
   }
 });
 
-export default function proxy(request: NextRequest) {
-  return handler(request);
+export default function proxy(request: NextRequest, event: NextFetchEvent) {
+  return handler(request, event);
 }
 
 export const config = {

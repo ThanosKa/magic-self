@@ -187,11 +187,11 @@ psql "$SUPABASE_DB_URL" -f scripts/001_create_resumes_table.sql -f scripts/002_c
 
 Alternatively, copy the contents of each SQL file from `scripts/` and run them in the Supabase SQL editor.
 
-3. **Create a Storage bucket**
+3. **Create a Storage bucket (required for uploads)**
 
-- Navigate to **Storage** in your Supabase dashboard
-- Create a new bucket named `resumes`
-- Set it to **public** to allow PDF access
+- In Supabase, go to **Storage** → **Create bucket**
+- Name it `resumes`
+- Set it to **Public** (the upload flow expects public access to the bucket)
 
 4. **Configure Row Level Security (RLS)**
 

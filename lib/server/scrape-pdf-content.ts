@@ -1,10 +1,10 @@
+import { pdfToText } from "pdf-ts";
 import { logger } from "@/lib/server/logger";
 
 export async function scrapePdfContent(pdfUrl: string): Promise<string> {
   try {
     logger.info({ pdfUrl }, "Starting PDF content extraction");
 
-    // Fetch the PDF file
     const response = await fetch(pdfUrl);
 
     if (!response.ok) {
@@ -16,20 +16,15 @@ export async function scrapePdfContent(pdfUrl: string): Promise<string> {
 
     logger.debug({ byteLength: uint8Array.length }, "PDF fetched successfully");
 
-    // Use pdf-parse to extract text
-    const { default: pdfParse } = (await import("pdf-parse")) as unknown as {
-      default: (data: Buffer) => Promise<{ text: string; numpages: number }>;
-    };
-    const data = await pdfParse(Buffer.from(uint8Array));
-
-    const text = data.text.trim();
+    // Use pdf-ts to extract text
+    const text = await pdfToText(uint8Array);
 
     logger.info(
-      { extractedLength: text.length, pages: data.numpages },
+      { extractedLength: text.trim().length },
       "PDF content extracted successfully"
     );
 
-    return text;
+    return text.trim();
   } catch (error) {
     logger.error(
       {

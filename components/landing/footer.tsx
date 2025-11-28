@@ -4,7 +4,7 @@ import { Github, Twitter } from "lucide-react";
 export function Footer() {
   return (
     <footer className="border-t py-8">
-      <div className="container flex flex-col items-center justify-between gap-4 sm:flex-row">
+      <div className="container mx-auto px-4 md:px-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
         <p className="text-sm text-muted-foreground">
           Built with Next.js, Supabase, and Clerk.{" "}
           <Link

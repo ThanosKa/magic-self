@@ -24,7 +24,7 @@ interface Hero1Props {
 }
 
 export function Hero1({
-    badge = "✨ Your Website Builder",
+    badge = "100% free & open source",
     heading = "LinkedIn → Website in one click",
     description = "Turn your resume or LinkedIn PDF export into a beautiful, professional website. Share your profile with a simple link.",
     buttons = {
@@ -44,11 +44,11 @@ export function Hero1({
 }: Hero1Props) {
     return (
         <section className="py-20 md:py-32">
-            <div className="container">
+            <div className="container mx-auto px-4 md:px-6">
                 <div className="grid items-center gap-12 lg:grid-cols-2">
                     <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
                         {badge && (
-                            <Badge variant="outline" className="mb-6">
+                            <Badge variant="secondary" className="mb-6 px-4 py-2 text-base font-medium">
                                 {badge}
                                 <ArrowUpRight className="ml-2 size-4" />
                             </Badge>

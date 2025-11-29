@@ -89,11 +89,11 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
       setResume((prev) =>
         prev
           ? {
-              ...prev,
-              file_name: null,
-              file_url: null,
-              file_size: null,
-            }
+            ...prev,
+            file_name: null,
+            file_url: null,
+            file_size: null,
+          }
           : null
       );
       toast.success("Resume removed");
@@ -126,7 +126,7 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           Turn your resume into a <span className="text-primary">website</span>
         </h1>
         <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed">
-          Upload your LinkedIn PDF or standard resume. We'll handle the rest.
+          Upload your LinkedIn PDF or standard resume. We&apos;ll handle the rest.
         </p>
 
         <Suspense
@@ -161,8 +161,8 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
               </DialogHeader>
               <ol className="list-inside list-decimal space-y-3 text-sm pt-2">
                 <li>Go to your LinkedIn profile page</li>
-                <li>Click the "More" button in your introduction section</li>
-                <li>Select "Save to PDF" from the dropdown</li>
+                <li>Click the &quot;More&quot; button in your introduction section</li>
+                <li>Select &quot;Save to PDF&quot; from the dropdown</li>
                 <li>Upload the downloaded file here</li>
               </ol>
             </DialogContent>
@@ -175,9 +175,8 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary/20 to-secondary/20 opacity-50 blur transition duration-500 group-hover:opacity-100" />
           <div className="relative rounded-xl bg-background p-2 ring-1 ring-border">
             <div
-              className={`flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors ${
-                !hasFile ? "hover:bg-muted/50 cursor-pointer" : ""
-              }`}
+              className={`flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors ${!hasFile ? "hover:bg-muted/50 cursor-pointer" : ""
+                }`}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onClick={handleBoxClick}

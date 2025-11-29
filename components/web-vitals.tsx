@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { onCLS, onINP, onLCP, onFCP, onTTFB } from "web-vitals";
+import { onCLS, onINP, onLCP, onFCP, onTTFB, type Metric } from "web-vitals";
 
 /**
  * Web Vitals tracking component
@@ -9,7 +9,7 @@ import { onCLS, onINP, onLCP, onFCP, onTTFB } from "web-vitals";
  */
 export function WebVitals() {
   useEffect(() => {
-    const sendToAnalytics = (metric: any) => {
+    const sendToAnalytics = (metric: Metric) => {
     if (process.env.NODE_ENV === "development") {
         console.log(`[Web Vitals] ${metric.name}:`, {
           value: metric.value,

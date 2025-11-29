@@ -41,7 +41,7 @@ export function RenderClient() {
           Creating your masterpiece
         </h2>
         <p className="max-w-xs text-sm text-muted-foreground mx-auto">
-          We're extracting your resume content and crafting your personal
+          We&apos;re extracting your resume content and crafting your personal
           website.
         </p>
       </div>

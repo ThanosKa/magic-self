@@ -1,11 +1,22 @@
 import { auth } from "@clerk/nextjs/server";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { ScrollHeader } from "@/components/landing/scroll-header";
-import { Footer } from "@/components/landing/footer";
 import { Hero1 } from "@/components/landing/hero";
-import { Features } from "@/components/landing/features";
-import { FAQ } from "@/components/landing/faq";
 import { SITE_CONFIG } from "@/lib/config";
+
+// Lazy load below-the-fold sections
+const Features = dynamic(() => import("@/components/landing/features").then(mod => ({ default: mod.Features })), {
+  loading: () => <div className="py-20 md:py-32 bg-muted/30" />,
+});
+
+const FAQ = dynamic(() => import("@/components/landing/faq").then(mod => ({ default: mod.FAQ })), {
+  loading: () => <div className="py-20 md:py-32" />,
+});
+
+const Footer = dynamic(() => import("@/components/landing/footer").then(mod => ({ default: mod.Footer })), {
+  loading: () => <div className="border-t" />,
+});
 
 export const metadata: Metadata = {
   title: "AI-Powered Resume to Website Builder",

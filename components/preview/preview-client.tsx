@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,8 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import type { ResumeData } from "@/lib/schemas/resume";
-import { FullResume } from "@/components/resume/full-resume";
-import { EditResume } from "@/components/resume/edit-resume";
 import { SITE_CONFIG } from "@/lib/config";
 import { toast } from "sonner";
 import {
@@ -24,13 +22,19 @@ import {
   Save,
   RotateCcw,
 } from "lucide-react";
-import { UsernameEditDialog } from "@/components/preview/username-edit-dialog";
 import {
   Status,
   StatusIndicator,
   StatusLabel,
 } from "@/components/ui/shadcn-io/status";
-import { DiscardDialog } from "@/components/preview/discard-dialog";
+
+// Lazy load heavy resume components
+const EditResume = lazy(() => import("@/components/resume/edit-resume").then(mod => ({ default: mod.EditResume })));
+const FullResume = lazy(() => import("@/components/resume/full-resume").then(mod => ({ default: mod.FullResume })));
+
+// Lazy load dialogs (only needed on user interaction)
+const UsernameEditDialog = lazy(() => import("@/components/preview/username-edit-dialog").then(mod => ({ default: mod.UsernameEditDialog })));
+const DiscardDialog = lazy(() => import("@/components/preview/discard-dialog").then(mod => ({ default: mod.DiscardDialog })));
 
 type ResumeRecord = {
   id: string;
@@ -201,10 +205,12 @@ export function PreviewClient({
               <span className="font-medium text-foreground">
                 {username || "pending"}
               </span>
-              <UsernameEditDialog
-                currentUsername={username || ""}
-                onUpdate={setUsername}
-              />
+              <Suspense fallback={null}>
+                <UsernameEditDialog
+                  currentUsername={username || ""}
+                  onUpdate={setUsername}
+                />
+              </Suspense>
             </div>
 
             {/* Right Actions */}
@@ -328,18 +334,30 @@ export function PreviewClient({
             <CardContent className="p-0">
               {isEditMode ? (
                 <div className="p-8">
-                  <EditResume
-                    data={resumeData}
-                    onChange={handleDataChange}
-                    profileImageUrl={profileImageUrl}
-                  />
+                  <Suspense fallback={
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    </div>
+                  }>
+                    <EditResume
+                      data={resumeData}
+                      onChange={handleDataChange}
+                      profileImageUrl={profileImageUrl}
+                    />
+                  </Suspense>
                 </div>
               ) : (
                 <div className="bg-white p-12 print:p-8">
-                  <FullResume
-                    data={resumeData}
-                    profileImageUrl={profileImageUrl}
-                  />
+                  <Suspense fallback={
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    </div>
+                  }>
+                    <FullResume
+                      data={resumeData}
+                      profileImageUrl={profileImageUrl}
+                    />
+                  </Suspense>
                 </div>
               )}
             </CardContent>
@@ -347,11 +365,13 @@ export function PreviewClient({
         </div>
       </main>
 
-      <DiscardDialog
-        open={showDiscardDialog}
-        onOpenChange={setShowDiscardDialog}
-        onConfirm={confirmDiscard}
-      />
+      <Suspense fallback={null}>
+        <DiscardDialog
+          open={showDiscardDialog}
+          onOpenChange={setShowDiscardDialog}
+          onConfirm={confirmDiscard}
+        />
+      </Suspense>
     </div>
   );
 }

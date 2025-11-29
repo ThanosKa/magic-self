@@ -1,59 +1,63 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/config";
 import { UserButton } from "@clerk/nextjs";
 import { scrollToSection } from "@/lib/utils/scroll";
+import { GitHubStars } from "@/components/shared/github-stars";
 
 type TopMenuProps = {
   userId: string | null;
 };
 
 export function TopMenu({ userId }: TopMenuProps) {
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    sectionId: string
+  ) => {
     e.preventDefault();
     scrollToSection(sectionId);
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4 md:px-6 flex h-14 items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2 font-bold tracking-tight">
+    <motion.header
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="w-full"
+    >
+      <div className="container mx-auto px-4 md:px-6 flex h-14 items-center justify-between relative">
+        <div className="flex items-center">
+          <a
+            href="#hero"
+            onClick={(e) => handleNavClick(e, "hero")}
+            className="flex items-center gap-2 font-bold tracking-tight cursor-pointer"
+          >
             {SITE_CONFIG.name}
-          </Link>
-
-          <nav className="hidden md:flex items-center gap-6">
-            <a
-              href="#features"
-              onClick={(e) => handleNavClick(e, "features")}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Features
-            </a>
-            <a
-              href="#faq"
-              onClick={(e) => handleNavClick(e, "faq")}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              FAQ
-            </a>
-          </nav>
+          </a>
         </div>
 
+        <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+          <a
+            href="#features"
+            onClick={(e) => handleNavClick(e, "features")}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Features
+          </a>
+          <a
+            href="#faq"
+            onClick={(e) => handleNavClick(e, "faq")}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            FAQ
+          </a>
+        </nav>
+
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" asChild className="group hidden sm:inline-flex">
-            <a
-              href={SITE_CONFIG.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open Source
-              <ArrowRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
-            </a>
-          </Button>
+          <GitHubStars />
 
           {userId ? (
             <UserButton afterSignOutUrl="/" />
@@ -69,6 +73,6 @@ export function TopMenu({ userId }: TopMenuProps) {
           )}
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

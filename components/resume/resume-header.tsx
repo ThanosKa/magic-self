@@ -40,72 +40,75 @@ export function ResumeHeader({ header, profileImageUrl }: ResumeHeaderProps) {
   ].filter((link) => link.url);
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-      <div className="flex items-start gap-4">
-        {profileImageUrl && (
-          <Avatar className="h-20 w-20 print:h-16 print:w-16">
-            <AvatarImage
-              src={profileImageUrl || "/placeholder.svg"}
-              alt={name}
-            />
-            <AvatarFallback className="text-lg">{initials}</AvatarFallback>
-          </Avatar>
-        )}
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl print:text-2xl">
+    <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex-1 space-y-3">
+        <div className="space-y-1.5">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl print:text-3xl">
             {name}
           </h1>
-          <p className="text-muted-foreground">{shortAbout}</p>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-1 text-sm text-muted-foreground">
-            {location && (
-              <span className="flex items-center gap-1">
-                <MapPin className="h-3.5 w-3.5" />
-                {location}
-              </span>
-            )}
-            {contacts?.email && (
-              <a
-                href={`mailto:${contacts.email}`}
-                className="flex items-center gap-1 hover:text-foreground transition-colors"
-              >
-                <Mail className="h-3.5 w-3.5" />
-                {contacts.email}
-              </a>
-            )}
-            {contacts?.phone && (
-              <a
-                href={`tel:${contacts.phone}`}
-                className="flex items-center gap-1 hover:text-foreground transition-colors"
-              >
-                <Phone className="h-3.5 w-3.5" />
-                {contacts.phone}
-              </a>
-            )}
-          </div>
+          <p className="text-lg text-muted-foreground">{shortAbout}</p>
         </div>
+
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+          {location && (
+            <span className="flex items-center gap-1.5">
+              <MapPin className="h-4 w-4" />
+              {location}
+            </span>
+          )}
+          {contacts?.email && (
+            <a
+              href={`mailto:${contacts.email}`}
+              className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+            >
+              <Mail className="h-4 w-4" />
+              {contacts.email}
+            </a>
+          )}
+          {contacts?.phone && (
+            <a
+              href={`tel:${contacts.phone}`}
+              className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+            >
+              <Phone className="h-4 w-4" />
+              {contacts.phone}
+            </a>
+          )}
+        </div>
+
+        {socialLinks.length > 0 && (
+          <div className="flex gap-2 print:hidden">
+            {socialLinks.map(({ url, icon: Icon, label }) => (
+              <Button
+                key={label}
+                variant="outline"
+                size="sm"
+                className="h-9 gap-2 hover:bg-accent hover:text-accent-foreground transition-all"
+                asChild
+              >
+                <a
+                  href={`${url}?ref=${SITE_CONFIG.referralParam}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span className="text-xs font-medium">{label}</span>
+                </a>
+              </Button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {socialLinks.length > 0 && (
-        <div className="flex gap-1 print:hidden">
-          {socialLinks.map(({ url, icon: Icon, label }) => (
-            <Button
-              key={label}
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              asChild
-            >
-              <a
-                href={`${url}?ref=${SITE_CONFIG.referralParam}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-              >
-                <Icon className="h-4 w-4" />
-              </a>
-            </Button>
-          ))}
-        </div>
+      {profileImageUrl && (
+        <Avatar className="h-24 w-24 shrink-0 ring-2 ring-border ring-offset-2 ring-offset-background print:h-20 print:w-20 print:ring-1">
+          <AvatarImage
+            src={profileImageUrl || "/placeholder.svg"}
+            alt={name}
+          />
+          <AvatarFallback className="text-xl font-semibold">{initials}</AvatarFallback>
+        </Avatar>
       )}
     </div>
   );

@@ -194,6 +194,9 @@ importers:
       vaul:
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      web-vitals:
+        specifier: ^5.1.0
+        version: 5.1.0
       zod:
         specifier: 3.25.76
         version: 3.25.76
@@ -4370,6 +4373,9 @@ packages:
 
   watchpack@1.7.5:
     resolution: {integrity: sha512-9P3MWk6SrKjHsGkLT2KHXdQ/9SNkyoJbabxnKOoJepsvJjJG8uYTR3yTPxPQvNDI3w4Nz1xnE0TLHK4RIVe/MQ==}
+
+  web-vitals@5.1.0:
+    resolution: {integrity: sha512-ArI3kx5jI0atlTtmV0fWU3fjpLmq/nD3Zr1iFFlJLaqa5wLBkUSzINwBPySCX/8jRyjlmy1Volw1kz1g9XE4Jg==}
 
   webpack-sources@1.4.3:
     resolution: {integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==}
@@ -9151,6 +9157,8 @@ snapshots:
       watchpack-chokidar2: 2.0.1
     transitivePeerDependencies:
       - supports-color
+
+  web-vitals@5.1.0: {}
 
   webpack-sources@1.4.3:
     dependencies:

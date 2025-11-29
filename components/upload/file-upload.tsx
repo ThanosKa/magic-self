@@ -98,6 +98,12 @@ export default function FileUpload04({
         }
     };
 
+    const handleBoxClick = () => {
+        if (fileInputRef.current && !uploading && !isUploading) {
+            fileInputRef.current.click();
+        }
+    };
+
     const getFileIcon = () => {
         if (!uploadState.file) return <File />;
 
@@ -124,9 +130,10 @@ export default function FileUpload04({
         <div className="flex w-full flex-col items-center justify-center">
             <form className="w-full" onSubmit={(e) => e.preventDefault()}>
                 <div
-                    className="flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors hover:bg-muted/50"
+                    className="flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors hover:bg-muted/50 cursor-pointer"
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
+                    onClick={handleBoxClick}
                 >
                     <div className="text-center">
                         <File

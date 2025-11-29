@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import type { Metadata } from "next";
-import { TopMenu } from "@/components/landing/top-menu";
+import { ScrollHeader } from "@/components/landing/scroll-header";
 import { Footer } from "@/components/landing/footer";
 import { Hero1 } from "@/components/landing/hero";
 import { Features } from "@/components/landing/features";
@@ -41,7 +41,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <TopMenu userId={userId} />
+      <ScrollHeader userId={userId} />
 
       <main className="flex-1">
         <Hero1 />

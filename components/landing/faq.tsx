@@ -1,9 +1,13 @@
+"use client";
+
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { motion } from "framer-motion";
 
 const faqs = [
     {
@@ -32,26 +36,48 @@ export function FAQ() {
     return (
         <section id="faq" className="py-20 md:py-32">
             <div className="container mx-auto px-4 md:px-6 max-w-3xl">
-                <div className="mb-12 text-center">
+                <BlurFade className="mb-12 text-center">
                     <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
                         Frequently Asked Questions
                     </h2>
                     <p className="mt-4 text-lg text-muted-foreground">
                         Got questions? We've got answers.
                     </p>
-                </div>
-                <Accordion type="single" collapsible className="w-full">
-                    {faqs.map((faq, i) => (
-                        <AccordionItem key={i} value={`item-${i}`}>
-                            <AccordionTrigger className="text-left text-lg">
-                                {faq.question}
-                            </AccordionTrigger>
-                            <AccordionContent className="text-muted-foreground text-base">
-                                {faq.answer}
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
+                </BlurFade>
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={{
+                        visible: {
+                            transition: {
+                                staggerChildren: 0.1,
+                            },
+                        },
+                    }}
+                >
+                    <Accordion type="single" collapsible className="w-full">
+                        {faqs.map((faq, i) => (
+                            <motion.div
+                                key={i}
+                                variants={{
+                                    hidden: { opacity: 0, y: 20 },
+                                    visible: { opacity: 1, y: 0 },
+                                }}
+                                transition={{ duration: 0.4 }}
+                            >
+                                <AccordionItem value={`item-${i}`}>
+                                    <AccordionTrigger className="text-left text-lg">
+                                        {faq.question}
+                                    </AccordionTrigger>
+                                    <AccordionContent className="text-muted-foreground text-base">
+                                        {faq.answer}
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </motion.div>
+                        ))}
+                    </Accordion>
+                </motion.div>
             </div>
         </section>
     );

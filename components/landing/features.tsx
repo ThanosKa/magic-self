@@ -1,4 +1,7 @@
+"use client";
+
 import { FileText, Sparkles, Share2, LayoutTemplate, ShieldCheck, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
     {
@@ -37,18 +40,41 @@ export function Features() {
     return (
         <section id="features" className="py-20 md:py-32 bg-muted/30">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="mb-16 text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5 }}
+                    className="mb-16 text-center"
+                >
                     <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
                         Everything you need to showcase your career
                     </h2>
                     <p className="mt-4 text-lg text-muted-foreground">
                         Powerful features to help you build a professional presence in minutes.
                     </p>
-                </div>
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                </motion.div>
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={{
+                        visible: {
+                            transition: {
+                                staggerChildren: 0.15,
+                            },
+                        },
+                    }}
+                    className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 justify-items-center"
+                >
                     {features.map((feature, i) => (
-                        <div
+                        <motion.div
                             key={i}
+                            variants={{
+                                hidden: { opacity: 0, y: 30 },
+                                visible: { opacity: 1, y: 0 },
+                            }}
+                            transition={{ duration: 0.5 }}
                             className="group relative overflow-hidden rounded-2xl border bg-background p-8 transition-all hover:shadow-lg"
                         >
                             <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/5 text-primary group-hover:bg-primary/10 transition-colors">
@@ -58,9 +84,9 @@ export function Features() {
                             <p className="text-muted-foreground leading-relaxed">
                                 {feature.description}
                             </p>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );

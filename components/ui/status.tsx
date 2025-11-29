@@ -37,7 +37,7 @@ function Status({ className, variant, ...props }: StatusProps) {
 }
 
 const statusIndicatorVariants = cva(
-    "h-2 w-2 rounded-full",
+    "h-2 w-2 rounded-full relative",
     {
         variants: {
             variant: {
@@ -45,9 +45,9 @@ const statusIndicatorVariants = cva(
                 secondary: "bg-secondary-foreground",
                 destructive: "bg-destructive",
                 outline: "bg-foreground",
-                online: "bg-green-500",
+                online: "bg-green-500 animate-pulse before:absolute before:inset-0 before:rounded-full before:bg-green-500 before:animate-ping before:opacity-75",
                 offline: "bg-slate-500",
-                draft: "bg-orange-500",
+                draft: "bg-orange-500 animate-pulse",
             },
         },
         defaultVariants: {

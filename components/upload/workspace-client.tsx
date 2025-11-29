@@ -61,8 +61,11 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
   });
 
   const hasFile = Boolean(resume?.file_name);
+  const canGenerate = hasFile && !isUploading && !isGenerating;
 
   const handleGenerateWebsite = async () => {
+    if (!canGenerate) return;
+
     setIsGenerating(true);
     try {
       const response = await fetch("/api/generate", { method: "POST" });
@@ -146,11 +149,11 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
         <div className="flex justify-center">
           <Button
             onClick={handleGenerateWebsite}
-            disabled={!hasFile || isUploading}
-            className="h-12 px-8 text-base shadow-lg transition-all hover:scale-105 hover:shadow-xl disabled:hover:scale-100"
+            disabled={!canGenerate}
+            className="h-12 px-8 text-base shadow-lg transition-all hover:scale-105 hover:shadow-xl disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
             size="lg"
           >
-            {isUploading ? (
+            {isGenerating ? (
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
             ) : (
               <Sparkles className="mr-2 h-5 w-5" />

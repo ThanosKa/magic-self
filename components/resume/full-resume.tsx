@@ -16,7 +16,7 @@ export function FullResume({ data, profileImageUrl }: FullResumeProps) {
   const { header, summary, workExperience, projects, education } = data;
 
   return (
-    <div className="space-y-8 print:space-y-6">
+    <div className="space-y-10 print:space-y-8">
       <ResumeHeader header={header} profileImageUrl={profileImageUrl} />
 
       {header.skills.length > 0 && (

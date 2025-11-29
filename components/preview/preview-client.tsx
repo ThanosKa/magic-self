@@ -20,15 +20,10 @@ import {
   Eye,
   ExternalLink,
   Loader2,
-  FileText,
   AlertCircle,
-  Globe,
   Save,
   RotateCcw,
-  CheckCircle2,
 } from "lucide-react";
-import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
-import { Separator } from "@/components/ui/separator"
 
 type ResumeRecord = {
   id: string;
@@ -150,110 +145,108 @@ export function PreviewClient({
   return (
     <div className="flex min-h-screen flex-col bg-muted/30">
       {/* Control Bar */}
-      <div className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Status variant={status === "live" ? "online" : "draft"}>
-                <StatusIndicator variant={status === "live" ? "online" : "draft"} />
-                <StatusLabel>{status === "live" ? "Live" : "Draft"}</StatusLabel>
-              </Status>
-              <Separator orientation="vertical" className="h-6" />
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Globe className="h-4 w-4" />
-                <span className="hidden sm:inline-block">{SITE_CONFIG.domain}/</span>
-                <span className="font-medium text-foreground">
-                  {initialUsername || "pending"}
+      {/* Control Bar */}
+      <div className="border-b bg-background">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between gap-4">
+            {/* URL Bar */}
+            <div className="flex items-center gap-2 rounded-md border bg-muted/30 px-3 py-2 text-sm text-muted-foreground">
+              <ExternalLink className="h-4 w-4" />
+              <span>{SITE_CONFIG.domain}/</span>
+              <span className="font-medium text-foreground">
+                {initialUsername || "pending"}
+              </span>
+              <Button variant="ghost" size="icon" className="h-6 w-6 ml-1">
+                <PencilLine className="h-3 w-3" />
+              </Button>
+            </div>
+
+            {/* Right Actions */}
+            <div className="flex items-center gap-4">
+              {hasUnsavedChanges && (
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleDiscard}
+                    disabled={isSaving}
+                    className="text-muted-foreground hover:text-foreground h-8"
+                  >
+                    <RotateCcw className="mr-2 h-3 w-3" />
+                    Discard
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleSave}
+                    disabled={isSaving}
+                    className="h-8"
+                  >
+                    {isSaving ? (
+                      <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                    ) : (
+                      <Save className="mr-2 h-3 w-3" />
+                    )}
+                    Save
+                  </Button>
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
+                <div
+                  className={`h-2 w-2 rounded-full ${status === "live" ? "bg-green-500" : "bg-amber-500"
+                    }`}
+                />
+                <span className={status === "live" ? "text-green-600" : "text-amber-600"}>
+                  {status === "live" ? "Live" : "Draft"}
                 </span>
               </div>
+
+              <Button
+                size="sm"
+                variant={status === "live" ? "outline" : "default"}
+                onClick={handleToggleStatus}
+                disabled={isPublishing}
+                className="min-w-[100px] h-9"
+              >
+                {isPublishing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : status === "live" ? (
+                  "Unpublish"
+                ) : (
+                  "Publish"
+                )}
+              </Button>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            {hasUnsavedChanges ? (
-              <>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleDiscard}
-                  disabled={isSaving}
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  <RotateCcw className="mr-2 h-4 w-4" />
-                  Discard
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={handleSave}
-                  disabled={isSaving}
-                  className="min-w-[100px]"
-                >
-                  {isSaving ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <Save className="mr-2 h-4 w-4" />
-                  )}
-                  Save
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setIsEditMode((prev) => !prev)}
-                  className="gap-2"
-                >
-                  {isEditMode ? (
-                    <>
-                      <Eye className="h-4 w-4" />
-                      Preview
-                    </>
-                  ) : (
-                    <>
-                      <PencilLine className="h-4 w-4" />
-                      Edit Content
-                    </>
-                  )}
-                </Button>
-                <Button
-                  size="sm"
-                  variant={status === "live" ? "outline" : "default"}
-                  onClick={handleToggleStatus}
-                  disabled={isPublishing}
-                  className="min-w-[100px]"
-                >
-                  {isPublishing ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : status === "live" ? (
-                    "Unpublish"
-                  ) : (
-                    "Publish"
-                  )}
-                </Button>
-                {status === "live" && profilePath && (
-                  <Button variant="secondary" size="sm" asChild>
-                    <a
-                      href={profilePath}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                      Visit Site
-                    </a>
-                  </Button>
-                )}
-              </>
-            )}
+          {/* Secondary Row - Tabs */}
+          <div className="mt-6 flex items-center gap-1">
+            <Button
+              variant={!isEditMode ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setIsEditMode(false)}
+              className="gap-2"
+            >
+              <Eye className="h-4 w-4" />
+              Preview
+            </Button>
+            <Button
+              variant={isEditMode ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setIsEditMode(true)}
+              className="gap-2"
+            >
+              <PencilLine className="h-4 w-4" />
+              Edit
+            </Button>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 py-8">
+      <main className="flex-1 py-12">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-semibold tracking-tight">
                 {isEditMode ? "Edit Content" : "Preview"}
@@ -265,21 +258,21 @@ export function PreviewClient({
               </p>
             </div>
             {hasUnsavedChanges && (
-              <div className="flex items-center gap-2 text-sm text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+              <div className="flex items-center gap-2 text-sm text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
                 <AlertCircle className="h-4 w-4" />
                 Unsaved changes
               </div>
             )}
           </div>
 
-          <Card className="overflow-hidden border-none shadow-md ring-1 ring-black/5">
+          <Card className="overflow-hidden border-none shadow-lg ring-1 ring-black/5">
             <CardContent className="p-0">
               {isEditMode ? (
-                <div className="p-6">
+                <div className="p-8">
                   <EditResume data={resumeData} onChange={handleDataChange} profileImageUrl={profileImageUrl} />
                 </div>
               ) : (
-                <div className="bg-white">
+                <div className="bg-white p-12 print:p-8">
                   <FullResume data={resumeData} profileImageUrl={profileImageUrl} />
                 </div>
               )}

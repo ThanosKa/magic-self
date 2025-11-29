@@ -103,6 +103,35 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes gradient-xy {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-xy {
+  animation: gradient-xy 10s ease infinite;
+}
+
 /* Print styles for resume */
 @media print {
   body {

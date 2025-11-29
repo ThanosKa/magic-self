@@ -1,5 +1,4 @@
 import type { Education } from "@/lib/schemas/resume";
-import { Card, CardContent } from "@/components/ui/card";
 
 interface ResumeEducationProps {
   education: Education[];
@@ -7,17 +6,21 @@ interface ResumeEducationProps {
 
 export function ResumeEducation({ education }: ResumeEducationProps) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 print:grid-cols-2 print:gap-2">
+    <div className="space-y-6 print:space-y-4">
       {education.map((edu, index) => (
-        <Card key={index} className="print:border-none print:shadow-none">
-          <CardContent className="p-4 print:p-2">
-            <h3 className="font-semibold">{edu.school}</h3>
-            <p className="text-sm text-muted-foreground">{edu.degree}</p>
-            <p className="text-sm text-muted-foreground">
+        <div key={index} className="space-y-1">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h3 className="font-semibold">{edu.degree}</h3>
+              <p className="text-sm text-muted-foreground font-medium">
+                {edu.school}
+              </p>
+            </div>
+            <span className="text-sm text-muted-foreground whitespace-nowrap">
               {edu.start} - {edu.end}
-            </p>
-          </CardContent>
-        </Card>
+            </span>
+          </div>
+        </div>
       ))}
     </div>
   );

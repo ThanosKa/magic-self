@@ -44,43 +44,82 @@ export function useFileUpload(options?: UseFileUploadOptions) {
       setIsUploading(true);
       setProgress(0);
 
-      try {
+      return new Promise<UploadResult>((resolve) => {
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
+        const xhr = new XMLHttpRequest();
+
+        // Track upload progress
+        xhr.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable) {
+            const percentComplete = Math.round((e.loaded / e.total) * 100);
+            setProgress(percentComplete);
+          }
         });
 
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error(data.error || "Upload failed");
-        }
+        // Handle completion
+        xhr.addEventListener("load", () => {
+          setIsUploading(false);
 
-        const data = await response.json();
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const data = JSON.parse(xhr.responseText);
+              const result: UploadResult = {
+                success: true,
+                fileUrl: data.fileUrl,
+                fileName: data.fileName,
+                fileSize: data.fileSize,
+              };
 
-        const result: UploadResult = {
-          success: true,
-          fileUrl: data.fileUrl,
-          fileName: data.fileName,
-          fileSize: data.fileSize,
-        };
+              toast.success("File uploaded successfully");
+              options?.onSuccess?.(result);
+              setProgress(100);
+              resolve(result);
+            } catch (error) {
+              const message = "Failed to parse response";
+              toast.error(message);
+              options?.onError?.(message);
+              resolve({ success: false, error: message });
+            }
+          } else {
+            try {
+              const data = JSON.parse(xhr.responseText);
+              const message = data.error || "Upload failed";
+              toast.error(message);
+              options?.onError?.(message);
+              resolve({ success: false, error: message });
+            } catch {
+              const message = "Upload failed";
+              toast.error(message);
+              options?.onError?.(message);
+              resolve({ success: false, error: message });
+            }
+          }
+        });
 
-        toast.success("File uploaded successfully");
-        options?.onSuccess?.(result);
-        setProgress(100);
+        // Handle errors
+        xhr.addEventListener("error", () => {
+          setIsUploading(false);
+          const message = "Network error occurred";
+          toast.error(message);
+          options?.onError?.(message);
+          resolve({ success: false, error: message });
+        });
 
-        return result;
-      } catch (error) {
-        const message =
-          error instanceof Error ? error.message : "Upload failed";
-        toast.error(message);
-        options?.onError?.(message);
-        return { success: false, error: message };
-      } finally {
-        setIsUploading(false);
-      }
+        // Handle abort
+        xhr.addEventListener("abort", () => {
+          setIsUploading(false);
+          const message = "Upload cancelled";
+          toast.error(message);
+          options?.onError?.(message);
+          resolve({ success: false, error: message });
+        });
+
+        // Send the request
+        xhr.open("POST", "/api/upload");
+        xhr.send(formData);
+      });
     },
     [options]
   );

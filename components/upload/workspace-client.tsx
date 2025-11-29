@@ -3,6 +3,7 @@
 import { useState, useRef, lazy, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { toast } from "sonner";
 import { Sparkles, Info, X, FileText, File as FileIcon } from "lucide-react";
@@ -52,7 +53,7 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
   const [resume, setResume] = useState<ResumeRecord | null>(initialResume);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { upload, isUploading } = useFileUpload({
+  const { upload, isUploading, progress } = useFileUpload({
     onSuccess: (result) => {
       setResume((prev) => ({
         ...(prev ?? {
@@ -152,19 +153,20 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
                 How to export from LinkedIn
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>Export from LinkedIn</DialogTitle>
-                <DialogDescription>
-                  Follow these steps to get your PDF.
+                <DialogTitle>How to Export from LinkedIn</DialogTitle>
+                <DialogDescription className="text-base pt-2">
+                  Go to your profile → Click on &quot;Resources&quot; → Then &quot;Save to PDF&quot;
                 </DialogDescription>
               </DialogHeader>
-              <ol className="list-inside list-decimal space-y-3 text-sm pt-2">
-                <li>Go to your LinkedIn profile page</li>
-                <li>Click the &quot;More&quot; button in your introduction section</li>
-                <li>Select &quot;Save to PDF&quot; from the dropdown</li>
-                <li>Upload the downloaded file here</li>
-              </ol>
+              <div className="mt-4">
+                <img
+                  src="/linkedin.png"
+                  alt="LinkedIn export instructions"
+                  className="w-full rounded-lg border"
+                />
+              </div>
             </DialogContent>
           </Dialog>
         </Suspense>
@@ -182,7 +184,7 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
               onClick={handleBoxClick}
             >
               <div className="text-center relative w-full">
-                {hasFile && (
+                {hasFile && !isUploading && (
                   <Button
                     type="button"
                     variant="ghost"
@@ -195,7 +197,23 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
                   </Button>
                 )}
 
-                {hasFile ? (
+                {isUploading ? (
+                  <>
+                    <FileIcon
+                      className="mx-auto h-12 w-12 text-muted-foreground animate-pulse"
+                      aria-hidden={true}
+                    />
+                    <div className="mt-4 text-sm leading-6 text-foreground font-medium">
+                      Uploading...
+                    </div>
+                    <div className="mt-4 w-full max-w-xs mx-auto space-y-2">
+                      <Progress value={progress} className="h-2" />
+                      <p className="text-xs text-muted-foreground">
+                        {progress}%
+                      </p>
+                    </div>
+                  </>
+                ) : hasFile ? (
                   <>
                     <FileText
                       className="mx-auto h-12 w-12 text-muted-foreground"

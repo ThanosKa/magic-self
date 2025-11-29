@@ -27,14 +27,32 @@ export const RESUME_STATUS = {
 
 export type ResumeStatus = (typeof RESUME_STATUS)[keyof typeof RESUME_STATUS];
 
+const getHostname = (url: string | undefined): string => {
+  if (!url) return "magic-self.dev";
+
+  try {
+    const normalizedUrl = url.startsWith("http://") || url.startsWith("https://")
+      ? url
+      : `https://${url}`;
+
+    return new URL(normalizedUrl).hostname;
+  } catch {
+    return "magic-self.dev";
+  }
+};
+
+const getUrl = (url: string | undefined): string => {
+  if (!url) return "https://magic-self.dev";
+
+  return url.startsWith("http://") || url.startsWith("https://")
+    ? url
+    : `https://${url}`;
+};
+
 export const SITE_CONFIG = {
-  name: process.env.NEXT_PUBLIC_APP_URL
-    ? new URL(process.env.NEXT_PUBLIC_APP_URL).hostname
-    : "magic-self.dev",
-  domain: process.env.NEXT_PUBLIC_APP_URL
-    ? new URL(process.env.NEXT_PUBLIC_APP_URL).hostname
-    : "magic-self.dev",
-  url: process.env.NEXT_PUBLIC_APP_URL || "https://magic-self.dev",
+  name: getHostname(process.env.NEXT_PUBLIC_APP_URL),
+  domain: getHostname(process.env.NEXT_PUBLIC_APP_URL),
+  url: getUrl(process.env.NEXT_PUBLIC_APP_URL),
   description:
     "Turn your resume into a beautiful personal website instantly with AI-powered resume extraction",
   tagline: "LinkedIn → Website in one click",

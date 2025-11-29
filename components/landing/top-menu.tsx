@@ -7,6 +7,7 @@ import { SITE_CONFIG } from "@/lib/config";
 import { UserButton } from "@clerk/nextjs";
 import { scrollToSection } from "@/lib/utils/scroll";
 import { GitHubStars } from "@/components/shared/github-stars";
+import { Logo } from "@/components/logo";
 
 type TopMenuProps = {
   userId: string | null;
@@ -35,6 +36,7 @@ export function TopMenu({ userId }: TopMenuProps) {
             onClick={(e) => handleNavClick(e, "hero")}
             className="flex items-center gap-2 font-bold tracking-tight cursor-pointer"
           >
+            <Logo className="h-8 w-8" />
             {SITE_CONFIG.name}
           </a>
         </div>

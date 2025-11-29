@@ -63,23 +63,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
-  },
   manifest: "/site.webmanifest",
 };
 
@@ -102,7 +85,7 @@ export default function RootLayout({
     "@type": "Organization",
     name: SITE_CONFIG.name,
     url: siteUrl,
-    logo: `${siteUrl}/icon.svg`,
+    logo: `${siteUrl}/icon`,
     description: SITE_CONFIG.description,
     sameAs: [SITE_CONFIG.githubUrl],
   };

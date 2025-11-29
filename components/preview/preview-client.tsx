@@ -29,12 +29,28 @@ import {
 } from "@/components/ui/shadcn-io/status";
 
 // Lazy load heavy resume components
-const EditResume = lazy(() => import("@/components/resume/edit-resume").then(mod => ({ default: mod.EditResume })));
-const FullResume = lazy(() => import("@/components/resume/full-resume").then(mod => ({ default: mod.FullResume })));
+const EditResume = lazy(() =>
+  import("@/components/resume/edit-resume").then((mod) => ({
+    default: mod.EditResume,
+  }))
+);
+const FullResume = lazy(() =>
+  import("@/components/resume/full-resume").then((mod) => ({
+    default: mod.FullResume,
+  }))
+);
 
 // Lazy load dialogs (only needed on user interaction)
-const UsernameEditDialog = lazy(() => import("@/components/preview/username-edit-dialog").then(mod => ({ default: mod.UsernameEditDialog })));
-const DiscardDialog = lazy(() => import("@/components/preview/discard-dialog").then(mod => ({ default: mod.DiscardDialog })));
+const UsernameEditDialog = lazy(() =>
+  import("@/components/preview/username-edit-dialog").then((mod) => ({
+    default: mod.UsernameEditDialog,
+  }))
+);
+const DiscardDialog = lazy(() =>
+  import("@/components/preview/discard-dialog").then((mod) => ({
+    default: mod.DiscardDialog,
+  }))
+);
 
 type ResumeRecord = {
   id: string;
@@ -334,11 +350,13 @@ export function PreviewClient({
             <CardContent className="p-0">
               {isEditMode ? (
                 <div className="p-8">
-                  <Suspense fallback={
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                    </div>
-                  }>
+                  <Suspense
+                    fallback={
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      </div>
+                    }
+                  >
                     <EditResume
                       data={resumeData}
                       onChange={handleDataChange}
@@ -348,11 +366,13 @@ export function PreviewClient({
                 </div>
               ) : (
                 <div className="bg-white p-12 print:p-8">
-                  <Suspense fallback={
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                    </div>
-                  }>
+                  <Suspense
+                    fallback={
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                      </div>
+                    }
+                  >
                     <FullResume
                       data={resumeData}
                       profileImageUrl={profileImageUrl}

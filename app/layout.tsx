@@ -127,7 +127,9 @@ export default function RootLayout({
             }}
           />
         </head>
-        <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}>
+        <body
+          className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}
+        >
           <ReactQueryProvider>
             {children}
             <Toaster position="bottom-right" richColors />

@@ -75,4 +75,3 @@ describe("truncateText", () => {
     expect(truncateText("abcdefghijklmnop", 10)).toBe("abcdefg...");
   });
 });
-

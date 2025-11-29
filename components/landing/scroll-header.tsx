@@ -35,4 +35,3 @@ export function ScrollHeader({ userId }: ScrollHeaderProps) {
     </div>
   );
 }
-

@@ -20,7 +20,11 @@ import {
 import { ChevronDown, Plus, Trash2, X } from "lucide-react";
 import { useState, lazy, Suspense } from "react";
 
-const AddSkillDialog = lazy(() => import("@/components/resume/add-skill-dialog").then(mod => ({ default: mod.AddSkillDialog })));
+const AddSkillDialog = lazy(() =>
+  import("@/components/resume/add-skill-dialog").then((mod) => ({
+    default: mod.AddSkillDialog,
+  }))
+);
 
 interface EditResumeProps {
   data: ResumeData;
@@ -308,7 +312,13 @@ export function EditResume({ data, onChange }: EditResumeProps) {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle>Skills</CardTitle>
-          <Suspense fallback={<Button variant="outline" size="sm" disabled>Add Skill</Button>}>
+          <Suspense
+            fallback={
+              <Button variant="outline" size="sm" disabled>
+                Add Skill
+              </Button>
+            }
+          >
             <AddSkillDialog onAdd={addSkill} />
           </Suspense>
         </CardHeader>
@@ -529,16 +539,21 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                 if (open) {
                   setOpenProjectItems([...openProjectItems, index]);
                 } else {
-                  setOpenProjectItems(openProjectItems.filter((i) => i !== index));
+                  setOpenProjectItems(
+                    openProjectItems.filter((i) => i !== index)
+                  );
                 }
               }}
             >
               <div className="rounded-lg border">
                 <div className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
                   <CollapsibleTrigger className="flex-1 text-left">
-                    <p className="font-medium">{project.name || "New Project"}</p>
+                    <p className="font-medium">
+                      {project.name || "New Project"}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                      {project.technologies.slice(0, 3).join(", ") || "No technologies"}
+                      {project.technologies.slice(0, 3).join(", ") ||
+                        "No technologies"}
                     </p>
                   </CollapsibleTrigger>
                   <div className="flex items-center gap-2">
@@ -607,18 +622,35 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                       <Label>Technologies</Label>
                       <div className="flex flex-wrap gap-2">
                         {project.technologies.map((tech) => (
-                          <Badge key={tech} variant="secondary" className="gap-1 pr-1">
+                          <Badge
+                            key={tech}
+                            variant="secondary"
+                            className="gap-1 pr-1"
+                          >
                             {tech}
                             <button
                               type="button"
-                              onClick={() => removeProjectTechnology(index, tech)}
+                              onClick={() =>
+                                removeProjectTechnology(index, tech)
+                              }
                               className="ml-1 rounded-full p-0.5 hover:bg-muted"
                             >
                               <X className="h-3 w-3" />
                             </button>
                           </Badge>
                         ))}
-                        <Suspense fallback={<Button variant="outline" size="sm" disabled className="h-6 text-xs">Add</Button>}>
+                        <Suspense
+                          fallback={
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              disabled
+                              className="h-6 text-xs"
+                            >
+                              Add
+                            </Button>
+                          }
+                        >
                           <AddSkillDialog
                             onAdd={(tech) => addProjectTechnology(index, tech)}
                           />

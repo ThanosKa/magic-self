@@ -35,7 +35,8 @@ export const SITE_CONFIG = {
     ? new URL(process.env.NEXT_PUBLIC_APP_URL).hostname
     : "folio.sh",
   url: process.env.NEXT_PUBLIC_APP_URL || "https://folio.sh",
-  description: "Turn your resume into a beautiful personal website instantly with AI-powered resume extraction",
+  description:
+    "Turn your resume into a beautiful personal website instantly with AI-powered resume extraction",
   tagline: "LinkedIn → Website in one click",
   keywords: [
     "AI resume builder",

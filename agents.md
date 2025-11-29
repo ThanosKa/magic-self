@@ -30,6 +30,8 @@ folio.sh - A web application that converts PDF resumes into beautiful personal w
 
 - Format: `pnpm format`
 
+- Format (check only): `pnpm format:check`
+
 - Start (after build): `pnpm start`
 
 ## Behavior Rules

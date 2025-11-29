@@ -10,6 +10,7 @@
     "test:watch": "vitest",
     "start": "next start",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "seo:check": "node scripts/check-seo.mjs"
   },
   "dependencies": {

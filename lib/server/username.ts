@@ -68,4 +68,3 @@ export async function ensureUsername(userId: string): Promise<string> {
   await createUsernameLookup({ userId, username: fallback });
   return fallback;
 }
-

@@ -8,12 +8,32 @@ import { toast } from "sonner";
 import { Sparkles, Info, X, FileText, File as FileIcon } from "lucide-react";
 
 // Lazy load Dialog components
-const Dialog = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.Dialog })));
-const DialogContent = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogContent })));
-const DialogDescription = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogDescription })));
-const DialogHeader = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogHeader })));
-const DialogTitle = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogTitle })));
-const DialogTrigger = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogTrigger })));
+const Dialog = lazy(() =>
+  import("@/components/ui/dialog").then((mod) => ({ default: mod.Dialog }))
+);
+const DialogContent = lazy(() =>
+  import("@/components/ui/dialog").then((mod) => ({
+    default: mod.DialogContent,
+  }))
+);
+const DialogDescription = lazy(() =>
+  import("@/components/ui/dialog").then((mod) => ({
+    default: mod.DialogDescription,
+  }))
+);
+const DialogHeader = lazy(() =>
+  import("@/components/ui/dialog").then((mod) => ({
+    default: mod.DialogHeader,
+  }))
+);
+const DialogTitle = lazy(() =>
+  import("@/components/ui/dialog").then((mod) => ({ default: mod.DialogTitle }))
+);
+const DialogTrigger = lazy(() =>
+  import("@/components/ui/dialog").then((mod) => ({
+    default: mod.DialogTrigger,
+  }))
+);
 
 type ResumeRecord = {
   id: string;
@@ -72,11 +92,11 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
       setResume((prev) =>
         prev
           ? {
-            ...prev,
-            file_name: null,
-            file_url: null,
-            file_size: null,
-          }
+              ...prev,
+              file_name: null,
+              file_url: null,
+              file_size: null,
+            }
           : null
       );
       toast.success("Resume removed");
@@ -112,16 +132,18 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           Upload your LinkedIn PDF or standard resume. We'll handle the rest.
         </p>
 
-        <Suspense fallback={
-          <Button
-            variant="link"
-            size="sm"
-            className="gap-2 text-foreground hover:underline cursor-pointer"
-          >
-            <Info className="h-4 w-4" />
-            How to export from LinkedIn
-          </Button>
-        }>
+        <Suspense
+          fallback={
+            <Button
+              variant="link"
+              size="sm"
+              className="gap-2 text-foreground hover:underline cursor-pointer"
+            >
+              <Info className="h-4 w-4" />
+              How to export from LinkedIn
+            </Button>
+          }
+        >
           <Dialog>
             <DialogTrigger asChild>
               <Button
@@ -156,8 +178,9 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary/20 to-secondary/20 opacity-50 blur transition duration-500 group-hover:opacity-100" />
           <div className="relative rounded-xl bg-background p-2 ring-1 ring-border">
             <div
-              className={`flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors ${!hasFile ? "hover:bg-muted/50 cursor-pointer" : ""
-                }`}
+              className={`flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors ${
+                !hasFile ? "hover:bg-muted/50 cursor-pointer" : ""
+              }`}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onClick={handleBoxClick}

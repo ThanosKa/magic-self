@@ -196,7 +196,7 @@ OPENROUTER_API_KEY=sk-or-v1-xxxxx
 
 # App URL (for local dev)
 NEXT_PUBLIC_APP_URL=http://localhost:3000
- 
+
 ```
 
 > **Tip:** Get your Supabase credentials from Project Settings → API

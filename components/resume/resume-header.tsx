@@ -103,11 +103,10 @@ export function ResumeHeader({ header, profileImageUrl }: ResumeHeaderProps) {
 
       {profileImageUrl && (
         <Avatar className="h-24 w-24 shrink-0 print:h-20 print:w-20">
-          <AvatarImage
-            src={profileImageUrl || "/placeholder.svg"}
-            alt={name}
-          />
-          <AvatarFallback className="text-xl font-semibold">{initials}</AvatarFallback>
+          <AvatarImage src={profileImageUrl || "/placeholder.svg"} alt={name} />
+          <AvatarFallback className="text-xl font-semibold">
+            {initials}
+          </AvatarFallback>
         </Avatar>
       )}
     </div>

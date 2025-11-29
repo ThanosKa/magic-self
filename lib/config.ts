@@ -42,11 +42,28 @@ const getHostname = (url: string | undefined): string => {
 };
 
 const getUrl = (url: string | undefined): string => {
-  if (!url) return "https://magic-self.dev";
+  // Try provided URL first
+  if (url && url.trim() !== "") {
+    try {
+      const normalizedUrl = url.startsWith("http://") || url.startsWith("https://")
+        ? url
+        : `https://${url}`;
 
-  return url.startsWith("http://") || url.startsWith("https://")
-    ? url
-    : `https://${url}`;
+      // Validate URL by attempting to construct it
+      new URL(normalizedUrl);
+      return normalizedUrl;
+    } catch {
+      console.warn(`Invalid NEXT_PUBLIC_APP_URL: "${url}", using fallback`);
+    }
+  }
+
+  // Try Vercel automatic URL (available in preview/production deployments)
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  // Final fallback
+  return "https://magic-self.dev";
 };
 
 export const SITE_CONFIG = {

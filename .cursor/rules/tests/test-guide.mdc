@@ -1,0 +1,119 @@
+---
+description: Guidance for testing
+globs: 
+alwaysApply: false
+---
+## 1. Unit Test
+
+**Simple explanation**  
+Tests one small function in isolation, checking its output for specific inputs without external dependencies.
+
+**Bad example** (why it's bad)  
+Tests a function by rendering a full component that uses it—too slow and tests more than the function alone.
+
+**Good example** (why it's good)  
+Directly calls the function with mock inputs and asserts the exact output—fast, focused, and reliable.
+
+**Code example**  
+```js
+// utils/math.js
+export const add = (a, b) => a + b;
+
+// __tests__/math.test.js
+import { add } from '../utils/math';
+
+test('adds two numbers', () => {
+  expect(add(2, 3)).toBe(5);
+});
+```
+
+## 2. Integration Test
+
+**Simple explanation**  
+Renders a component and tests how its internal pieces (like state + events) work together end-to-end.
+
+**Bad example** (why it's bad)  
+Mocks component state or spies on internal hooks—doesn't test real user interactions or full flow.
+
+**Good example** (why it's good)  
+Simulates user actions on the rendered component and checks visible behavior—mirrors real usage.
+
+**Code example**  
+```jsx
+// components/Counter.jsx
+import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <span data-testid="count">{count}</span>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+// __tests__/Counter.test.jsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import Counter from '../components/Counter';
+
+test('increments counter on button click', () => {
+  render(<Counter />);
+  fireEvent.click(screen.getByRole('button'));
+  expect(screen.getByTestId('count')).toHaveTextContent('1');
+});
+```
+
+## 3. API Mocking Test
+
+**Simple explanation**  
+Fakes API responses during tests using MSW so components test against controlled data, not real servers.
+
+**Bad example** (why it's bad)  
+Overrides global fetch with jest.fn()—brittle, doesn't handle real HTTP details like headers/status.
+
+**Good example** (why it's good)  
+Sets up MSW server to intercept requests and return predefined responses—realistic and network-agnostic.
+
+**Code example**  
+```jsx
+// components/UserData.jsx
+import { useEffect, useState } from 'react';
+
+export default function UserData() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    fetch('/api/user').then(res => res.json()).then(setUser);
+  }, []);
+  return <div data-testid="user">{user?.name || 'Loading...'}</div>;
+}
+
+// __tests__/UserData.test.jsx
+import { render, screen, waitFor } from '@testing-library/react';
+import { setupServer } from 'msw/node';
+import { handlers } from '../mocks/handlers'; // MSW handlers
+import UserData from '../components/UserData';
+
+const server = setupServer(...handlers);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+test('displays mocked user data', async () => {
+  render(<UserData />);
+  await waitFor(() => {
+    expect(screen.getByTestId('user')).toHaveTextContent('John Doe');
+  });
+});
+```
+```js
+// mocks/handlers.js (MSW setup)
+import { rest } from 'msw';
+
+export const handlers = [
+  rest.get('/api/user', (req, res, ctx) => {
+    return res(ctx.json({ name: 'John Doe' }));
+  }),
+];
+```

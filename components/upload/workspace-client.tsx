@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ChangeEvent } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,10 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { toast } from "sonner";
-import { Sparkles, HelpCircle, Loader2, Info } from "lucide-react";
-
-import { Spinner } from "@/components/ui/spinner";
-import FileUpload04 from "@/components/upload/file-upload";
+import { Sparkles, Info, X, FileText, File as FileIcon } from "lucide-react";
 
 type ResumeRecord = {
   id: string;
@@ -34,7 +31,7 @@ interface WorkspaceClientProps {
 export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
   const router = useRouter();
   const [resume, setResume] = useState<ResumeRecord | null>(initialResume);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { upload, isUploading } = useFileUpload({
     onSuccess: (result) => {
@@ -56,47 +53,54 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
   });
 
   const hasFile = Boolean(resume?.file_name);
-  const canGenerate = hasFile && !isUploading && !isGenerating;
+  const canGenerate = hasFile && !isUploading;
 
-  const handleGenerateWebsite = async () => {
+  const handleGenerateWebsite = () => {
     if (!canGenerate) return;
+    // Redirect to render page which will handle generation
+    router.push("/render");
+  };
 
-    setIsGenerating(true);
+  const handleRemoveFile = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the box click
     try {
-      const response = await fetch("/api/generate", { method: "POST" });
+      const response = await fetch("/api/clear-file", { method: "POST" });
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to generate website");
+        throw new Error("Failed to clear file");
       }
-      toast.success("Personal site generated! Redirecting...");
-      router.push("/preview");
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to generate website"
+      // Clear from UI
+      setResume((prev) =>
+        prev
+          ? {
+            ...prev,
+            file_name: null,
+            file_url: null,
+            file_size: null,
+          }
+          : null
       );
-    } finally {
-      setIsGenerating(false);
+      toast.success("Resume removed");
+    } catch (error) {
+      toast.error("Failed to remove resume");
     }
   };
 
-  if (isGenerating) {
-    return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
-        <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-          <Spinner className="h-8 w-8 text-primary" />
-        </div>
-        <div className="space-y-2">
-          <h2 className="text-xl font-semibold tracking-tight">
-            Creating your masterpiece
-          </h2>
-          <p className="max-w-xs text-sm text-muted-foreground mx-auto">
-            We're extracting your resume content and crafting your personal
-            website.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (isUploading || hasFile) return;
+    const file = e.dataTransfer.files?.[0];
+    if (file) upload(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleBoxClick = () => {
+    if (!hasFile && !isUploading && fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 pt-12 md:pt-24">
@@ -113,7 +117,7 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
             <Button
               variant="link"
               size="sm"
-              className="gap-2 text-muted-foreground hover:text-foreground"
+              className="gap-2 text-foreground hover:underline cursor-pointer"
             >
               <Info className="h-4 w-4" />
               How to export from LinkedIn
@@ -140,11 +144,77 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
         <div className="relative group">
           <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary/20 to-secondary/20 opacity-50 blur transition duration-500 group-hover:opacity-100" />
           <div className="relative rounded-xl bg-background p-2 ring-1 ring-border">
-            <FileUpload04
-              onFileSelect={(file) => upload(file)}
-              isUploading={isUploading}
-              acceptedFileTypes={["application/pdf"]}
-            />
+            <div
+              className={`flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors ${!hasFile ? "hover:bg-muted/50 cursor-pointer" : ""
+                }`}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onClick={handleBoxClick}
+            >
+              <div className="text-center relative w-full">
+                {hasFile && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute -right-4 -top-8 h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer"
+                    aria-label="Remove"
+                    onClick={handleRemoveFile}
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
+                )}
+
+                {hasFile ? (
+                  <>
+                    <FileText
+                      className="mx-auto h-12 w-12 text-muted-foreground"
+                      aria-hidden={true}
+                    />
+                    <div className="mt-4 text-sm leading-6 text-foreground font-medium">
+                      {resume?.file_name}
+                    </div>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      Ready to generate your website
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <FileIcon
+                      className="mx-auto h-12 w-12 text-muted-foreground"
+                      aria-hidden={true}
+                    />
+                    <div className="mt-4 flex text-sm leading-6 text-muted-foreground justify-center">
+                      <p>Drag and drop or</p>
+                      <label
+                        htmlFor="file-upload-workspace"
+                        className="relative cursor-pointer rounded-sm pl-1 font-medium text-primary hover:underline hover:underline-offset-4"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span>choose file</span>
+                        <input
+                          id="file-upload-workspace"
+                          name="file-upload-workspace"
+                          type="file"
+                          className="sr-only"
+                          accept=".pdf"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) upload(file);
+                          }}
+                          disabled={isUploading}
+                          ref={fileInputRef}
+                        />
+                      </label>
+                      <p className="pl-1">to upload</p>
+                    </div>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      PDF up to 10MB
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -152,14 +222,10 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           <Button
             onClick={handleGenerateWebsite}
             disabled={!canGenerate}
-            className="h-12 px-8 text-base shadow-lg transition-all hover:scale-105 hover:shadow-xl disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
+            className="h-12 px-8 text-base shadow-lg transition-all hover:scale-105 hover:shadow-xl cursor-pointer disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
             size="lg"
           >
-            {isGenerating ? (
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            ) : (
-              <Sparkles className="mr-2 h-5 w-5" />
-            )}
+            <Sparkles className="mr-2 h-5 w-5" />
             Generate Website
           </Button>
         </div>

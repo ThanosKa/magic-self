@@ -28,9 +28,9 @@ export async function getResume(userId: string) {
 export async function storeResume(
   userId: string,
   data: {
-    fileName?: string;
-    fileUrl?: string;
-    fileSize?: number;
+    fileName?: string | null;
+    fileUrl?: string | null;
+    fileSize?: number | null;
     fileContent?: string | null;
     resumeData?: ResumeData | null;
     status?: "draft" | "live";
@@ -41,11 +41,17 @@ export async function storeResume(
   const updateData: Record<string, unknown> = {};
 
   if (data.status !== undefined) updateData.status = data.status;
-  if (data.fileName !== undefined) updateData.file_name = data.fileName;
-  if (data.fileUrl !== undefined) updateData.file_url = data.fileUrl;
-  if (data.fileSize !== undefined) updateData.file_size = data.fileSize;
 
   // Handle explicit null to clear fields
+  if (data.fileName !== undefined) {
+    updateData.file_name = data.fileName === null ? null : data.fileName;
+  }
+  if (data.fileUrl !== undefined) {
+    updateData.file_url = data.fileUrl === null ? null : data.fileUrl;
+  }
+  if (data.fileSize !== undefined) {
+    updateData.file_size = data.fileSize === null ? null : data.fileSize;
+  }
   if (data.fileContent !== undefined) {
     updateData.file_content =
       data.fileContent === null ? null : data.fileContent;

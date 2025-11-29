@@ -27,6 +27,10 @@ const faqs = [
         answer: "Your privacy is our top priority. We do not sell your data. Your resume information is used solely to generate your website.",
     },
     {
+        question: "What happens to my site and data?",
+        answer: "Your site remains in your account until you delete your account. You can keep it as a draft (not publicly accessible) or publish it to make it live. Only when you delete your account will your site and all associated data be permanently removed.",
+    },
+    {
         question: "Can I use my own domain?",
         answer: "Currently, we provide a free subdomain (e.g., yourname.resumebuilder.com). Custom domain support is on our roadmap.",
     },

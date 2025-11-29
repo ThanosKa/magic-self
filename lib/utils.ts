@@ -26,15 +26,44 @@ export function slugify(text: string): string {
 
 export function getYear(dateString: string): string {
   if (!dateString) return "";
+
+  // If already a year (YYYY)
   if (/^\d{4}$/.test(dateString)) return dateString;
-  return new Date(dateString).getFullYear().toString();
+
+  // If in format YYYY-MM or YYYY-MM-DD
+  const isoYearMatch = dateString.match(/^(\d{4})/);
+  if (isoYearMatch) return isoYearMatch[1];
+
+  // Try to parse as date
+  try {
+    const date = new Date(dateString);
+    if (!isNaN(date.getTime())) {
+      return date.getFullYear().toString();
+    }
+  } catch {
+    // Ignore errors
+  }
+
+  return "";
 }
 
 export function getShortMonth(dateString: string): string {
   if (!dateString) return "";
+
+  // If just a year (YYYY), no month
   if (/^\d{4}$/.test(dateString)) return "";
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", { month: "short" });
+
+  // Try to parse as date
+  try {
+    const date = new Date(dateString);
+    if (!isNaN(date.getTime())) {
+      return date.toLocaleDateString("en-US", { month: "short" });
+    }
+  } catch {
+    // Ignore errors
+  }
+
+  return "";
 }
 
 export function formatDateRange(start: string, end?: string | null): string {

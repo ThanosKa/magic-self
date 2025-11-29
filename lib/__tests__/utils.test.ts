@@ -50,12 +50,24 @@ describe("formatDate helpers", () => {
   it("extracts the year from multiple formats", () => {
     expect(getYear("2022")).toBe("2022");
     expect(getYear("2024-05-01")).toBe("2024");
+    expect(getYear("2024-05")).toBe("2024");
     expect(getYear("")).toBe("");
+  });
+
+  it("returns empty string for invalid year extraction", () => {
+    expect(getYear("invalid")).toBe("");
+    expect(getYear("abc")).toBe("");
   });
 
   it("extracts the short month when available", () => {
     expect(getShortMonth("2024-05-01")).toBe("May");
+    expect(getShortMonth("2024-12-25")).toBe("Dec");
     expect(getShortMonth("2024")).toBe("");
+  });
+
+  it("returns empty string for invalid month extraction", () => {
+    expect(getShortMonth("invalid")).toBe("");
+    expect(getShortMonth("")).toBe("");
   });
 
   it("formats date ranges and handles open end dates", () => {
@@ -63,6 +75,22 @@ describe("formatDate helpers", () => {
       "Jan 2020 - Dec 2022"
     );
     expect(formatDateRange("2020-01-01")).toBe("Jan 2020 - Present");
+    expect(formatDateRange("2020-01", "2022-12")).toBe("Jan 2020 - Dec 2022");
+  });
+
+  it("formats year-only dates", () => {
+    expect(formatDateRange("2015", "2019")).toBe("2015 - 2019");
+    expect(formatDateRange("2020")).toBe("2020 - Present");
+  });
+
+  it("handles partial date formats", () => {
+    expect(formatDateRange("2024-10")).toBe("Oct 2024 - Present");
+    expect(formatDateRange("2024-10", "2024-12")).toBe("Oct 2024 - Dec 2024");
+  });
+
+  it("handles invalid dates gracefully", () => {
+    expect(formatDateRange("", "")).toBe(" - Present");
+    expect(formatDateRange("invalid", "invalid")).toBe(" - ");
   });
 });
 

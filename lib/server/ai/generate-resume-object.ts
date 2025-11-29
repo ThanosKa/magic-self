@@ -8,7 +8,9 @@ Guidelines:
 - Generate up to 10 skills inferred from work experience and education
 - For social media usernames (twitter, github), extract only the username without spaces or @ symbols
 - LinkedIn and website URLs should be complete URLs
-- Dates should be in YYYY-MM-DD format for work experience start/end
+- IMPORTANT: For dates, use YYYY-MM-DD format when full date is available, YYYY-MM when only month/year, or YYYY when only year
+- DO NOT include explanatory text like "(1 year 2 months)" in dates
+- If a field is not present in the resume, OMIT it entirely rather than using empty strings
 - Education years should be in YYYY format
 - Project dates should be in YYYY-MM format (e.g., "2024-03" for March 2024)
 - If contract type is unclear, default to "Full-time"
@@ -145,13 +147,71 @@ function normalizeUrl(
   return "";
 }
 
+function parseMonthName(monthStr: string): string | null {
+  const months: Record<string, string> = {
+    jan: "01", january: "01",
+    feb: "02", february: "02",
+    mar: "03", march: "03",
+    apr: "04", april: "04",
+    may: "05",
+    jun: "06", june: "06",
+    jul: "07", july: "07",
+    aug: "08", august: "08",
+    sep: "09", sept: "09", september: "09",
+    oct: "10", october: "10",
+    nov: "11", november: "11",
+    dec: "12", december: "12",
+  };
+  return months[monthStr.toLowerCase()] || null;
+}
+
 function normalizeDate(value: unknown): string {
   if (!value || typeof value !== "string") return "";
   const trimmed = value.trim().toLowerCase();
 
+  // Handle empty, present, or current
   if (!trimmed || trimmed === "present" || trimmed === "current") return "";
 
-  return trimmed;
+  // Remove any explanatory text in parentheses (e.g., "(1 year 2 months)")
+  const cleaned = trimmed.replace(/\s*\([^)]*\)\s*/g, "").trim();
+
+  // If already in ISO format (YYYY-MM-DD or YYYY-MM or YYYY), return as is
+  if (/^\d{4}(-\d{2})?(-\d{2})?$/.test(cleaned)) {
+    return cleaned;
+  }
+
+  // Try to parse natural language dates like "October 2024" or "Jan 2023"
+  // Pattern: "Month Year" or "Month, Year"
+  const naturalDateMatch = cleaned.match(/^([a-z]+),?\s+(\d{4})$/);
+  if (naturalDateMatch) {
+    const [, monthStr, year] = naturalDateMatch;
+    const month = parseMonthName(monthStr);
+    if (month) {
+      return `${year}-${month}`;
+    }
+  }
+
+  // Try to parse "YYYY" only
+  const yearOnlyMatch = cleaned.match(/^(\d{4})$/);
+  if (yearOnlyMatch) {
+    return yearOnlyMatch[1];
+  }
+
+  // If we can't parse it, try creating a Date object and extract components
+  try {
+    const date = new Date(cleaned);
+    if (!isNaN(date.getTime())) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+  } catch {
+    // Ignore parsing errors
+  }
+
+  // Return empty string if we can't parse the date
+  return "";
 }
 
 function sanitizeResumeData(data: unknown): unknown {
@@ -166,38 +226,46 @@ function sanitizeResumeData(data: unknown): unknown {
 
       const contacts = header.contacts as Record<string, unknown> | undefined;
 
+      const cleanedContacts: Record<string, string> = {};
+
+      // Only add contact fields if they have valid, non-empty values
+      if (contacts?.email && typeof contacts.email === "string") {
+        const email = contacts.email.trim();
+        if (email && email.includes("@")) cleanedContacts.email = email;
+      }
+      if (contacts?.phone && typeof contacts.phone === "string") {
+        const phone = contacts.phone.trim();
+        if (phone && phone !== "null" && phone !== "undefined") cleanedContacts.phone = phone;
+      }
+      if (contacts?.twitter && typeof contacts.twitter === "string") {
+        const twitter = contacts.twitter.trim();
+        if (twitter && twitter !== "null" && twitter !== "undefined") cleanedContacts.twitter = twitter;
+      }
+      if (contacts?.linkedin && typeof contacts.linkedin === "string") {
+        const linkedin = normalizeUrl(contacts.linkedin, "linkedin");
+        if (linkedin) cleanedContacts.linkedin = linkedin;
+      }
+      if (contacts?.github && typeof contacts.github === "string") {
+        const github = normalizeUrl(contacts.github, "github");
+        if (github) cleanedContacts.github = github;
+      }
+      if (contacts?.website && typeof contacts.website === "string") {
+        const website = normalizeUrl(contacts.website, "website");
+        if (website) cleanedContacts.website = website;
+      }
+
       return {
         name: typeof header.name === "string" ? header.name.trim() : "",
         shortAbout:
           typeof header.shortAbout === "string" ? header.shortAbout.trim() : "",
         location:
-          typeof header.location === "string" ? header.location.trim() : "",
-        contacts: {
-          email:
-            typeof contacts?.email === "string" ? contacts.email.trim() : "",
-          phone:
-            typeof contacts?.phone === "string" ? contacts.phone.trim() : "",
-          twitter:
-            typeof contacts?.twitter === "string"
-              ? contacts.twitter.trim()
-              : "",
-          linkedin:
-            typeof contacts?.linkedin === "string"
-              ? normalizeUrl(contacts.linkedin, "linkedin")
-              : "",
-          github:
-            typeof contacts?.github === "string"
-              ? normalizeUrl(contacts.github, "github")
-              : "",
-          website:
-            typeof contacts?.website === "string"
-              ? normalizeUrl(contacts.website, "website")
-              : "",
-        },
+          typeof header.location === "string" && header.location.trim() ? header.location.trim() : undefined,
+        contacts: Object.keys(cleanedContacts).length > 0 ? cleanedContacts : undefined,
         skills: Array.isArray(header.skills)
           ? header.skills
-              .filter((s): s is string => typeof s === "string")
-              .map((s) => s.trim())
+            .filter((s): s is string => typeof s === "string")
+            .map((s) => s.trim())
+            .filter(s => s.length > 0)
           : [],
       };
     })(),
@@ -246,14 +314,14 @@ function sanitizeResumeData(data: unknown): unknown {
               : "",
           technologies: Array.isArray(project.technologies)
             ? project.technologies
-                .filter((t): t is string => typeof t === "string")
-                .map((t) => t.trim())
+              .filter((t): t is string => typeof t === "string")
+              .map((t) => t.trim())
             : [],
           date: typeof project.date === "string" ? project.date.trim() : "",
           highlights: Array.isArray(project.highlights)
             ? project.highlights
-                .filter((h): h is string => typeof h === "string")
-                .map((h) => h.trim())
+              .filter((h): h is string => typeof h === "string")
+              .map((h) => h.trim())
             : [],
         }));
     })(),

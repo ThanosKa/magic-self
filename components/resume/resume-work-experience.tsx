@@ -21,7 +21,7 @@ export function ResumeWorkExperience({
               <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-medium text-foreground">
                   {job.company}
-                  {job.link && (
+                  {job.link && job.link.trim() && (
                     <a
                       href={`${job.link}?ref=${SITE_CONFIG.referralParam}`}
                       target="_blank"
@@ -32,11 +32,17 @@ export function ResumeWorkExperience({
                     </a>
                   )}
                 </span>
-                <span>·</span>
-                <span>{job.location}</span>
-                <Badge variant="outline" className="text-xs print:hidden">
-                  {job.contract}
-                </Badge>
+                {job.location && job.location.trim() && (
+                  <>
+                    <span>·</span>
+                    <span>{job.location}</span>
+                  </>
+                )}
+                {job.contract && job.contract.trim() && (
+                  <Badge variant="outline" className="text-xs print:hidden">
+                    {job.contract}
+                  </Badge>
+                )}
               </div>
             </div>
             <span className="text-sm text-muted-foreground whitespace-nowrap">

@@ -16,9 +16,11 @@ export function ResumeEducation({ education }: ResumeEducationProps) {
                 {edu.school}
               </p>
             </div>
-            <span className="text-sm text-muted-foreground whitespace-nowrap">
-              {edu.start} - {edu.end}
-            </span>
+            {edu.start && edu.end && edu.start.trim() && edu.end.trim() && (
+              <span className="text-sm text-muted-foreground whitespace-nowrap">
+                {edu.start} - {edu.end}
+              </span>
+            )}
           </div>
         </div>
       ))}

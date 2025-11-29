@@ -75,4 +75,86 @@ describe("validateResumeData", () => {
       expect(result.error.issues[0].message).toBe("Name is required");
     }
   });
+
+  it("accepts resume with undefined contacts", () => {
+    const result = validateResumeData({
+      header: {
+        name: "John Doe",
+        shortAbout: "Developer",
+        skills: ["JavaScript"],
+      },
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.header.contacts).toBeUndefined();
+    }
+  });
+
+  it("accepts resume with partial contacts", () => {
+    const result = validateResumeData({
+      header: {
+        name: "John Doe",
+        shortAbout: "Developer",
+        contacts: {
+          email: "john@example.com",
+        },
+        skills: ["JavaScript"],
+      },
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.header.contacts).toMatchObject({
+        email: "john@example.com",
+      });
+      expect(result.data.header.contacts?.phone).toBeUndefined();
+      expect(result.data.header.contacts?.github).toBeUndefined();
+    }
+  });
+
+  it("accepts work experience with null end date (current job)", () => {
+    const result = validateResumeData({
+      header: baseHeader,
+      workExperience: [
+        {
+          company: "Current Co",
+          title: "Senior Engineer",
+          start: "2023-01",
+          end: null,
+          description: "Current role",
+        },
+      ],
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.workExperience[0].end).toBeNull();
+    }
+  });
+
+  it("accepts dates in various formats", () => {
+    const result = validateResumeData({
+      header: baseHeader,
+      workExperience: [
+        {
+          company: "Company A",
+          title: "Engineer",
+          start: "2024-10", // YYYY-MM format
+          end: null,
+          description: "Role",
+        },
+      ],
+      education: [
+        {
+          school: "University",
+          degree: "BS",
+          start: "2015", // YYYY format
+          end: "2019",
+        },
+      ],
+    });
+
+    expect(result.success).toBe(true);
+  });
 });

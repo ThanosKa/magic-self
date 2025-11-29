@@ -22,12 +22,11 @@ export default async function PreviewPage() {
 
   return (
     <main className="min-h-screen bg-background px-4 py-8 md:px-6 md:py-12">
-      <PreviewClient 
-        initialResume={resume} 
+      <PreviewClient
+        initialResume={resume}
         initialUsername={username}
         profileImageUrl={user?.imageUrl ?? null}
       />
     </main>
   );
 }
-

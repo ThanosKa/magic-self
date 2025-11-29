@@ -13,12 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { toast } from "sonner";
-import {
-  Sparkles,
-  HelpCircle,
-  Loader2,
-  Info,
-} from "lucide-react";
+import { Sparkles, HelpCircle, Loader2, Info } from "lucide-react";
 
 import { Spinner } from "@/components/ui/spinner";
 import FileUpload04 from "@/components/upload/file-upload";
@@ -91,9 +86,12 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           <Spinner className="h-8 w-8 text-primary" />
         </div>
         <div className="space-y-2">
-          <h2 className="text-xl font-semibold tracking-tight">Creating your masterpiece</h2>
+          <h2 className="text-xl font-semibold tracking-tight">
+            Creating your masterpiece
+          </h2>
           <p className="max-w-xs text-sm text-muted-foreground mx-auto">
-            We're extracting your resume content and crafting your personal website.
+            We're extracting your resume content and crafting your personal
+            website.
           </p>
         </div>
       </div>
@@ -112,7 +110,11 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="link" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
+            <Button
+              variant="link"
+              size="sm"
+              className="gap-2 text-muted-foreground hover:text-foreground"
+            >
               <Info className="h-4 w-4" />
               How to export from LinkedIn
             </Button>

@@ -25,7 +25,11 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { UsernameEditDialog } from "@/components/preview/username-edit-dialog";
-import { Status, StatusIndicator, StatusLabel } from "@/components/ui/shadcn-io/status";
+import {
+  Status,
+  StatusIndicator,
+  StatusLabel,
+} from "@/components/ui/shadcn-io/status";
 import { DiscardDialog } from "@/components/preview/discard-dialog";
 
 type ResumeRecord = {
@@ -145,13 +149,12 @@ export function PreviewClient({
           { duration: 5000 }
         );
       } else {
-        toast(
-          "Your site is now a draft",
-          {
-            className: "bg-amber-50 border-amber-200 text-amber-600",
-            duration: 3000
-          }
-        );
+        toast("Your site is now a draft", {
+          style: {
+            color: "#d97706",
+          },
+          duration: 3000,
+        });
       }
     } catch (error) {
       toast.error(
@@ -211,7 +214,11 @@ export function PreviewClient({
                 className="border-0 bg-transparent px-0 py-1 text-xs font-semibold uppercase tracking-wider overflow-visible"
               >
                 <StatusIndicator className="mr-1" />
-                <StatusLabel className={status === "live" ? "text-green-600" : "text-amber-600"}>
+                <StatusLabel
+                  className={
+                    status === "live" ? "text-green-600" : "text-amber-600"
+                  }
+                >
                   {status === "live" ? "Live" : "Draft"}
                 </StatusLabel>
               </Status>
@@ -321,11 +328,18 @@ export function PreviewClient({
             <CardContent className="p-0">
               {isEditMode ? (
                 <div className="p-8">
-                  <EditResume data={resumeData} onChange={handleDataChange} profileImageUrl={profileImageUrl} />
+                  <EditResume
+                    data={resumeData}
+                    onChange={handleDataChange}
+                    profileImageUrl={profileImageUrl}
+                  />
                 </div>
               ) : (
                 <div className="bg-white p-12 print:p-8">
-                  <FullResume data={resumeData} profileImageUrl={profileImageUrl} />
+                  <FullResume
+                    data={resumeData}
+                    profileImageUrl={profileImageUrl}
+                  />
                 </div>
               )}
             </CardContent>

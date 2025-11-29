@@ -196,8 +196,8 @@ function sanitizeResumeData(data: unknown): unknown {
         },
         skills: Array.isArray(header.skills)
           ? header.skills
-            .filter((s): s is string => typeof s === "string")
-            .map((s) => s.trim())
+              .filter((s): s is string => typeof s === "string")
+              .map((s) => s.trim())
           : [],
       };
     })(),
@@ -246,14 +246,14 @@ function sanitizeResumeData(data: unknown): unknown {
               : "",
           technologies: Array.isArray(project.technologies)
             ? project.technologies
-              .filter((t): t is string => typeof t === "string")
-              .map((t) => t.trim())
+                .filter((t): t is string => typeof t === "string")
+                .map((t) => t.trim())
             : [],
           date: typeof project.date === "string" ? project.date.trim() : "",
           highlights: Array.isArray(project.highlights)
             ? project.highlights
-              .filter((h): h is string => typeof h === "string")
-              .map((h) => h.trim())
+                .filter((h): h is string => typeof h === "string")
+                .map((h) => h.trim())
             : [],
         }));
     })(),

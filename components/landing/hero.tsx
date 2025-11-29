@@ -38,7 +38,7 @@ export function Hero1({
     },
     secondary: {
       text: "View on GitHub",
-      url: "https://github.com",
+      url: "https://github.com/ThanosKa/magic-self",
     },
   },
   image = {

@@ -52,6 +52,6 @@ export const SITE_CONFIG = {
   ],
   ogImage: "/og-image.png",
   twitterHandle: "@magic_self",
-  githubUrl: "https://github.com/yourusername/magic-self",
+  githubUrl: "https://github.com/ThanosKa/magic-self",
   referralParam: "magicselfref",
 } as const;

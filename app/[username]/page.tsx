@@ -115,7 +115,7 @@ export default async function ProfilePage({
       resumeData.header.contacts?.linkedin,
       resumeData.header.contacts?.github,
       resumeData.header.contacts?.twitter
-        ? `https://twitter.com/${resumeData.header.contacts.twitter.replace("@", "")}`
+        ? `https://x.com/${resumeData.header.contacts.twitter.replace("@", "")}`
         : undefined,
       resumeData.header.contacts?.website,
     ].filter(Boolean),

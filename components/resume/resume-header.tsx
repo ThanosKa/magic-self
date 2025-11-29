@@ -8,7 +8,7 @@ import {
   Globe,
   Github,
   Linkedin,
-  Twitter,
+  X,
 } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/config";
 
@@ -32,10 +32,10 @@ export function ResumeHeader({ header, profileImageUrl }: ResumeHeaderProps) {
     { url: contacts?.linkedin, icon: Linkedin, label: "LinkedIn" },
     {
       url: contacts?.twitter
-        ? `https://twitter.com/${contacts.twitter.replace("@", "")}`
+        ? `https://x.com/${contacts.twitter.replace("@", "")}`
         : undefined,
-      icon: Twitter,
-      label: "Twitter",
+      icon: X,
+      label: "X",
     },
   ].filter((link) => link.url);
 

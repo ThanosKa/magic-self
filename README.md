@@ -11,7 +11,7 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8)](https://tailwindcss.com/)
 
-[Demo](https://magic-self.dev) · [Report Bug](https://github.com/yourusername/magic-self/issues) · [Request Feature](https://github.com/yourusername/magic-self/issues)
+[Demo](https://magic-self.dev) · [Report Bug](https://github.com/ThanosKa/magic-self/issues) · [Request Feature](https://github.com/ThanosKa/magic-self/issues)
 
 </div>
 
@@ -152,7 +152,7 @@ You'll also need accounts for:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/magic-self.git
+git clone https://github.com/ThanosKa/magic-self.git
 cd magic-self
 ```
 
@@ -317,7 +317,7 @@ The easiest way to deploy magic-self.dev is with Vercel:
 4. Update `NEXT_PUBLIC_APP_URL` to your production domain
 5. Deploy! 🚀
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/magic-self)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ThanosKa/magic-self)
 
 ### Production Checklist
 
@@ -362,9 +362,9 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 Have questions or suggestions? Reach out!
 
-- **GitHub Issues**: [Open an issue](https://github.com/yourusername/magic-self/issues)
-- **Discussions**: [Join the conversation](https://github.com/yourusername/magic-self/discussions)
-- **Twitter/X**: [@yourhandle](https://twitter.com/yourhandle)
+- **GitHub Issues**: [Open an issue](https://github.com/ThanosKa/magic-self/issues)
+- **Discussions**: [Join the conversation](https://github.com/ThanosKa/magic-self/discussions)
+- **X**: [@KazakisThanos](https://x.com/KazakisThanos)
 
 ---
 

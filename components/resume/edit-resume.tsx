@@ -294,7 +294,7 @@ export function EditResume({ data, onChange }: EditResumeProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="twitter">Twitter</Label>
+              <Label htmlFor="twitter">X</Label>
               <Input
                 id="twitter"
                 value={data.header.contacts?.twitter || ""}

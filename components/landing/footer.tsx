@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Twitter } from "lucide-react";
+import { Github, X } from "lucide-react";
 
 export function Footer() {
   return (
@@ -8,7 +8,7 @@ export function Footer() {
         <p className="text-sm text-muted-foreground">
           Built with Next.js, Supabase, and Clerk.{" "}
           <Link
-            href="https://github.com/yourusername/magic-self"
+            href="https://github.com/ThanosKa/magic-self"
             className="font-medium hover:underline"
             target="_blank"
           >
@@ -19,7 +19,7 @@ export function Footer() {
 
         <div className="flex items-center gap-4">
           <Link
-            href="https://github.com/yourusername/magic-self"
+            href="https://github.com/ThanosKa/magic-self"
             className="text-muted-foreground hover:text-foreground transition-colors"
             target="_blank"
             aria-label="GitHub"
@@ -27,12 +27,12 @@ export function Footer() {
             <Github className="h-4 w-4" />
           </Link>
           <Link
-            href="https://twitter.com/magic_self"
+            href="https://x.com/KazakisThanos"
             className="text-muted-foreground hover:text-foreground transition-colors"
             target="_blank"
-            aria-label="Twitter"
+            aria-label="X"
           >
-            <Twitter className="h-4 w-4" />
+            <X className="h-4 w-4" />
           </Link>
         </div>
       </div>

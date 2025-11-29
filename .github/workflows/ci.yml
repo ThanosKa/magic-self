@@ -38,12 +38,17 @@ jobs:
       - name: Build
         run: pnpm run build
         env:
+          # Skip static page generation during CI
+          SKIP_ENV_VALIDATION: "true"
+          # Disable Next.js telemetry
+          NEXT_TELEMETRY_DISABLED: "1"
           # Dummy values for build time
           NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co"
           NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key"
           SUPABASE_SERVICE_ROLE_KEY: "dummy-key"
           SUPABASE_DB_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_dummy"
-          CLERK_SECRET_KEY: "sk_test_dummy"
+          # Use properly formatted dummy Clerk keys to pass validation
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_Y2xlcmsuZXhhbXBsZS5jb20k"
+          CLERK_SECRET_KEY: "sk_test_Y2xlcmsuZXhhbXBsZS5jb20k"
           OPENROUTER_API_KEY: "dummy-key"
           NEXT_PUBLIC_APP_URL: "http://localhost:3000"

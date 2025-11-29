@@ -2,6 +2,7 @@
 
 import { useState, useRef, lazy, Suspense } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useFileUpload } from "@/hooks/use-file-upload";
@@ -160,11 +161,12 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
                   Go to your profile → Click on &quot;Resources&quot; → Then &quot;Save to PDF&quot;
                 </DialogDescription>
               </DialogHeader>
-              <div className="mt-4">
-                <img
+              <div className="mt-4 relative w-full aspect-video">
+                <Image
                   src="/linkedin.png"
                   alt="LinkedIn export instructions"
-                  className="w-full rounded-lg border"
+                  fill
+                  className="rounded-lg border object-contain"
                 />
               </div>
             </DialogContent>

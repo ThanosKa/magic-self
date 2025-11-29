@@ -370,27 +370,28 @@ export function EditResume({ data, onChange }: EditResumeProps) {
               }}
             >
               <div className="rounded-lg border">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
-                  <div className="text-left">
+                <div className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
+                  <CollapsibleTrigger className="flex-1 text-left">
                     <p className="font-medium">{job.title || "New Position"}</p>
                     <p className="text-sm text-muted-foreground">
                       {job.company || "Company"}
                     </p>
-                  </div>
+                  </CollapsibleTrigger>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeWorkExperience(index);
-                      }}
+                      onClick={() => removeWorkExperience(index)}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </button>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+                    <CollapsibleTrigger asChild>
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+                      </Button>
+                    </CollapsibleTrigger>
                   </div>
-                </CollapsibleTrigger>
+                </div>
                 <CollapsibleContent>
                   <div className="space-y-4 border-t p-4">
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -530,27 +531,28 @@ export function EditResume({ data, onChange }: EditResumeProps) {
               }}
             >
               <div className="rounded-lg border">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
-                  <div className="text-left">
+                <div className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
+                  <CollapsibleTrigger className="flex-1 text-left">
                     <p className="font-medium">{project.name || "New Project"}</p>
                     <p className="text-sm text-muted-foreground">
                       {project.technologies.slice(0, 3).join(", ") || "No technologies"}
                     </p>
-                  </div>
+                  </CollapsibleTrigger>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeProject(index);
-                      }}
+                      onClick={() => removeProject(index)}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </button>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+                    <CollapsibleTrigger asChild>
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+                      </Button>
+                    </CollapsibleTrigger>
                   </div>
-                </CollapsibleTrigger>
+                </div>
                 <CollapsibleContent>
                   <div className="space-y-4 border-t p-4">
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -695,27 +697,28 @@ export function EditResume({ data, onChange }: EditResumeProps) {
               }}
             >
               <div className="rounded-lg border">
-                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
-                  <div className="text-left">
+                <div className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
+                  <CollapsibleTrigger className="flex-1 text-left">
                     <p className="font-medium">{edu.school || "New School"}</p>
                     <p className="text-sm text-muted-foreground">
                       {edu.degree || "Degree"}
                     </p>
-                  </div>
+                  </CollapsibleTrigger>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeEducation(index);
-                      }}
+                      onClick={() => removeEducation(index)}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </button>
-                    <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+                    <CollapsibleTrigger asChild>
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <ChevronDown className="h-4 w-4 transition-transform duration-200 [[data-state=open]>&]:rotate-180" />
+                      </Button>
+                    </CollapsibleTrigger>
                   </div>
-                </CollapsibleTrigger>
+                </div>
                 <CollapsibleContent>
                   <div className="space-y-4 border-t p-4">
                     <div className="grid gap-4 sm:grid-cols-2">

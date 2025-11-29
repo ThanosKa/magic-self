@@ -24,6 +24,8 @@ import {
   Save,
   RotateCcw,
 } from "lucide-react";
+import { UsernameEditDialog } from "@/components/preview/username-edit-dialog";
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/shadcn-io/status";
 
 type ResumeRecord = {
   id: string;
@@ -46,6 +48,7 @@ export function PreviewClient({
   profileImageUrl,
 }: PreviewClientProps) {
   const [resume, setResume] = useState<ResumeRecord | null>(initialResume);
+  const [username, setUsername] = useState(initialUsername);
   const [resumeData, setResumeData] = useState<ResumeData | null>(
     initialResume?.resume_data ?? null
   );
@@ -60,7 +63,7 @@ export function PreviewClient({
   const [isPublishing, setIsPublishing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const profilePath = initialUsername ? `/${initialUsername}` : null;
+  const profilePath = username ? `/${username}` : null;
 
   const handleDataChange = (data: ResumeData) => {
     setResumeData(data);
@@ -145,7 +148,6 @@ export function PreviewClient({
   return (
     <div className="flex min-h-screen flex-col bg-muted/30">
       {/* Control Bar */}
-      {/* Control Bar */}
       <div className="border-b bg-background">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between gap-4">
@@ -154,11 +156,12 @@ export function PreviewClient({
               <ExternalLink className="h-4 w-4" />
               <span>{SITE_CONFIG.domain}/</span>
               <span className="font-medium text-foreground">
-                {initialUsername || "pending"}
+                {username || "pending"}
               </span>
-              <Button variant="ghost" size="icon" className="h-6 w-6 ml-1">
-                <PencilLine className="h-3 w-3" />
-              </Button>
+              <UsernameEditDialog
+                currentUsername={username || ""}
+                onUpdate={setUsername}
+              />
             </div>
 
             {/* Right Actions */}
@@ -191,15 +194,15 @@ export function PreviewClient({
                 </div>
               )}
 
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
-                <div
-                  className={`h-2 w-2 rounded-full ${status === "live" ? "bg-green-500" : "bg-amber-500"
-                    }`}
-                />
-                <span className={status === "live" ? "text-green-600" : "text-amber-600"}>
+              <Status
+                status={status === "live" ? "online" : "degraded"}
+                className="border-0 bg-transparent px-0 py-1 text-xs font-semibold uppercase tracking-wider overflow-visible"
+              >
+                <StatusIndicator className="mr-1" />
+                <StatusLabel className={status === "live" ? "text-green-600" : "text-amber-600"}>
                   {status === "live" ? "Live" : "Draft"}
-                </span>
-              </div>
+                </StatusLabel>
+              </Status>
 
               <Button
                 size="sm"
@@ -218,26 +221,30 @@ export function PreviewClient({
               </Button>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Secondary Row - Tabs */}
-          <div className="mt-6 flex items-center gap-1">
+      {/* Mode Toggle Toolbar */}
+      <div className="border-b bg-background/50 backdrop-blur-sm sticky top-0 z-10">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-2">
+          <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-lg w-fit">
             <Button
               variant={!isEditMode ? "secondary" : "ghost"}
               size="sm"
               onClick={() => setIsEditMode(false)}
-              className="gap-2"
+              className="gap-2 h-8 text-xs font-medium"
             >
-              <Eye className="h-4 w-4" />
+              <Eye className="h-3.5 w-3.5" />
               Preview
             </Button>
             <Button
               variant={isEditMode ? "secondary" : "ghost"}
               size="sm"
               onClick={() => setIsEditMode(true)}
-              className="gap-2"
+              className="gap-2 h-8 text-xs font-medium"
             >
-              <PencilLine className="h-4 w-4" />
-              Edit
+              <PencilLine className="h-3.5 w-3.5" />
+              Edit Content
             </Button>
           </div>
         </div>
@@ -283,4 +290,3 @@ export function PreviewClient({
     </div>
   );
 }
-

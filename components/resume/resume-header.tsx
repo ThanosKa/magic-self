@@ -102,7 +102,7 @@ export function ResumeHeader({ header, profileImageUrl }: ResumeHeaderProps) {
       </div>
 
       {profileImageUrl && (
-        <Avatar className="h-24 w-24 shrink-0 ring-2 ring-border ring-offset-2 ring-offset-background print:h-20 print:w-20 print:ring-1">
+        <Avatar className="h-24 w-24 shrink-0 print:h-20 print:w-20">
           <AvatarImage
             src={profileImageUrl || "/placeholder.svg"}
             alt={name}

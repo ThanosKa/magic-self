@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { UsernameEditDialog } from "@/components/preview/username-edit-dialog";
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/shadcn-io/status";
+import { DiscardDialog } from "@/components/preview/discard-dialog";
 
 type ResumeRecord = {
   id: string;
@@ -62,6 +63,7 @@ export function PreviewClient({
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showDiscardDialog, setShowDiscardDialog] = useState(false);
 
   const profilePath = username ? `/${username}` : null;
 
@@ -98,10 +100,15 @@ export function PreviewClient({
   };
 
   const handleDiscard = () => {
+    setShowDiscardDialog(true);
+  };
+
+  const confirmDiscard = () => {
     if (!originalData) return;
     setResumeData(originalData);
     setHasUnsavedChanges(false);
     setIsEditMode(false);
+    setShowDiscardDialog(false);
   };
 
   const handleToggleStatus = async () => {
@@ -166,34 +173,6 @@ export function PreviewClient({
 
             {/* Right Actions */}
             <div className="flex items-center gap-4">
-              {hasUnsavedChanges && (
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleDiscard}
-                    disabled={isSaving}
-                    className="text-muted-foreground hover:text-foreground h-8"
-                  >
-                    <RotateCcw className="mr-2 h-3 w-3" />
-                    Discard
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={handleSave}
-                    disabled={isSaving}
-                    className="h-8"
-                  >
-                    {isSaving ? (
-                      <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-                    ) : (
-                      <Save className="mr-2 h-3 w-3" />
-                    )}
-                    Save
-                  </Button>
-                </div>
-              )}
-
               <Status
                 status={status === "live" ? "online" : "degraded"}
                 className="border-0 bg-transparent px-0 py-1 text-xs font-semibold uppercase tracking-wider overflow-visible"
@@ -265,9 +244,30 @@ export function PreviewClient({
               </p>
             </div>
             {hasUnsavedChanges && (
-              <div className="flex items-center gap-2 text-sm text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
-                <AlertCircle className="h-4 w-4" />
-                Unsaved changes
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleDiscard}
+                  disabled={isSaving}
+                  className="text-muted-foreground hover:text-foreground h-8"
+                >
+                  <RotateCcw className="mr-2 h-3 w-3" />
+                  Discard
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="h-8"
+                >
+                  {isSaving ? (
+                    <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                  ) : (
+                    <Save className="mr-2 h-3 w-3" />
+                  )}
+                  Save
+                </Button>
               </div>
             )}
           </div>
@@ -287,6 +287,12 @@ export function PreviewClient({
           </Card>
         </div>
       </main>
+
+      <DiscardDialog
+        open={showDiscardDialog}
+        onOpenChange={setShowDiscardDialog}
+        onConfirm={confirmDiscard}
+      />
     </div>
   );
 }

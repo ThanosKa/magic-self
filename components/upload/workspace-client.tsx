@@ -1,19 +1,19 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { toast } from "sonner";
 import { Sparkles, Info, X, FileText, File as FileIcon } from "lucide-react";
+
+// Lazy load Dialog components
+const Dialog = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.Dialog })));
+const DialogContent = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogContent })));
+const DialogDescription = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogDescription })));
+const DialogHeader = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogHeader })));
+const DialogTitle = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogTitle })));
+const DialogTrigger = lazy(() => import("@/components/ui/dialog").then(mod => ({ default: mod.DialogTrigger })));
 
 type ResumeRecord = {
   id: string;
@@ -112,32 +112,43 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           Upload your LinkedIn PDF or standard resume. We'll handle the rest.
         </p>
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="link"
-              size="sm"
-              className="gap-2 text-foreground hover:underline cursor-pointer"
-            >
-              <Info className="h-4 w-4" />
-              How to export from LinkedIn
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Export from LinkedIn</DialogTitle>
-              <DialogDescription>
-                Follow these steps to get your PDF.
-              </DialogDescription>
-            </DialogHeader>
-            <ol className="list-inside list-decimal space-y-3 text-sm pt-2">
-              <li>Go to your LinkedIn profile page</li>
-              <li>Click the "More" button in your introduction section</li>
-              <li>Select "Save to PDF" from the dropdown</li>
-              <li>Upload the downloaded file here</li>
-            </ol>
-          </DialogContent>
-        </Dialog>
+        <Suspense fallback={
+          <Button
+            variant="link"
+            size="sm"
+            className="gap-2 text-foreground hover:underline cursor-pointer"
+          >
+            <Info className="h-4 w-4" />
+            How to export from LinkedIn
+          </Button>
+        }>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="link"
+                size="sm"
+                className="gap-2 text-foreground hover:underline cursor-pointer"
+              >
+                <Info className="h-4 w-4" />
+                How to export from LinkedIn
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Export from LinkedIn</DialogTitle>
+                <DialogDescription>
+                  Follow these steps to get your PDF.
+                </DialogDescription>
+              </DialogHeader>
+              <ol className="list-inside list-decimal space-y-3 text-sm pt-2">
+                <li>Go to your LinkedIn profile page</li>
+                <li>Click the "More" button in your introduction section</li>
+                <li>Select "Save to PDF" from the dropdown</li>
+                <li>Upload the downloaded file here</li>
+              </ol>
+            </DialogContent>
+          </Dialog>
+        </Suspense>
       </div>
 
       <div className="mx-auto w-full max-w-xl space-y-8">

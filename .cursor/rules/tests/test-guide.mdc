@@ -1,8 +1,9 @@
 ---
 description: Guidance for testing
-globs: 
+globs:
 alwaysApply: false
 ---
+
 ## 1. Unit Test
 
 **Simple explanation**  
@@ -14,15 +15,16 @@ Tests a function by rendering a full component that uses it—too slow and tests
 **Good example** (why it's good)  
 Directly calls the function with mock inputs and asserts the exact output—fast, focused, and reliable.
 
-**Code example**  
+**Code example**
+
 ```js
 // utils/math.js
 export const add = (a, b) => a + b;
 
 // __tests__/math.test.js
-import { add } from '../utils/math';
+import { add } from "../utils/math";
 
-test('adds two numbers', () => {
+test("adds two numbers", () => {
   expect(add(2, 3)).toBe(5);
 });
 ```
@@ -38,10 +40,11 @@ Mocks component state or spies on internal hooks—doesn't test real user intera
 **Good example** (why it's good)  
 Simulates user actions on the rendered component and checks visible behavior—mirrors real usage.
 
-**Code example**  
+**Code example**
+
 ```jsx
 // components/Counter.jsx
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function Counter() {
   const [count, setCount] = useState(0);
@@ -54,13 +57,13 @@ export default function Counter() {
 }
 
 // __tests__/Counter.test.jsx
-import { render, screen, fireEvent } from '@testing-library/react';
-import Counter from '../components/Counter';
+import { render, screen, fireEvent } from "@testing-library/react";
+import Counter from "../components/Counter";
 
-test('increments counter on button click', () => {
+test("increments counter on button click", () => {
   render(<Counter />);
-  fireEvent.click(screen.getByRole('button'));
-  expect(screen.getByTestId('count')).toHaveTextContent('1');
+  fireEvent.click(screen.getByRole("button"));
+  expect(screen.getByTestId("count")).toHaveTextContent("1");
 });
 ```
 
@@ -75,24 +78,27 @@ Overrides global fetch with jest.fn()—brittle, doesn't handle real HTTP detail
 **Good example** (why it's good)  
 Sets up MSW server to intercept requests and return predefined responses—realistic and network-agnostic.
 
-**Code example**  
+**Code example**
+
 ```jsx
 // components/UserData.jsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function UserData() {
   const [user, setUser] = useState(null);
   useEffect(() => {
-    fetch('/api/user').then(res => res.json()).then(setUser);
+    fetch("/api/user")
+      .then((res) => res.json())
+      .then(setUser);
   }, []);
-  return <div data-testid="user">{user?.name || 'Loading...'}</div>;
+  return <div data-testid="user">{user?.name || "Loading..."}</div>;
 }
 
 // __tests__/UserData.test.jsx
-import { render, screen, waitFor } from '@testing-library/react';
-import { setupServer } from 'msw/node';
-import { handlers } from '../mocks/handlers'; // MSW handlers
-import UserData from '../components/UserData';
+import { render, screen, waitFor } from "@testing-library/react";
+import { setupServer } from "msw/node";
+import { handlers } from "../mocks/handlers"; // MSW handlers
+import UserData from "../components/UserData";
 
 const server = setupServer(...handlers);
 
@@ -100,20 +106,21 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-test('displays mocked user data', async () => {
+test("displays mocked user data", async () => {
   render(<UserData />);
   await waitFor(() => {
-    expect(screen.getByTestId('user')).toHaveTextContent('John Doe');
+    expect(screen.getByTestId("user")).toHaveTextContent("John Doe");
   });
 });
 ```
+
 ```js
 // mocks/handlers.js (MSW setup)
-import { rest } from 'msw';
+import { rest } from "msw";
 
 export const handlers = [
-  rest.get('/api/user', (req, res, ctx) => {
-    return res(ctx.json({ name: 'John Doe' }));
+  rest.get("/api/user", (req, res, ctx) => {
+    return res(ctx.json({ name: "John Doe" }));
   }),
 ];
 ```

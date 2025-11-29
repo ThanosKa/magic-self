@@ -18,8 +18,9 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ChevronDown, Plus, Trash2, X } from "lucide-react";
-import { useState } from "react";
-import { AddSkillDialog } from "@/components/resume/add-skill-dialog";
+import { useState, lazy, Suspense } from "react";
+
+const AddSkillDialog = lazy(() => import("@/components/resume/add-skill-dialog").then(mod => ({ default: mod.AddSkillDialog })));
 
 interface EditResumeProps {
   data: ResumeData;
@@ -307,7 +308,9 @@ export function EditResume({ data, onChange }: EditResumeProps) {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle>Skills</CardTitle>
-          <AddSkillDialog onAdd={addSkill} />
+          <Suspense fallback={<Button variant="outline" size="sm" disabled>Add Skill</Button>}>
+            <AddSkillDialog onAdd={addSkill} />
+          </Suspense>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
@@ -615,9 +618,11 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                             </button>
                           </Badge>
                         ))}
-                        <AddSkillDialog
-                          onAdd={(tech) => addProjectTechnology(index, tech)}
-                        />
+                        <Suspense fallback={<Button variant="outline" size="sm" disabled className="h-6 text-xs">Add</Button>}>
+                          <AddSkillDialog
+                            onAdd={(tech) => addProjectTechnology(index, tech)}
+                          />
+                        </Suspense>
                       </div>
                     </div>
 

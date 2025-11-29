@@ -28,8 +28,12 @@ export const RESUME_STATUS = {
 export type ResumeStatus = (typeof RESUME_STATUS)[keyof typeof RESUME_STATUS];
 
 export const SITE_CONFIG = {
-  name: "folio.sh",
-  domain: "folio.sh",
+  name: process.env.NEXT_PUBLIC_APP_URL
+    ? new URL(process.env.NEXT_PUBLIC_APP_URL).hostname
+    : "folio.sh",
+  domain: process.env.NEXT_PUBLIC_APP_URL
+    ? new URL(process.env.NEXT_PUBLIC_APP_URL).hostname
+    : "folio.sh",
   url: process.env.NEXT_PUBLIC_APP_URL || "https://folio.sh",
   description: "Turn your resume into a beautiful personal website instantly with AI-powered resume extraction",
   tagline: "LinkedIn → Website in one click",

@@ -126,9 +126,33 @@ export function PreviewClient({
       }
 
       setStatus(newStatus);
-      toast.success(
-        newStatus === "live" ? "Your site is live!" : "Your site is now a draft"
-      );
+
+      // Enhanced toasts
+      if (newStatus === "live") {
+        const siteUrl = `${SITE_CONFIG.url}/${username}`;
+        toast.success(
+          <div className="flex items-center justify-between gap-4">
+            <span>Your website is live!</span>
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 text-xs"
+              onClick={() => window.open(siteUrl, "_blank")}
+            >
+              View
+            </Button>
+          </div>,
+          { duration: 5000 }
+        );
+      } else {
+        toast(
+          "Your site is now a draft",
+          {
+            className: "bg-amber-50 border-amber-200 text-amber-600",
+            duration: 3000
+          }
+        );
+      }
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Failed to update status"
@@ -160,7 +184,16 @@ export function PreviewClient({
           <div className="flex items-center justify-between gap-4">
             {/* URL Bar */}
             <div className="flex items-center gap-2 rounded-md border bg-muted/30 px-3 py-2 text-sm text-muted-foreground">
-              <ExternalLink className="h-4 w-4" />
+              <button
+                onClick={() => {
+                  const siteUrl = `${SITE_CONFIG.url}/${username}`;
+                  window.open(siteUrl, "_blank");
+                }}
+                className="hover:text-foreground transition-colors cursor-pointer"
+                aria-label="Visit your site"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </button>
               <span>{SITE_CONFIG.domain}/</span>
               <span className="font-medium text-foreground">
                 {username || "pending"}
@@ -182,7 +215,6 @@ export function PreviewClient({
                   {status === "live" ? "Live" : "Draft"}
                 </StatusLabel>
               </Status>
-
               <Button
                 size="sm"
                 variant={status === "live" ? "outline" : "default"}
@@ -198,6 +230,19 @@ export function PreviewClient({
                   "Publish"
                 )}
               </Button>
+              {status === "live" && (
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    const siteUrl = `${SITE_CONFIG.url}/${username}`;
+                    window.open(siteUrl, "_blank");
+                  }}
+                  className="h-9"
+                >
+                  <ExternalLink className="mr-2 h-3.5 w-3.5" />
+                  Visit Site
+                </Button>
+              )}
             </div>
           </div>
         </div>

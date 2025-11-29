@@ -30,10 +30,9 @@ export default function FileUpload04({
     progress: 0,
     uploading: false,
   });
-  const [showDummy, setShowDummy] = useState(false); // Disabled dummy by default for real app
+  const [showDummy, setShowDummy] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Sync external uploading state
   useEffect(() => {
     if (isUploading) {
       setUploadState((prev) => ({ ...prev, uploading: true }));
@@ -42,7 +41,6 @@ export default function FileUpload04({
       !isUploading &&
       uploadState.progress >= 100
     ) {
-      // Upload finished externally
       setUploadState((prev) => ({ ...prev, uploading: false }));
     }
   }, [isUploading, uploadState.uploading, uploadState.progress]);
@@ -50,7 +48,6 @@ export default function FileUpload04({
   const handleFile = (file: File | undefined) => {
     if (!file) return;
 
-    // Simple validation
     const isValidType = acceptedFileTypes.some(
       (type) =>
         file.type === type || (type.startsWith(".") && file.name.endsWith(type))
@@ -64,14 +61,12 @@ export default function FileUpload04({
 
       setUploadState({ file, progress: 0, uploading: true });
 
-      // Simulate upload progress for UX, then trigger actual upload
       let currentProgress = 0;
       const interval = setInterval(() => {
         currentProgress += 10;
         if (currentProgress >= 100) {
           clearInterval(interval);
           setUploadState((prev) => ({ ...prev, progress: 100 }));
-          // Trigger the actual upload prop
           onFileSelect(file);
         } else {
           setUploadState((prev) => ({ ...prev, progress: currentProgress }));

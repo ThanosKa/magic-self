@@ -8,7 +8,7 @@ export function Footer() {
         <p className="text-sm text-muted-foreground">
           Built with Next.js, Supabase, and Clerk.{" "}
           <Link
-            href="https://github.com/yourusername/folio"
+            href="https://github.com/yourusername/magic-self"
             className="font-medium hover:underline"
             target="_blank"
           >
@@ -19,7 +19,7 @@ export function Footer() {
 
         <div className="flex items-center gap-4">
           <Link
-            href="https://github.com/yourusername/folio"
+            href="https://github.com/yourusername/magic-self"
             className="text-muted-foreground hover:text-foreground transition-colors"
             target="_blank"
             aria-label="GitHub"
@@ -27,7 +27,7 @@ export function Footer() {
             <Github className="h-4 w-4" />
           </Link>
           <Link
-            href="https://twitter.com/yourusername"
+            href="https://twitter.com/magic_self"
             className="text-muted-foreground hover:text-foreground transition-colors"
             target="_blank"
             aria-label="Twitter"

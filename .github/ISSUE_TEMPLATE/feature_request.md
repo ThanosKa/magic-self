@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an idea for folio.sh
+about: Suggest an idea for magic-self.dev
 title: "[FEATURE] "
 labels: "enhancement"
 assignees: ""

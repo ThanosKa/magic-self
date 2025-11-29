@@ -33,7 +33,7 @@ const features = [
     icon: Share2,
     title: "Instant Sharing",
     description:
-      "Get a unique URL (yourname.com) to share your professional portfolio anywhere.",
+      "Get a unique URL (yourname.magic-self.dev) to share your profile anywhere.",
   },
   {
     icon: ShieldCheck,

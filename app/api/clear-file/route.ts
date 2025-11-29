@@ -10,7 +10,6 @@ export async function POST() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Clear file fields from resume record
     await storeResume(userId, {
       fileName: null,
       fileUrl: null,

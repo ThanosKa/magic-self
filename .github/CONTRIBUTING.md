@@ -1,6 +1,6 @@
-# Contributing to folio.sh
+# Contributing to magic-self.dev
 
-First off, thank you for considering contributing to folio.sh! It's people like you that make folio.sh such a great tool.
+First off, thank you for considering contributing to magic-self.dev! It's people like you that make magic-self.dev such a great tool.
 
 ## Code of Conduct
 
@@ -36,7 +36,7 @@ Feature suggestions are tracked as GitHub issues. Create an issue using our [fea
 
 # Clone your fork
 
-git clone https://github.com/YOUR_USERNAME/folio-sh.git
+git clone https://github.com/YOUR_USERNAME/magic-self.git
 cd folio-sh
 
 # Install dependencies

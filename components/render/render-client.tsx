@@ -17,13 +17,11 @@ export function RenderClient() {
           const data = await response.json();
           throw new Error(data.error || "Failed to generate website");
         }
-        // Redirect to preview after successful generation
         router.push("/preview");
       } catch (error) {
         toast.error(
           error instanceof Error ? error.message : "Failed to generate website"
         );
-        // Redirect back to upload on error
         router.push("/upload");
       } finally {
         setIsGenerating(false);

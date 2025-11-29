@@ -1,6 +1,6 @@
 <div align="center">
   
-# folio.sh
+# magic-self.dev
 
 ### Transform your resume PDF into a beautiful personal website instantly
 
@@ -11,7 +11,7 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8)](https://tailwindcss.com/)
 
-[Demo](https://folio.sh) · [Report Bug](https://github.com/yourusername/folio-sh/issues) · [Request Feature](https://github.com/yourusername/folio-sh/issues)
+[Demo](https://magic-self.dev) · [Report Bug](https://github.com/yourusername/magic-self/issues) · [Request Feature](https://github.com/yourusername/magic-self/issues)
 
 </div>
 
@@ -40,7 +40,7 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 
 ## About
 
-**folio.sh** is an open-source platform that converts your resume PDF into a stunning, shareable personal website in seconds. Upload your resume, get a custom `folio.sh/yourname` URL, and showcase your professional experience with a clean, modern design.
+**magic-self.dev** is an open-source platform that converts your resume PDF into a stunning, shareable personal website in seconds. Upload your resume, get a custom `magic-self.dev/yourname` URL, and showcase your professional experience with a clean, modern design.
 
 Perfect for:
 
@@ -55,7 +55,7 @@ Perfect for:
 
 - **One-Click Conversion** — Upload a PDF and get a live website in seconds
 - **AI-Powered Extraction** — Automatically structures your resume data using GPT-4o
-- **Custom URLs** — Claim your own `folio.sh/yourname` subdomain
+- **Custom URLs** — Claim your own `magic-self.dev/yourname` subdomain
 - **Live Editing** — Edit your information directly in the preview
 - **Dual Themes** — Beautiful dark and light modes with JetBrains Mono font
 - **Fully Responsive** — Works perfectly on mobile, tablet, and desktop
@@ -90,7 +90,7 @@ Perfect for:
 1. Upload PDF → 2. AI extracts data → 3. Edit & customize → 4. Publish live
 ```
 
-Visit [folio.sh](https://folio.sh) to try it out!
+Visit [magic-self.dev](https://magic-self.dev) to try it out!
 
 ---
 
@@ -123,7 +123,7 @@ Visit [folio.sh](https://folio.sh) to try it out!
 
 ## Getting Started
 
-Follow these steps to set up folio.sh locally.
+Follow these steps to set up magic-self.dev locally.
 
 ### Prerequisites
 
@@ -152,8 +152,8 @@ You'll also need accounts for:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/folio-sh.git
-cd folio-sh
+git clone https://github.com/yourusername/magic-self.git
+cd magic-self
 ```
 
 2. **Install dependencies**
@@ -261,7 +261,7 @@ Open [http://localhost:3000](http://localhost:3000) to see your app!
 3. Select your PDF file (LinkedIn export or resume)
 4. Wait for AI to extract and structure your data
 5. Review and edit your information in the preview
-6. Claim your custom username (e.g., `folio.sh/johnsmith`)
+6. Claim your custom username (e.g., `magic-self.dev/johnsmith`)
 7. Click **Publish** to make your site live
 
 ### Editing Your Profile
@@ -275,7 +275,7 @@ Open [http://localhost:3000](http://localhost:3000) to see your app!
 ## Project Structure
 
 ```
-folio-sh/
+magic-self/
 ├── app/
 │   ├── [username]/          # Public profile pages
 │   ├── api/                 # API routes
@@ -309,7 +309,7 @@ folio-sh/
 
 ### Deploy to Vercel
 
-The easiest way to deploy folio.sh is with Vercel:
+The easiest way to deploy magic-self.dev is with Vercel:
 
 1. Push your code to GitHub
 2. Import the project in [Vercel](https://vercel.com)
@@ -317,7 +317,7 @@ The easiest way to deploy folio.sh is with Vercel:
 4. Update `NEXT_PUBLIC_APP_URL` to your production domain
 5. Deploy! 🚀
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/folio-sh)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/magic-self)
 
 ### Production Checklist
 
@@ -362,8 +362,8 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 Have questions or suggestions? Reach out!
 
-- **GitHub Issues**: [Open an issue](https://github.com/yourusername/folio-sh/issues)
-- **Discussions**: [Join the conversation](https://github.com/yourusername/folio-sh/discussions)
+- **GitHub Issues**: [Open an issue](https://github.com/yourusername/magic-self/issues)
+- **Discussions**: [Join the conversation](https://github.com/yourusername/magic-self/discussions)
 - **Twitter/X**: [@yourhandle](https://twitter.com/yourhandle)
 
 ---
@@ -372,6 +372,6 @@ Have questions or suggestions? Reach out!
 
 Made with care by developers, for developers
 
-[Back to Top](#folioش)
+[Back to Top](#readme)
 
 </div>

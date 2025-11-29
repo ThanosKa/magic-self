@@ -63,8 +63,8 @@ export async function ensureUsername(userId: string): Promise<string> {
     return created;
   }
 
-  // Final fallback if all attempts failed
   const fallback = `user-${nanoid(10)}`.toLowerCase();
   await createUsernameLookup({ userId, username: fallback });
   return fallback;
 }
+

@@ -46,7 +46,6 @@ export async function GET(
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        {/* Top bar */}
         <div
           style={{
             display: "flex",
@@ -76,7 +75,6 @@ export async function GET(
           )}
         </div>
 
-        {/* Main content */}
         <div
           style={{
             display: "flex",
@@ -107,7 +105,6 @@ export async function GET(
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div
           style={{
             display: "flex",

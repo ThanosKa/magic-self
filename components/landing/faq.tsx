@@ -38,7 +38,7 @@ const faqs = [
   {
     question: "Can I use my own domain?",
     answer:
-      "Currently, we provide a free subdomain (e.g., yourname.resumebuilder.com). Custom domain support is on our roadmap.",
+      "Currently, we provide a free subdomain (e.g., yourname.magic-self.dev). Custom domain support is on our roadmap.",
   },
 ];
 

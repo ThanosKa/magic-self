@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * SEO Validation Script for folio.sh
+ * SEO Validation Script for magic-self.dev
  *
  * This script checks:
  * - Metadata tags (title, description, Open Graph, Twitter Cards)
@@ -60,7 +60,6 @@ async function checkRobotsTxt() {
 
     const content = await response.text();
 
-    // Check for essential directives
     const checks = [
       { test: /User-Agent:/i.test(content), msg: "User-agent directive found" },
       { test: content.includes("Sitemap:"), msg: "Sitemap directive found" },
@@ -99,7 +98,6 @@ async function checkSitemap() {
 
     const content = await response.text();
 
-    // Check for XML structure
     const checks = [
       { test: content.includes("<?xml"), msg: "Valid XML declaration" },
       { test: content.includes("<urlset"), msg: "URLset element found" },
@@ -119,7 +117,6 @@ async function checkSitemap() {
       }
     });
 
-    // Count URLs
     const urlCount = (content.match(/<loc>/g) || []).length;
     log.info(`Total URLs in sitemap: ${urlCount}`);
 
@@ -147,7 +144,6 @@ async function checkHomepageMetadata() {
 
     const html = await response.text();
 
-    // Essential metadata checks
     const checks = [
       {
         test: /<title>(.+?)<\/title>/.test(html),
@@ -169,7 +165,6 @@ async function checkHomepageMetadata() {
         extract: /<link rel="canonical" href="(.+?)"/,
       },
 
-      // Open Graph
       { test: /<meta property="og:title"/.test(html), msg: "OG title present" },
       {
         test: /<meta property="og:description"/.test(html),
@@ -183,7 +178,6 @@ async function checkHomepageMetadata() {
       { test: /<meta property="og:url"/.test(html), msg: "OG URL present" },
       { test: /<meta property="og:type"/.test(html), msg: "OG type present" },
 
-      // Twitter Cards
       {
         test: /<meta name="twitter:card"/.test(html),
         msg: "Twitter card present",
@@ -197,7 +191,6 @@ async function checkHomepageMetadata() {
         msg: "Twitter description present",
       },
 
-      // Structured Data
       {
         test: /<script type="application\/ld\+json">/.test(html),
         msg: "JSON-LD structured data present",
@@ -220,7 +213,6 @@ async function checkHomepageMetadata() {
       }
     });
 
-    // Check title length
     const titleMatch = html.match(/<title>(.+?)<\/title>/);
     if (titleMatch) {
       const titleLength = titleMatch[1].length;
@@ -231,7 +223,6 @@ async function checkHomepageMetadata() {
       }
     }
 
-    // Check description length
     const descMatch = html.match(/<meta name="description" content="(.+?)"/);
     if (descMatch) {
       const descLength = descMatch[1].length;
@@ -242,7 +233,6 @@ async function checkHomepageMetadata() {
       }
     }
 
-    // Validate JSON-LD
     const jsonLdMatch = html.match(
       /<script type="application\/ld\+json">(.+?)<\/script>/s
     );
@@ -251,7 +241,6 @@ async function checkHomepageMetadata() {
         const jsonLd = JSON.parse(jsonLdMatch[1]);
         log.success(`Valid JSON-LD schema: ${jsonLd["@type"]}`);
 
-        // Check for Organization schema
         if (jsonLd["@type"] === "Organization") {
           const orgChecks = [
             { test: jsonLd.name, msg: "Organization name" },
@@ -354,7 +343,7 @@ async function checkConfig() {
 async function main() {
   console.log(`
 ╔═══════════════════════════════════════════╗
-║   folio.sh SEO Validation Checker        ║
+║   magic-self.dev SEO Validation Checker        ║
 ║   Testing URL: ${BASE_URL.padEnd(26)}║
 ╚═══════════════════════════════════════════╝
   `);
@@ -370,7 +359,6 @@ async function main() {
     config: await checkConfig(),
   };
 
-  // Summary
   log.header("📊 Summary");
 
   const passed = Object.values(results).filter(Boolean).length;

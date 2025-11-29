@@ -18,10 +18,8 @@ Directly calls the function with mock inputs and asserts the exact output—fast
 **Code example**
 
 ```js
-// utils/math.js
 export const add = (a, b) => a + b;
 
-// __tests__/math.test.js
 import { add } from "../utils/math";
 
 test("adds two numbers", () => {
@@ -43,7 +41,6 @@ Simulates user actions on the rendered component and checks visible behavior—m
 **Code example**
 
 ```jsx
-// components/Counter.jsx
 import { useState } from "react";
 
 export default function Counter() {
@@ -56,7 +53,6 @@ export default function Counter() {
   );
 }
 
-// __tests__/Counter.test.jsx
 import { render, screen, fireEvent } from "@testing-library/react";
 import Counter from "../components/Counter";
 
@@ -81,7 +77,6 @@ Sets up MSW server to intercept requests and return predefined responses—reali
 **Code example**
 
 ```jsx
-// components/UserData.jsx
 import { useEffect, useState } from "react";
 
 export default function UserData() {
@@ -94,10 +89,9 @@ export default function UserData() {
   return <div data-testid="user">{user?.name || "Loading..."}</div>;
 }
 
-// __tests__/UserData.test.jsx
 import { render, screen, waitFor } from "@testing-library/react";
 import { setupServer } from "msw/node";
-import { handlers } from "../mocks/handlers"; // MSW handlers
+import { handlers } from "../mocks/handlers";
 import UserData from "../components/UserData";
 
 const server = setupServer(...handlers);
@@ -115,7 +109,6 @@ test("displays mocked user data", async () => {
 ```
 
 ```js
-// mocks/handlers.js (MSW setup)
 import { rest } from "msw";
 
 export const handlers = [

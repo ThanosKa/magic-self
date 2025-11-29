@@ -23,7 +23,6 @@ export function useFileUpload(options?: UseFileUploadOptions) {
 
   const upload = useCallback(
     async (file: File): Promise<UploadResult> => {
-      // Validate file type
       if (
         !ALLOWED_FILE_TYPES.includes(
           file.type as (typeof ALLOWED_FILE_TYPES)[number]
@@ -35,7 +34,6 @@ export function useFileUpload(options?: UseFileUploadOptions) {
         return { success: false, error };
       }
 
-      // Validate file size
       if (file.size > MAX_FILE_SIZE) {
         const error = "File size must be less than 10MB";
         toast.error(error);

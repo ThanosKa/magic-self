@@ -16,7 +16,6 @@ export async function scrapePdfContent(pdfUrl: string): Promise<string> {
 
     logger.debug({ byteLength: uint8Array.length }, "PDF fetched successfully");
 
-    // Use pdf-ts to extract text
     const text = await pdfToText(uint8Array);
 
     logger.info(

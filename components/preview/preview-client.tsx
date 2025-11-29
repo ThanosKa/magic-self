@@ -28,7 +28,6 @@ import {
   StatusLabel,
 } from "@/components/ui/shadcn-io/status";
 
-// Lazy load heavy resume components
 const EditResume = lazy(() =>
   import("@/components/resume/edit-resume").then((mod) => ({
     default: mod.EditResume,
@@ -40,7 +39,6 @@ const FullResume = lazy(() =>
   }))
 );
 
-// Lazy load dialogs (only needed on user interaction)
 const UsernameEditDialog = lazy(() =>
   import("@/components/preview/username-edit-dialog").then((mod) => ({
     default: mod.UsernameEditDialog,
@@ -151,7 +149,6 @@ export function PreviewClient({
 
       setStatus(newStatus);
 
-      // Enhanced toasts
       if (newStatus === "live") {
         const siteUrl = `${SITE_CONFIG.url}/${username}`;
         toast.success(
@@ -201,11 +198,9 @@ export function PreviewClient({
 
   return (
     <div className="flex min-h-screen flex-col bg-muted/30">
-      {/* Control Bar */}
       <div className="border-b bg-background">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between gap-4">
-            {/* URL Bar */}
             <div className="flex items-center gap-2 rounded-md border bg-muted/30 px-3 py-2 text-sm text-muted-foreground">
               <button
                 onClick={() => {
@@ -229,7 +224,6 @@ export function PreviewClient({
               </Suspense>
             </div>
 
-            {/* Right Actions */}
             <div className="flex items-center gap-4">
               <Status
                 status={status === "live" ? "online" : "degraded"}
@@ -277,7 +271,6 @@ export function PreviewClient({
         </div>
       </div>
 
-      {/* Mode Toggle Toolbar */}
       <div className="border-b bg-background/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-2">
           <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-lg w-fit">
@@ -303,7 +296,6 @@ export function PreviewClient({
         </div>
       </div>
 
-      {/* Main Content */}
       <main className="flex-1 py-12">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 flex items-center justify-between">

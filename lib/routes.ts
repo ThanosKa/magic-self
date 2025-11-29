@@ -18,12 +18,10 @@ export function isApiRoute(pathname: string): boolean {
 }
 
 export function isPublicRoute(pathname: string): boolean {
-  // Check if it's a public route or a dynamic username route
   if (PUBLIC_ROUTES.includes(pathname as (typeof PUBLIC_ROUTES)[number])) {
     return true;
   }
 
-  // Dynamic username routes are public (e.g., /john-doe)
   const segments = pathname.split("/").filter(Boolean);
   if (segments.length === 1 && !isProtectedRoute(`/${segments[0]}`)) {
     return true;

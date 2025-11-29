@@ -4,13 +4,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { ResumeData } from "@/lib/schemas/resume";
 
-// Query keys
 export const queryKeys = {
   resume: ["resume"] as const,
   username: ["username"] as const,
 };
 
-// Types
 interface Resume {
   id: string;
   user_id: string;
@@ -33,7 +31,6 @@ interface CheckUsernameResult {
   reason?: string;
 }
 
-// API functions
 async function fetchResume(): Promise<{ resume: Resume | null }> {
   const res = await fetch("/api/resume");
   if (!res.ok) throw new Error("Failed to fetch resume");
@@ -110,15 +107,13 @@ async function uploadFile(
   return res.json();
 }
 
-// Hook
 export function useUserActions() {
   const queryClient = useQueryClient();
 
-  // Queries
   const resumeQuery = useQuery({
     queryKey: queryKeys.resume,
     queryFn: fetchResume,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 
   const usernameQuery = useQuery({
@@ -127,7 +122,6 @@ export function useUserActions() {
     staleTime: 1000 * 60 * 5,
   });
 
-  // Mutations
   const saveResumeDataMutation = useMutation({
     mutationFn: updateResumeData,
     onSuccess: () => {
@@ -187,14 +181,12 @@ export function useUserActions() {
   });
 
   return {
-    // Queries
     resumeQuery,
     usernameQuery,
     resume: resumeQuery.data?.resume,
     username: usernameQuery.data?.username,
     isLoading: resumeQuery.isLoading || usernameQuery.isLoading,
 
-    // Mutations
     saveResumeData: saveResumeDataMutation.mutate,
     isSavingResume: saveResumeDataMutation.isPending,
 

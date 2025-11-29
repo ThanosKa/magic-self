@@ -26,9 +26,7 @@ export function GitHubStars() {
         if (isMounted && typeof data.stargazers_count === "number") {
           setStars(data.stargazers_count);
         }
-      } catch {
-        // ignore fetch errors to keep the badge non-blocking
-      }
+      } catch {}
     };
     fetchStars();
     return () => {

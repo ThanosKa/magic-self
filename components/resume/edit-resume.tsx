@@ -203,7 +203,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
 
   return (
     <div className="space-y-6">
-      {/* Header Section */}
       <Card>
         <CardHeader>
           <CardTitle>Basic Info</CardTitle>
@@ -241,7 +240,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
         </CardContent>
       </Card>
 
-      {/* Contacts Section */}
       <Card>
         <CardHeader>
           <CardTitle>Contact Info</CardTitle>
@@ -308,7 +306,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
         </CardContent>
       </Card>
 
-      {/* Skills Section */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle>Skills</CardTitle>
@@ -345,7 +342,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
         </CardContent>
       </Card>
 
-      {/* Summary Section */}
       <Card>
         <CardHeader>
           <CardTitle>Summary</CardTitle>
@@ -360,7 +356,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
         </CardContent>
       </Card>
 
-      {/* Work Experience Section */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle>Work Experience</CardTitle>
@@ -521,7 +516,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
         </CardContent>
       </Card>
 
-      {/* Projects Section */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle>Projects</CardTitle>
@@ -617,7 +611,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                       />
                     </div>
 
-                    {/* Technologies */}
                     <div className="space-y-2">
                       <Label>Technologies</Label>
                       <div className="flex flex-wrap gap-2">
@@ -658,7 +651,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                       </div>
                     </div>
 
-                    {/* Highlights */}
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <Label>Highlights / Achievements</Label>
@@ -711,7 +703,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
         </CardContent>
       </Card>
 
-      {/* Education Section */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle>Education</CardTitle>

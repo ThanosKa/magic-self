@@ -37,7 +37,6 @@ export async function PUT(request: NextRequest) {
 
     const body = await request.json();
 
-    // Validate resume data if provided
     if (body.resumeData) {
       const result = ResumeDataSchema.safeParse(body.resumeData);
       if (!result.success) {
@@ -74,7 +73,6 @@ export async function PATCH(request: NextRequest) {
 
     const body = await request.json();
 
-    // Only allow status updates via PATCH
     if (body.status && !["draft", "live"].includes(body.status)) {
       return NextResponse.json({ error: "Invalid status" }, { status: 400 });
     }

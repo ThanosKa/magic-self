@@ -1,5 +1,5 @@
 ---
-description: Code style and conventions for folio.sh
+description: Code style and conventions for magic-self.dev
 globs: *.ts,*.tsx
 alwaysApply: false
 ---

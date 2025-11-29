@@ -10,20 +10,15 @@ import { onCLS, onINP, onLCP, onFCP, onTTFB } from "web-vitals";
 export function WebVitals() {
   useEffect(() => {
     const sendToAnalytics = (metric: any) => {
-      // In development, log to console
-      if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === "development") {
         console.log(`[Web Vitals] ${metric.name}:`, {
           value: metric.value,
           rating: metric.rating,
           id: metric.id,
         });
       }
-
-      // In production, you could send to your analytics endpoint
-      // Example: navigator.sendBeacon('/api/vitals', JSON.stringify(metric));
     };
 
-    // Track Core Web Vitals
     onLCP(sendToAnalytics);
     onCLS(sendToAnalytics);
     onINP(sendToAnalytics);

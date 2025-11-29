@@ -26,15 +26,12 @@ export function slugify(text: string): string {
 
 export function getYear(dateString: string): string {
   if (!dateString) return "";
-  // Handle YYYY format
   if (/^\d{4}$/.test(dateString)) return dateString;
-  // Handle YYYY-MM-DD format
   return new Date(dateString).getFullYear().toString();
 }
 
 export function getShortMonth(dateString: string): string {
   if (!dateString) return "";
-  // Handle YYYY format - no month available
   if (/^\d{4}$/.test(dateString)) return "";
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", { month: "short" });

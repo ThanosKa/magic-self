@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a report to help us improve folio.sh
+about: Create a report to help us improve magic-self.dev
 title: "[BUG] "
 labels: "bug"
 assignees: ""
@@ -32,7 +32,7 @@ If applicable, add screenshots to help explain your problem.
 - OS: [e.g., macOS, Windows, Linux]
 - Browser: [e.g., Chrome 120, Safari 17]
 - Node.js version: [e.g., 18.17.0]
-- folio.sh version/commit: [e.g., v1.0.0 or commit hash]
+- magic-self.dev version/commit: [e.g., v1.0.0 or commit hash]
 
 ## Additional Context
 

@@ -21,7 +21,7 @@ describe("absoluteUrl", () => {
   const originalEnv = process.env.NEXT_PUBLIC_APP_URL;
 
   beforeEach(() => {
-    process.env.NEXT_PUBLIC_APP_URL = "https://folio.sh";
+    process.env.NEXT_PUBLIC_APP_URL = "https://magic-self.dev";
   });
 
   afterEach(() => {
@@ -29,7 +29,7 @@ describe("absoluteUrl", () => {
   });
 
   it("uses NEXT_PUBLIC_APP_URL when provided", () => {
-    expect(absoluteUrl("/test")).toBe("https://folio.sh/test");
+    expect(absoluteUrl("/test")).toBe("https://magic-self.dev/test");
   });
 
   it("falls back to localhost when env var missing", () => {

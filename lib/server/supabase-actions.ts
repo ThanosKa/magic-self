@@ -9,7 +9,6 @@ import { logger } from "@/lib/server/logger";
 
 const supabase = createAdminClient();
 
-// Resume operations
 export async function getResume(userId: string) {
   const { data, error } = await supabase
     .from("resumes")
@@ -42,7 +41,6 @@ export async function storeResume(
 
   if (data.status !== undefined) updateData.status = data.status;
 
-  // Handle explicit null to clear fields
   if (data.fileName !== undefined) {
     updateData.file_name = data.fileName === null ? null : data.fileName;
   }
@@ -95,7 +93,6 @@ export async function storeResume(
   return created;
 }
 
-// Username operations
 export async function createUsernameLookup({
   userId,
   username,
@@ -147,7 +144,6 @@ export async function checkUsernameAvailability(username: string): Promise<{
 }> {
   const normalized = username.toLowerCase().trim();
 
-  // Check length
   if (normalized.length < MIN_USERNAME_LENGTH) {
     return {
       available: false,
@@ -162,7 +158,6 @@ export async function checkUsernameAvailability(username: string): Promise<{
     };
   }
 
-  // Check format (alphanumeric and hyphens only)
   if (!/^[a-z0-9-]+$/.test(normalized)) {
     return {
       available: false,
@@ -170,7 +165,6 @@ export async function checkUsernameAvailability(username: string): Promise<{
     };
   }
 
-  // Check forbidden usernames
   if (
     FORBIDDEN_USERNAMES.includes(
       normalized as (typeof FORBIDDEN_USERNAMES)[number]
@@ -179,7 +173,6 @@ export async function checkUsernameAvailability(username: string): Promise<{
     return { available: false, reason: "This username is reserved" };
   }
 
-  // Check if already taken
   const { data } = await supabase
     .from("usernames")
     .select("id")

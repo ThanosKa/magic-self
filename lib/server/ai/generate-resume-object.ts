@@ -296,7 +296,7 @@ export async function generateResumeObject(
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
           "HTTP-Referer": appUrl,
-          "X-Title": "folio.sh Resume Parser",
+          "X-Title": "magic-self.dev Resume Parser",
         },
         body: JSON.stringify({
           model: "openai/gpt-4o-mini",

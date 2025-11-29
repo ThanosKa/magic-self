@@ -4,7 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Clean White Theme */
   --background: 0 0% 100%;
   --foreground: 240 10% 3.9%;
   --card: 0 0% 100%;
@@ -171,7 +170,6 @@
   animation-delay: 1000ms;
 }
 
-/* Print styles for resume */
 @media print {
   body {
     background: white !important;

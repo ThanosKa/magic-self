@@ -59,7 +59,6 @@ export type WorkExperience = z.infer<typeof WorkExperienceSchema>;
 export type Education = z.infer<typeof EducationSchema>;
 export type Project = z.infer<typeof ProjectSchema>;
 
-// Full resume type including database fields
 export interface Resume {
   id: string;
   userId: string;
@@ -73,7 +72,6 @@ export interface Resume {
   updatedAt: string;
 }
 
-// Validation helper
 export function validateResumeData(
   data: unknown
 ): { success: true; data: ResumeData } | { success: false; error: z.ZodError } {

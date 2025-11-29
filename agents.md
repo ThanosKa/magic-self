@@ -4,7 +4,7 @@ Instructions below are for AI assistants. Keep responses concise and aligned wit
 
 ## Project Overview
 
-folio.sh - A web application that converts PDF resumes into beautiful personal websites.
+magic-self.dev - A web application that converts PDF resumes into beautiful personal websites.
 
 **Core Flow:** Upload PDF → Extract Text → AI Transformation → Live Website
 

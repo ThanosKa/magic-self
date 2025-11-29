@@ -42,7 +42,7 @@ export function Hero1({
     },
   },
   image = {
-    src: "/professional-resume-website-preview-with-clean-des.jpg", // Using existing image as placeholder
+    src: "/professional-resume-website-preview-with-clean-des.jpg",
     alt: "Hero section demo image showing interface components",
   },
 }: Hero1Props) {

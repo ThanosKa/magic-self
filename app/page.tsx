@@ -5,7 +5,6 @@ import { ScrollHeader } from "@/components/landing/scroll-header";
 import { Hero1 } from "@/components/landing/hero";
 import { SITE_CONFIG } from "@/lib/config";
 
-// Lazy load below-the-fold sections
 const Features = dynamic(
   () =>
     import("@/components/landing/features").then((mod) => ({
@@ -54,7 +53,7 @@ export const metadata: Metadata = {
         url: SITE_CONFIG.ogImage,
         width: 1200,
         height: 630,
-        alt: "folio.sh - LinkedIn to Website in one click",
+        alt: "magic-self.dev - LinkedIn to Website in one click",
       },
     ],
   },

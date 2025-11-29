@@ -111,7 +111,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          {/* Preload critical assets */}
           <link
             rel="preload"
             href="/professional-resume-website-preview-with-clean-des.jpg"
@@ -119,7 +118,6 @@ export default function RootLayout({
             type="image/jpeg"
           />
 
-          {/* JSON-LD Structured Data */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{

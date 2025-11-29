@@ -7,7 +7,6 @@ import { useFileUpload } from "@/hooks/use-file-upload";
 import { toast } from "sonner";
 import { Sparkles, Info, X, FileText, File as FileIcon } from "lucide-react";
 
-// Lazy load Dialog components
 const Dialog = lazy(() =>
   import("@/components/ui/dialog").then((mod) => ({ default: mod.Dialog }))
 );
@@ -77,18 +76,16 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
 
   const handleGenerateWebsite = () => {
     if (!canGenerate) return;
-    // Redirect to render page which will handle generation
     router.push("/render");
   };
 
   const handleRemoveFile = async (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent triggering the box click
+    e.stopPropagation();
     try {
       const response = await fetch("/api/clear-file", { method: "POST" });
       if (!response.ok) {
         throw new Error("Failed to clear file");
       }
-      // Clear from UI
       setResume((prev) =>
         prev
           ? {

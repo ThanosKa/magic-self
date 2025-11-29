@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Validate file type
     if (
       !ALLOWED_FILE_TYPES.includes(
         file.type as (typeof ALLOWED_FILE_TYPES)[number]
@@ -39,7 +38,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       logger.warn({ userId: user.id, fileSize: file.size }, "File too large");
       return NextResponse.json(
@@ -50,7 +48,6 @@ export async function POST(request: NextRequest) {
 
     const supabase = createAdminClient();
 
-    // Delete old file if exists
     const existingResume = await getResume(user.id);
     if (existingResume?.file_url) {
       const oldPath = existingResume.file_url.split("/").slice(-2).join("/");
@@ -58,7 +55,6 @@ export async function POST(request: NextRequest) {
       logger.debug({ userId: user.id, oldPath }, "Old file deleted");
     }
 
-    // Upload new file
     const timestamp = Date.now();
     const fileName = `${user.id}/${timestamp}-${file.name}`;
     const arrayBuffer = await file.arrayBuffer();
@@ -82,7 +78,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get public URL
     const { data: urlData } = supabase.storage
       .from("resumes")
       .getPublicUrl(fileName);
@@ -91,8 +86,8 @@ export async function POST(request: NextRequest) {
       fileName: file.name,
       fileUrl: urlData.publicUrl,
       fileSize: file.size,
-      fileContent: null, // Clear previous content so it gets re-extracted
-      resumeData: null, // Clear previous resume data so it gets re-generated
+      fileContent: null,
+      resumeData: null,
     });
 
     logger.info({ userId: user.id, fileName: file.name }, "Upload successful");

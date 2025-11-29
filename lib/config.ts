@@ -16,7 +16,7 @@ export const FORBIDDEN_USERNAMES = [
   "dashboard",
 ] as const;
 
-export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+export const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 export const ALLOWED_FILE_TYPES = ["application/pdf"] as const;
 
@@ -30,11 +30,11 @@ export type ResumeStatus = (typeof RESUME_STATUS)[keyof typeof RESUME_STATUS];
 export const SITE_CONFIG = {
   name: process.env.NEXT_PUBLIC_APP_URL
     ? new URL(process.env.NEXT_PUBLIC_APP_URL).hostname
-    : "folio.sh",
+    : "magic-self.dev",
   domain: process.env.NEXT_PUBLIC_APP_URL
     ? new URL(process.env.NEXT_PUBLIC_APP_URL).hostname
-    : "folio.sh",
-  url: process.env.NEXT_PUBLIC_APP_URL || "https://folio.sh",
+    : "magic-self.dev",
+  url: process.env.NEXT_PUBLIC_APP_URL || "https://magic-self.dev",
   description:
     "Turn your resume into a beautiful personal website instantly with AI-powered resume extraction",
   tagline: "LinkedIn → Website in one click",
@@ -51,7 +51,7 @@ export const SITE_CONFIG = {
     "professional website builder",
   ],
   ogImage: "/og-image.png",
-  twitterHandle: "@foliosh",
-  githubUrl: "https://github.com/yourusername/folio",
-  referralParam: "folioref",
+  twitterHandle: "@magic_self",
+  githubUrl: "https://github.com/yourusername/magic-self",
+  referralParam: "magicselfref",
 } as const;

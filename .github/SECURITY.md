@@ -9,7 +9,7 @@
 
 ## Reporting a Vulnerability
 
-We take security seriously at folio.sh. If you discover a security vulnerability, please report it responsibly.
+We take security seriously at magic-self.dev. If you discover a security vulnerability, please report it responsibly.
 
 ### How to Report
 
@@ -32,7 +32,7 @@ We take security seriously at folio.sh. If you discover a security vulnerability
 
 The following are in scope:
 
-- folio.sh web application
+- magic-self.dev web application
 - API endpoints
 - Authentication flows
 - Data handling and storage
@@ -46,7 +46,7 @@ The following are out of scope:
 
 ## Security Best Practices
 
-When contributing to folio.sh, please follow these security practices:
+When contributing to magic-self.dev, please follow these security practices:
 
 1. **Never commit secrets** - Use environment variables
 2. **Validate all inputs** - Use Zod schemas for validation
@@ -55,4 +55,4 @@ When contributing to folio.sh, please follow these security practices:
 5. **Sanitize outputs** - Prevent XSS attacks
 6. **Keep dependencies updated** - Regularly update npm packages
 
-Thank you for helping keep folio.sh secure!
+Thank you for helping keep magic-self.dev secure!

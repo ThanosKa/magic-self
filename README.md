@@ -1,15 +1,10 @@
 <div align="center">
-  
-# magic-self.dev
+
+<h1>Magic Self</h1>
 
 ### Transform your resume PDF into a beautiful personal website instantly
 
 A professional portfolio site featuring AI-powered resume extraction and custom usernames — perfect for developers, designers, and job seekers.
-
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![GitHub Stars](https://img.shields.io/github/stars/ThanosKa/magic-self?style=social)](https://github.com/ThanosKa/magic-self/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/ThanosKa/magic-self?style=social)](https://github.com/ThanosKa/magic-self/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/ThanosKa/magic-self)](https://github.com/ThanosKa/magic-self/issues)
 
 **Tech Stack:**
 
@@ -20,13 +15,16 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.com/)
-[![OpenAI](https://img.shields.io/badge/OpenAI_GPT--4o-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![Grok](https://img.shields.io/badge/Grok_4.1_Fast-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.ai/)
 [![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)](https://tanstack.com/query)
 [![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white)](https://zod.dev/)
 
 [Demo](https://magic-self.dev) · [Report Bug](https://github.com/ThanosKa/magic-self/issues) · [Request Feature](https://github.com/ThanosKa/magic-self/issues)
 
+[![X Follow](https://img.shields.io/badge/Follow-@KazakisThanos-1DA1F2?style=for-the-badge&logo=x&logoColor=white)](https://x.com/KazakisThanos)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/thaka)
+
+![Magic Self Landing Page](./public/landing.png)
 
 </div>
 
@@ -38,6 +36,7 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 - [Features](#features)
 - [Demo](#demo)
 - [Built With](#built-with)
+- [How It Works](#how-it-works)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -69,7 +68,7 @@ Perfect for:
 ## Features
 
 - **One-Click Conversion** — Upload a PDF and get a live website in seconds
-- **AI-Powered Extraction** — Automatically structures your resume data using GPT-4o
+- **AI-Powered Extraction** — Automatically structures your resume data using Grok 4.1 Fast
 - **Custom URLs** — Claim your own `magic-self.dev/yourname` subdomain
 - **Live Editing** — Edit your information directly in the preview
 - **Dual Themes** — Beautiful dark and light modes with JetBrains Mono font
@@ -105,6 +104,19 @@ Visit [magic-self.dev](https://magic-self.dev) to try it out!
 
 ---
 
+## How It Works
+
+For developers interested in the technical architecture, see the comprehensive guide:
+
+[HOW_IT_WORKS.md](./HOW_IT_WORKS.md) - Complete technical documentation covering:
+- System architecture and database schema
+- File storage and bucket structure
+- Draft vs live states
+- Complete flow from upload to published website
+- API routes and code examples
+
+---
+
 ## Built With
 
 **Core Stack:**
@@ -117,7 +129,7 @@ Visit [magic-self.dev](https://magic-self.dev) to try it out!
 | [shadcn/ui](https://ui.shadcn.com/)           | Accessible component library          |
 | [Supabase](https://supabase.com/)             | PostgreSQL database & storage         |
 | [Clerk](https://clerk.com/)                   | Authentication                        |
-| [OpenRouter](https://openrouter.ai/)          | AI-powered resume parsing (GPT-4o)    |
+| [OpenRouter](https://openrouter.ai/)          | AI-powered resume parsing (Grok 4.1)  |
 | [TanStack Query](https://tanstack.com/query)  | Server state management               |
 | [Zod](https://zod.dev/)                       | Schema validation                     |
 
@@ -362,9 +374,8 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## Acknowledgments
 
-- Inspired by [self.so](https://self.so)
 - UI components from [shadcn/ui](https://ui.shadcn.com)
-- AI powered by [OpenRouter](https://openrouter.ai)
+- AI powered by [OpenRouter](https://openrouter.ai) with [Grok](https://x.ai/)
 - Font: [JetBrains Mono](https://www.jetbrains.com/lp/mono/)
 
 ---

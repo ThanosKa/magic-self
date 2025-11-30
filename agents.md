@@ -65,7 +65,7 @@ magic-self.dev - A web application that converts PDF resumes into beautiful pers
 - **Database:** Supabase (PostgreSQL)
 - **Storage:** Supabase Storage
 - **Auth:** Clerk
-- **AI:** OpenRouter (via AI SDK)
+- **AI:** OpenRouter with Grok 4.1 Fast (via AI SDK)
 - **Styling:** Tailwind CSS v4 + shadcn/ui
 - **State:** TanStack React Query
 - **Validation:** Zod

@@ -8,7 +8,7 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 
 **Tech Stack:**
 
-[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -23,6 +23,8 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 
 [![X Follow](https://img.shields.io/badge/Follow-@KazakisThanos-1DA1F2?style=for-the-badge&logo=x&logoColor=white)](https://x.com/KazakisThanos)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/thaka)
+
+## 📸 Screenshot
 
 ![Magic Self Landing Page](./public/landing.png)
 
@@ -74,9 +76,9 @@ Perfect for:
 - **Dual Themes** — Beautiful dark and light modes with JetBrains Mono font
 - **Fully Responsive** — Works perfectly on mobile, tablet, and desktop
 - **Secure & Private** — Your data is encrypted and stored securely
-- **100% Open Source** — MIT licensed and self-hostable
+- **100% Open Source** — Apache 2.0 licensed and self-hostable
 
-### 🚀 SEO & Performance
+### SEO & Performance
 
 - **Search Engine Optimized** — Comprehensive metadata with Open Graph and Twitter Cards
 - **Structured Data** — JSON-LD schema markup for better search visibility
@@ -86,7 +88,7 @@ Perfect for:
 - **Canonical URLs** — Prevent duplicate content issues
 - **Rich Social Previews** — Beautiful link previews on Twitter, LinkedIn, and Facebook
 
-### ✨ Enhanced UX
+### Enhanced UX
 
 - **Smooth Navigation** — Scroll-to-section links in the navbar (Features, FAQ)
 - **Animated Components** — Polished micro-interactions and shimmer effects
@@ -100,6 +102,7 @@ Perfect for:
 Visit [magic-self.dev](https://magic-self.dev) to try it out!
 
 **Quick preview of the upload flow:**
+
 1. Upload PDF → 2. AI extracts data → 3. Edit & customize → 4. Publish live
 
 ---
@@ -109,6 +112,7 @@ Visit [magic-self.dev](https://magic-self.dev) to try it out!
 For developers interested in the technical architecture, see the comprehensive guide:
 
 [HOW_IT_WORKS.md](./HOW_IT_WORKS.md) - Complete technical documentation covering:
+
 - System architecture and database schema
 - File storage and bucket structure
 - Draft vs live states
@@ -123,7 +127,7 @@ For developers interested in the technical architecture, see the comprehensive g
 
 | Technology                                    | Purpose                               |
 | --------------------------------------------- | ------------------------------------- |
-| [Next.js 15](https://nextjs.org/)             | React framework with App Router + SEO |
+| [Next.js 16](https://nextjs.org/)             | React framework with App Router + SEO |
 | [TypeScript](https://www.typescriptlang.org/) | Type-safe development                 |
 | [Tailwind CSS v4](https://tailwindcss.com/)   | Utility-first styling                 |
 | [shadcn/ui](https://ui.shadcn.com/)           | Accessible component library          |
@@ -213,6 +217,7 @@ SUPABASE_DB_URL=postgresql://postgres:[password]@[host]:[port]/postgres
 # Clerk
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
 CLERK_SECRET_KEY=sk_test_xxxxx
+CLERK_WEBHOOK_SIGNING_SECRET=whsec_xxxxx
 
 # OpenRouter
 OPENROUTER_API_KEY=sk-or-v1-xxxxx
@@ -273,6 +278,34 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) to see your app!
 
+### Clerk Webhooks Setup
+
+Magic Self uses Clerk webhooks to automatically clean up user data when accounts are deleted. This ensures GDPR compliance and prevents orphaned data.
+
+1. **Create a webhook endpoint in Clerk**
+   - Go to your [Clerk Dashboard](https://dashboard.clerk.com)
+   - Navigate to **Webhooks** in the sidebar
+   - Click **Add Endpoint**
+   - Set the URL to: `https://yourdomain.com/api/webhooks/clerk`
+   - Select the **user.deleted** event
+   - Copy the **Signing Secret**
+
+2. **Configure the webhook secret**
+
+   Add the signing secret to your environment variables:
+
+   ```env
+   CLERK_WEBHOOK_SIGNING_SECRET=whsec_your_signing_secret_here
+   ```
+
+3. **Webhook functionality**
+
+   The webhook handler (`app/api/webhooks/clerk/route.ts`) automatically:
+   - Verifies webhook signatures for security
+   - Processes `user.deleted` events
+   - Cleans up all user data from Supabase (resumes, usernames, uploaded files)
+   - Logs all operations for debugging
+
 ---
 
 ## Usage
@@ -300,30 +333,118 @@ Open [http://localhost:3000](http://localhost:3000) to see your app!
 ```
 magic-self/
 ├── app/
-│   ├── [username]/          # Public profile pages
-│   ├── api/                 # API routes
-│   │   ├── resume/          # Resume CRUD operations
-│   │   ├── upload/          # PDF upload handler
-│   │   └── username/        # Username management
-│   ├── dashboard/           # User dashboard
-│   ├── pdf/                 # PDF text extraction
-│   ├── preview/             # Resume preview & editor
-│   ├── sign-in/             # Clerk authentication
-│   ├── sign-up/             # Clerk registration
-│   └── upload/              # Resume upload page
+│   ├── [username]/              # Public profile pages
+│   │   ├── og/                  # Open Graph image generation
+│   │   └── page.tsx             # Dynamic user profile pages
+│   ├── api/                     # API routes
+│   │   ├── clear-file/          # File cleanup operations
+│   │   ├── generate/            # Resume generation endpoint
+│   │   ├── resume/              # Resume CRUD operations
+│   │   ├── upload/              # PDF upload handler
+│   │   ├── user/
+│   │   │   ├── delete/          # User account deletion
+│   │   │   └── user-image/      # User profile images
+│   │   ├── username/            # Username management
+│   │   │   ├── check/           # Username availability checking
+│   │   │   └── route.ts         # Username operations
+│   │   └── webhooks/
+│   │       └── clerk/           # Clerk webhook handlers
+│   ├── preview/                 # Resume preview & editor
+│   ├── render/                  # Static site rendering
+│   ├── sign-up/                 # Clerk registration
+│   │   └── [[...sign-up]]/      # Catch-all sign-up routes
+│   └── upload/                  # Resume upload page
 ├── components/
-│   ├── preview/             # Preview-specific components
-│   ├── resume/              # Resume display components
-│   ├── ui/                  # shadcn/ui components
-│   └── upload/              # Upload flow components
+│   ├── landing/                 # Landing page components
+│   │   ├── faq.tsx             # FAQ section
+│   │   ├── features.tsx        # Features showcase
+│   │   ├── footer.tsx          # Site footer
+│   │   ├── hero.tsx            # Hero section
+│   │   ├── scroll-header.tsx   # Animated header
+│   │   └── top-menu.tsx        # Navigation menu
+│   ├── preview/                 # Preview-specific components
+│   │   ├── discard-dialog.tsx  # Discard changes dialog
+│   │   ├── preview-client.tsx  # Client-side preview
+│   │   └── username-edit-dialog.tsx # Username editing
+│   ├── resume/                  # Resume display components
+│   │   ├── add-skill-dialog.tsx # Add skills dialog
+│   │   ├── edit-resume.tsx     # Resume editor
+│   │   ├── full-resume.tsx     # Complete resume view
+│   │   ├── resume-education.tsx # Education section
+│   │   ├── resume-header.tsx   # Resume header
+│   │   ├── resume-projects.tsx # Projects section
+│   │   ├── resume-section.tsx  # Generic section
+│   │   ├── resume-skills.tsx   # Skills section
+│   │   ├── resume-summary.tsx  # Summary section
+│   │   └── resume-work-experience.tsx # Work experience
+│   ├── ui/                      # shadcn/ui components
+│   │   ├── accordion.tsx        # Accordion component
+│   │   ├── alert-dialog.tsx     # Alert dialog
+│   │   ├── alert.tsx            # Alert component
+│   │   ├── animated-badge.tsx   # Animated badges
+│   │   ├── animated-shiny-text.tsx # Animated text
+│   │   ├── avatar.tsx           # Avatar component
+│   │   ├── badge.tsx            # Badge component
+│   │   ├── blur-fade.tsx        # Blur fade effect
+│   │   ├── border-beam.tsx      # Border beam effect
+│   │   ├── button.tsx           # Button component
+│   │   ├── card.tsx             # Card component
+│   │   ├── collapsible.tsx      # Collapsible component
+│   │   ├── dialog.tsx           # Dialog component
+│   │   ├── drawer.tsx           # Drawer component
+│   │   ├── input.tsx            # Input component
+│   │   ├── label.tsx            # Label component
+│   │   ├── progress.tsx         # Progress component
+│   │   ├── separator.tsx        # Separator component
+│   │   ├── spinner.tsx          # Loading spinner
+│   │   ├── status.tsx           # Status component
+│   │   └── textarea.tsx         # Textarea component
+│   ├── upload/                  # Upload flow components
+│   │   ├── file-upload.tsx      # File upload component
+│   │   └── workspace-client.tsx # Client-side workspace
+│   ├── providers/               # Context providers
+│   │   └── react-query-provider.tsx # React Query provider
+│   ├── shared/                  # Shared components
+│   │   └── github-stars.tsx     # GitHub stars component
+│   ├── logo.tsx                 # Logo component
+│   ├── logos/                   # Logo assets
+│   ├── theme-provider.tsx       # Theme provider
+│   └── web-vitals.tsx           # Web vitals tracking
 ├── lib/
-│   ├── schemas/             # Zod validation schemas
-│   ├── server/              # Server-only utilities
-│   │   └── ai/              # AI generation logic
-│   └── supabase/            # Supabase client configs
-├── hooks/                   # Custom React hooks
-├── scripts/                 # Database migration scripts
-└── public/                  # Static assets
+│   ├── schemas/                 # Zod validation schemas
+│   │   └── resume.ts            # Resume data schema
+│   ├── server/                  # Server-only utilities
+│   │   ├── ai/                  # AI generation logic
+│   │   │   └── generate-resume-object.ts # Resume parsing
+│   │   ├── logger.ts            # Logging utility
+│   │   ├── scrape-pdf-content.ts # PDF text extraction
+│   │   ├── supabase-actions.ts  # Database operations
+│   │   └── username.ts          # Username utilities
+│   ├── supabase/                # Supabase configurations
+│   │   ├── admin.ts             # Admin client
+│   │   ├── client.ts            # Client configuration
+│   │   └── server.ts            # Server configuration
+│   ├── utils/                   # Utility functions
+│   │   └── scroll.ts            # Scroll utilities
+│   ├── config.ts                # Application configuration
+│   ├── routes.ts                # Route definitions
+│   └── utils.ts                 # General utilities
+├── hooks/                       # Custom React hooks
+│   ├── use-file-upload.ts       # File upload hook
+│   ├── use-mobile.ts            # Mobile detection hook
+│   └── use-user-actions.ts      # User action hooks
+├── scripts/                     # Database migration scripts
+│   ├── 001_create_resumes_table.sql
+│   ├── 002_create_usernames_table.sql
+│   └── check-seo.mjs            # SEO validation script
+├── public/                      # Static assets
+│   ├── landing.png              # Landing page screenshot
+│   ├── linkedin.png             # LinkedIn logo
+│   ├── oauth-logo.png           # OAuth logo
+│   ├── oauth-logo.svg           # OAuth logo SVG
+│   └── scr2.png                 # Additional screenshot
+└── styles/
+    └── globals.css              # Global styles
 ```
 
 ---
@@ -338,7 +459,7 @@ The easiest way to deploy magic-self.dev is with Vercel:
 2. Import the project in [Vercel](https://vercel.com)
 3. Add all environment variables from `.env.local`
 4. Update `NEXT_PUBLIC_APP_URL` to your production domain
-5. Deploy! 🚀
+5. Deploy!
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ThanosKa/magic-self)
 
@@ -368,7 +489,7 @@ Please read [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details on our code o
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+Distributed under the Apache License 2.0. See [LICENSE](LICENSE) for more information.
 
 ---
 

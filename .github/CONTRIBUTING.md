@@ -36,8 +36,8 @@ Feature suggestions are tracked as GitHub issues. Create an issue using our [fea
 
 # Clone your fork
 
-git clone https://github.com/YOUR_USERNAME/magic-self.git
-cd folio-sh
+git clone https://github.com/ThanosKa/magic-self.git
+cd magic-self
 
 # Install dependencies
 

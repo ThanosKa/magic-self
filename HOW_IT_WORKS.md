@@ -18,7 +18,7 @@ A technical deep-dive into Magic Self's architecture, covering the complete flow
 
 Magic Self uses a modern serverless architecture built on:
 
-- **Frontend**: Next.js 15 App Router (React 19, TypeScript)
+- **Frontend**: Next.js 16 App Router (React 19, TypeScript)
 - **Authentication**: Clerk
 - **Database**: Supabase PostgreSQL
 - **File Storage**: Supabase Storage (S3-compatible)

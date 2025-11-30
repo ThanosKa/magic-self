@@ -14,7 +14,7 @@ We take security seriously at magic-self.dev. If you discover a security vulnera
 ### How to Report
 
 1. **Do NOT** create a public GitHub issue for security vulnerabilities
-2. Email us at [INSERT SECURITY EMAIL]
+2. Email us at kazakis.th@gmail.com
 3. Include as much detail as possible:
    - Description of the vulnerability
    - Steps to reproduce

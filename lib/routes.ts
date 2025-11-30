@@ -1,6 +1,6 @@
 export const PROTECTED_ROUTES = ["/upload", "/settings"] as const;
 
-export const PUBLIC_ROUTES = ["/", "/sign-in", "/sign-up"] as const;
+export const PUBLIC_ROUTES = ["/", "/sign-up"] as const;
 
 export const API_ROUTES = [
   "/api/upload",

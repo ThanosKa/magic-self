@@ -27,7 +27,6 @@ describe("route helpers", () => {
   describe("isPublicRoute", () => {
     it("returns true for static public paths", () => {
       expect(isPublicRoute("/")).toBe(true);
-      expect(isPublicRoute("/sign-in")).toBe(true);
     });
 
     it("returns true for dynamic username routes", () => {

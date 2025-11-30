@@ -39,8 +39,8 @@ export function Hero1({
     },
   },
   image = {
-    src: "/professional-resume-website-preview-with-clean-des.jpg",
-    alt: "Hero section demo image showing interface components",
+    src: "/scr2.png",
+    alt: "Resume website preview showing professional portfolio interface",
   },
 }: Hero1Props) {
   return (

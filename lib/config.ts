@@ -9,7 +9,6 @@ export const FORBIDDEN_USERNAMES = [
   "admin",
   "auth",
   "login",
-  "sign-in",
   "sign-up",
   "settings",
   "profile",

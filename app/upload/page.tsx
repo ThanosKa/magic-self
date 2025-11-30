@@ -7,7 +7,7 @@ export default async function UploadPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");
+    redirect("/sign-up");
   }
 
   const [resume, username] = await Promise.all([

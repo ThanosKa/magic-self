@@ -21,7 +21,7 @@ export default async function RenderPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");
+    redirect("/sign-up");
   }
 
   return (

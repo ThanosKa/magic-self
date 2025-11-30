@@ -37,7 +37,7 @@ export function TopMenu({ userId }: TopMenuProps) {
             className="flex items-center gap-2 font-bold tracking-tight cursor-pointer"
           >
             <Logo className="h-8 w-8" />
-            {SITE_CONFIG.name}
+            Magic Self
           </a>
         </div>
 
@@ -64,14 +64,9 @@ export function TopMenu({ userId }: TopMenuProps) {
           {userId ? (
             <UserButton afterSignOutUrl="/" />
           ) : (
-            <>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/sign-in">Sign in</Link>
-              </Button>
-              <Button size="sm" asChild>
-                <Link href="/sign-up">Sign up</Link>
-              </Button>
-            </>
+            <Button size="sm" asChild>
+              <Link href="/sign-up">Sign up</Link>
+            </Button>
           )}
         </div>
       </div>

@@ -94,13 +94,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <link
-            rel="preload"
-            href="/professional-resume-website-preview-with-clean-des.jpg"
-            as="image"
-            type="image/jpeg"
-          />
-
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{

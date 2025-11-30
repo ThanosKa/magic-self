@@ -7,7 +7,7 @@ export default async function PreviewPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");
+    redirect("/sign-up");
   }
 
   const [resume, username, user] = await Promise.all([

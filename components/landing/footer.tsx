@@ -20,7 +20,7 @@ export function Footer() {
           <div className="flex items-center gap-4">
             <Logo className="h-10 w-10" />
             <span className="text-xl font-semibold text-foreground">
-              magic-self
+              Magic Self
             </span>
           </div>
 

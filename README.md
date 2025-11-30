@@ -24,9 +24,13 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 [![X Follow](https://img.shields.io/badge/Follow-@KazakisThanos-1DA1F2?style=for-the-badge&logo=x&logoColor=white)](https://x.com/KazakisThanos)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/thaka)
 
+<div align="left">
+
 ## 📸 Screenshot
 
 ![Magic Self Landing Page](./public/landing.png)
+
+</div>
 
 </div>
 
@@ -73,7 +77,7 @@ Perfect for:
 - **AI-Powered Extraction** — Automatically structures your resume data using Grok 4.1 Fast
 - **Custom URLs** — Claim your own `magic-self.dev/yourname` subdomain
 - **Live Editing** — Edit your information directly in the preview
-- **Dual Themes** — Beautiful dark and light modes with JetBrains Mono font
+- **Light Theme** — Clean and modern design
 - **Fully Responsive** — Works perfectly on mobile, tablet, and desktop
 - **Secure & Private** — Your data is encrypted and stored securely
 - **100% Open Source** — Apache 2.0 licensed and self-hostable
@@ -497,7 +501,6 @@ Distributed under the Apache License 2.0. See [LICENSE](LICENSE) for more inform
 
 - UI components from [shadcn/ui](https://ui.shadcn.com)
 - AI powered by [OpenRouter](https://openrouter.ai) with [Grok](https://x.ai/)
-- Font: [JetBrains Mono](https://www.jetbrains.com/lp/mono/)
 
 ---
 

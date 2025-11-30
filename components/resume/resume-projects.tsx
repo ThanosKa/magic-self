@@ -39,7 +39,11 @@ export function ResumeProjects({ projects }: ResumeProjectsProps) {
           {project.technologies.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {project.technologies.map((tech) => (
-                <Badge key={tech} variant="secondary" className="text-xs">
+                <Badge
+                  key={tech}
+                  variant="secondary"
+                  className="text-xs print:text-xs bg-[hsl(222.2,47.4%,11.2%,0.8)] text-[hsl(210,40%,98%)] dark:bg-[hsl(210,40%,98%,0.8)] dark:text-[hsl(222.2,47.4%,11.2%)] border-0"
+                >
                   {tech}
                 </Badge>
               ))}
@@ -50,7 +54,6 @@ export function ResumeProjects({ projects }: ResumeProjectsProps) {
             <ul className="space-y-1 text-sm">
               {project.highlights.map((highlight, hIndex) => (
                 <li key={hIndex} className="flex gap-2">
-                  <span className="text-muted-foreground mt-1.5">•</span>
                   <span className="flex-1">{highlight}</span>
                 </li>
               ))}

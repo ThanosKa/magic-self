@@ -5,7 +5,6 @@ import {
   MapPin,
   Mail,
   Phone,
-  Globe,
   Github,
   Linkedin,
   X,
@@ -27,7 +26,6 @@ export function ResumeHeader({ header, profileImageUrl }: ResumeHeaderProps) {
     .toUpperCase();
 
   const socialLinks = [
-    { url: contacts?.website, icon: Globe, label: "Website" },
     { url: contacts?.github, icon: Github, label: "GitHub" },
     { url: contacts?.linkedin, icon: Linkedin, label: "LinkedIn" },
     {

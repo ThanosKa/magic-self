@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const ContactsSchema = z.object({
-  website: z.string().optional(),
   email: z.string().optional(),
   phone: z.string().optional(),
   twitter: z.string().optional(),
@@ -33,6 +32,7 @@ const EducationSchema = z.object({
   degree: z.string().default(""),
   start: z.string().default(""),
   end: z.string().default(""),
+  score: z.string().optional(),
 });
 
 const ProjectSchema = z.object({

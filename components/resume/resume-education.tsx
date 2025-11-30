@@ -15,6 +15,11 @@ export function ResumeEducation({ education }: ResumeEducationProps) {
               <p className="text-sm text-muted-foreground font-medium">
                 {edu.school}
               </p>
+              {edu.score && edu.score.trim() && (
+                <p className="text-sm text-muted-foreground">
+                  {edu.score}
+                </p>
+              )}
             </div>
             {edu.start && edu.end && edu.start.trim() && edu.end.trim() && (
               <span className="text-sm text-muted-foreground whitespace-nowrap">

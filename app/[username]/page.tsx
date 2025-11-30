@@ -102,10 +102,10 @@ export default async function ProfilePage({
     knowsAbout: resumeData.header.skills,
     worksFor: resumeData.workExperience[0]
       ? {
-          "@type": "Organization",
-          name: resumeData.workExperience[0].company,
-          url: resumeData.workExperience[0].link,
-        }
+        "@type": "Organization",
+        name: resumeData.workExperience[0].company,
+        url: resumeData.workExperience[0].link,
+      }
       : undefined,
     alumniOf: resumeData.education.map((edu) => ({
       "@type": "EducationalOrganization",
@@ -117,7 +117,6 @@ export default async function ProfilePage({
       resumeData.header.contacts?.twitter
         ? `https://x.com/${resumeData.header.contacts.twitter.replace("@", "")}`
         : undefined,
-      resumeData.header.contacts?.website,
     ].filter(Boolean),
   };
 

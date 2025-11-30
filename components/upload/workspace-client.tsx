@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { toast } from "sonner";
-import { Sparkles, Info, X, FileText, File as FileIcon } from "lucide-react";
+import { Sparkles, Info, X, FileText, File as FileIcon, Loader2 } from "lucide-react";
 
 const Dialog = lazy(() =>
   import("@/components/ui/dialog").then((mod) => ({ default: mod.Dialog }))
@@ -75,9 +75,11 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
 
   const hasFile = Boolean(resume?.file_name);
   const canGenerate = hasFile && !isUploading;
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleGenerateWebsite = () => {
     if (!canGenerate) return;
+    setIsGenerating(true);
     router.push("/render");
   };
 
@@ -271,11 +273,15 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
         <div className="flex justify-center">
           <Button
             onClick={handleGenerateWebsite}
-            disabled={!canGenerate}
+            disabled={!canGenerate || isGenerating}
             className="h-12 px-8 text-base shadow-lg transition-all hover:scale-105 hover:shadow-xl cursor-pointer disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
             size="lg"
           >
-            <Sparkles className="mr-2 h-5 w-5" />
+            {isGenerating ? (
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            ) : (
+              <Sparkles className="mr-2 h-5 w-5" />
+            )}
             Generate Website
           </Button>
         </div>

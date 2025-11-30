@@ -264,16 +264,6 @@ export function EditResume({ data, onChange }: EditResumeProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="website">Website</Label>
-              <Input
-                id="website"
-                type="url"
-                value={data.header.contacts?.website || ""}
-                onChange={(e) => updateContacts("website", e.target.value)}
-                placeholder="https://yoursite.com"
-              />
-            </div>
-            <div className="space-y-2">
               <Label htmlFor="github">GitHub</Label>
               <Input
                 id="github"
@@ -787,6 +777,16 @@ export function EditResume({ data, onChange }: EditResumeProps) {
                             updateEducation(index, "end", e.target.value)
                           }
                           placeholder="2022"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Score / GPA (Optional)</Label>
+                        <Input
+                          value={edu.score || ""}
+                          onChange={(e) =>
+                            updateEducation(index, "score", e.target.value)
+                          }
+                          placeholder="3.8 GPA, First Class Honours, etc."
                         />
                       </div>
                     </div>

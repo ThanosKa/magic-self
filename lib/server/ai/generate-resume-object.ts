@@ -3,33 +3,28 @@ import { logger } from "@/lib/server/logger";
 
 const SYSTEM_PROMPT = `You are a professional resume parser. Extract structured resume data from the provided text content.
 
+CRITICAL - Extraction Philosophy:
+- EXTRACT existing content from the resume as your PRIMARY task
+- Only GENERATE content when it is genuinely missing from the source
+- Do NOT invent or create information that isn't present
+
 Guidelines:
-- If the resume lacks an 'about' or 'summary' section, generate one based on the person's experience and skills
-- Generate up to 10 skills inferred from work experience and education
+- EXTRACT skills directly from the resume. If no skills are explicitly listed, then infer up to 10 skills from work experience and education
+- If the resume lacks an 'about' or 'summary' section, you may generate one based on the person's actual experience and skills
 - For social media usernames (twitter, github), extract only the username without spaces or @ symbols
-- LinkedIn and website URLs should be complete URLs
+- LinkedIn and GitHub URLs should be complete URLs
+- EXTRACT job location from each position. If not present, OMIT it entirely
+- EXTRACT GPA/score from education if present (e.g., "3.8 GPA", "First Class Honours")
 - IMPORTANT: For dates, use YYYY-MM-DD format when full date is available, YYYY-MM when only month/year, or YYYY when only year
 - DO NOT include explanatory text like "(1 year 2 months)" in dates
 - If a field is not present in the resume, OMIT it entirely rather than using empty strings
 - Education years should be in YYYY format
 - Project dates should be in YYYY-MM format (e.g., "2024-03" for March 2024)
-- If contract type is unclear, default to "Full-time"
-- If location is missing, use "Remote" or extract from context
+- If contract type is unclear, OMIT it entirely
 - Be thorough but concise in descriptions
 - Look for personal projects, side projects, open source contributions, or portfolio items
 - Extract project technologies/tech stack as an array
 - Extract project highlights or key achievements as an array
-
-CRITICAL - Website vs Project Link Distinction:
-- The "website" field in contacts is for the person's PERSONAL website, portfolio, or blog (e.g., "johndoe.com", "portfolio.example.com")
-- Project links in the projects section are for SPECIFIC PROJECT URLs (e.g., a webapp, GitHub repo, demo site)
-- DO NOT put project URLs into the "website" field in contacts
-- ONLY populate "website" if the resume explicitly lists a personal website/portfolio/blog in the contact section
-- When in doubt, leave "website" empty and put the URL in the appropriate project's "link" field instead
-- Examples:
-  * ✓ CORRECT: Resume says "Portfolio: johndoe.com" → put in contacts.website
-  * ✓ CORRECT: Resume says "Personal Project: TodoApp - https://todoapp.com" → put in projects[].link
-  * ✗ WRONG: Taking a project URL and putting it in contacts.website
 - Return ONLY valid JSON matching this structure:
 {
   "header": {
@@ -37,7 +32,6 @@ CRITICAL - Website vs Project Link Distinction:
     "shortAbout": "string",
     "location": "string (optional)",
     "contacts": {
-      "website": "string (optional)",
       "email": "string (optional)",
       "phone": "string (optional)",
       "twitter": "string (optional)",
@@ -50,8 +44,8 @@ CRITICAL - Website vs Project Link Distinction:
   "workExperience": [{
     "company": "string",
     "link": "string (optional)",
-    "location": "string",
-    "contract": "string",
+    "location": "string (optional)",
+    "contract": "string (optional)",
     "title": "string",
     "start": "YYYY-MM-DD",
     "end": "YYYY-MM-DD or null",
@@ -69,7 +63,8 @@ CRITICAL - Website vs Project Link Distinction:
     "school": "string",
     "degree": "string",
     "start": "YYYY",
-    "end": "YYYY"
+    "end": "YYYY",
+    "score": "string (optional)"
   }]
 }`;
 
@@ -222,7 +217,7 @@ function normalizeDate(value: unknown): string {
       const day = String(date.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
     }
-  } catch {}
+  } catch { }
 
   return "";
 }
@@ -263,10 +258,6 @@ function sanitizeResumeData(data: unknown): unknown {
         const github = normalizeUrl(contacts.github, "github");
         if (github) cleanedContacts.github = github;
       }
-      if (contacts?.website && typeof contacts.website === "string") {
-        const website = normalizeUrl(contacts.website, "website");
-        if (website) cleanedContacts.website = website;
-      }
 
       return {
         name: typeof header.name === "string" ? header.name.trim() : "",
@@ -280,9 +271,9 @@ function sanitizeResumeData(data: unknown): unknown {
           Object.keys(cleanedContacts).length > 0 ? cleanedContacts : undefined,
         skills: Array.isArray(header.skills)
           ? header.skills
-              .filter((s): s is string => typeof s === "string")
-              .map((s) => s.trim())
-              .filter((s) => s.length > 0)
+            .filter((s): s is string => typeof s === "string")
+            .map((s) => s.trim())
+            .filter((s) => s.length > 0)
           : [],
       };
     })(),
@@ -300,11 +291,11 @@ function sanitizeResumeData(data: unknown): unknown {
             typeof job.link === "string"
               ? normalizeUrl(job.link, "company")
               : "",
-          location: typeof job.location === "string" ? job.location.trim() : "",
+          location: typeof job.location === "string" ? job.location.trim() : undefined,
           contract:
             typeof job.contract === "string"
               ? job.contract.trim()
-              : "Full-time",
+              : undefined,
           title: typeof job.title === "string" ? job.title.trim() : "",
           start: normalizeDate(job.start),
           end: normalizeDate(job.end) || null,
@@ -331,14 +322,14 @@ function sanitizeResumeData(data: unknown): unknown {
               : "",
           technologies: Array.isArray(project.technologies)
             ? project.technologies
-                .filter((t): t is string => typeof t === "string")
-                .map((t) => t.trim())
+              .filter((t): t is string => typeof t === "string")
+              .map((t) => t.trim())
             : [],
           date: typeof project.date === "string" ? project.date.trim() : "",
           highlights: Array.isArray(project.highlights)
             ? project.highlights
-                .filter((h): h is string => typeof h === "string")
-                .map((h) => h.trim())
+              .filter((h): h is string => typeof h === "string")
+              .map((h) => h.trim())
             : [],
         }));
     })(),

@@ -10,8 +10,10 @@ const isProtectedRoute = createRouteMatcher([
   "/api/generate(.*)",
 ]);
 
+const isPublicRoute = createRouteMatcher(["/api/webhooks/(.*)"]);
+
 const handler = clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
+  if (!isPublicRoute(req) && isProtectedRoute(req)) {
     await auth.protect();
   }
 });

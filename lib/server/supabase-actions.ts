@@ -208,3 +208,99 @@ export async function updateUsername(userId: string, newUsername: string) {
 
   return createUsernameLookup({ userId, username: newUsername });
 }
+
+export async function deleteUserFile(fileUrl: string | null) {
+  if (!fileUrl) return;
+
+  try {
+    // Extract the file path from the public URL
+    // URL format: https://<project-id>.supabase.co/storage/v1/object/public/resumes/<user_id>/<filename>
+    const url = new URL(fileUrl);
+    const pathParts = url.pathname.split("/");
+    const bucketIndex = pathParts.indexOf("resumes");
+
+    if (bucketIndex === -1) {
+      logger.warn({ fileUrl }, "Invalid file URL format");
+      return;
+    }
+
+    // Get the path after 'resumes/' bucket name
+    const filePath = pathParts.slice(bucketIndex + 1).join("/");
+
+    const { error } = await supabase.storage
+      .from("resumes")
+      .remove([filePath]);
+
+    if (error) {
+      logger.error(
+        { fileUrl, error: error.message },
+        "Failed to delete file from storage"
+      );
+      throw error;
+    }
+
+    logger.debug({ filePath }, "File deleted from storage");
+  } catch (error) {
+    logger.error(
+      {
+        fileUrl,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      "Error deleting file from storage"
+    );
+    throw error;
+  }
+}
+
+export async function deleteUserData(userId: string) {
+  try {
+    logger.info({ userId }, "Starting user data deletion");
+
+    // Get the resume to find the file URL before deletion
+    const resume = await getResume(userId);
+
+    // Delete the uploaded file from storage if it exists
+    if (resume?.file_url) {
+      await deleteUserFile(resume.file_url);
+    }
+
+    // Delete from resumes table
+    const { error: resumeError } = await supabase
+      .from("resumes")
+      .delete()
+      .eq("user_id", userId);
+
+    if (resumeError) {
+      logger.error(
+        { userId, error: resumeError.message },
+        "Failed to delete resume data"
+      );
+      throw resumeError;
+    }
+
+    // Delete from usernames table
+    const { error: usernameError } = await supabase
+      .from("usernames")
+      .delete()
+      .eq("user_id", userId);
+
+    if (usernameError) {
+      logger.error(
+        { userId, error: usernameError.message },
+        "Failed to delete username data"
+      );
+      throw usernameError;
+    }
+
+    logger.info({ userId }, "User data deleted successfully");
+  } catch (error) {
+    logger.error(
+      {
+        userId,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      "Failed to delete user data"
+    );
+    throw error;
+  }
+}

@@ -7,11 +7,26 @@
 A professional portfolio site featuring AI-powered resume extraction and custom usernames — perfect for developers, designers, and job seekers.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8)](https://tailwindcss.com/)
+[![GitHub Stars](https://img.shields.io/github/stars/ThanosKa/magic-self?style=social)](https://github.com/ThanosKa/magic-self/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/ThanosKa/magic-self?style=social)](https://github.com/ThanosKa/magic-self/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/ThanosKa/magic-self)](https://github.com/ThanosKa/magic-self/issues)
+
+**Tech Stack:**
+
+[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI_GPT--4o-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)](https://tanstack.com/query)
+[![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white)](https://zod.dev/)
 
 [Demo](https://magic-self.dev) · [Report Bug](https://github.com/ThanosKa/magic-self/issues) · [Request Feature](https://github.com/ThanosKa/magic-self/issues)
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/thaka)
 
 </div>
 
@@ -83,14 +98,10 @@ Perfect for:
 
 ## Demo
 
-> Add a screenshot or GIF of your application here
-
-```bash
-# Quick preview of the upload flow
-1. Upload PDF → 2. AI extracts data → 3. Edit & customize → 4. Publish live
-```
-
 Visit [magic-self.dev](https://magic-self.dev) to try it out!
+
+**Quick preview of the upload flow:**
+1. Upload PDF → 2. AI extracts data → 3. Edit & customize → 4. Publish live
 
 ---
 
@@ -355,6 +366,34 @@ Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 - UI components from [shadcn/ui](https://ui.shadcn.com)
 - AI powered by [OpenRouter](https://openrouter.ai)
 - Font: [JetBrains Mono](https://www.jetbrains.com/lp/mono/)
+
+---
+
+## Star History
+
+<div align="center">
+
+[![Star History Chart](https://api.star-history.com/svg?repos=ThanosKa/magic-self&type=Date)](https://star-history.com/#ThanosKa/magic-self&Date)
+
+</div>
+
+---
+
+## Contributors
+
+Thanks to all the contributors who have helped make this project better!
+
+<a href="https://github.com/ThanosKa/magic-self/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ThanosKa/magic-self" />
+</a>
+
+---
+
+## Support
+
+If you find this project helpful, consider supporting its development:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/thaka)
 
 ---
 

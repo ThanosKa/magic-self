@@ -19,6 +19,17 @@ Guidelines:
 - Look for personal projects, side projects, open source contributions, or portfolio items
 - Extract project technologies/tech stack as an array
 - Extract project highlights or key achievements as an array
+
+CRITICAL - Website vs Project Link Distinction:
+- The "website" field in contacts is for the person's PERSONAL website, portfolio, or blog (e.g., "johndoe.com", "portfolio.example.com")
+- Project links in the projects section are for SPECIFIC PROJECT URLs (e.g., a webapp, GitHub repo, demo site)
+- DO NOT put project URLs into the "website" field in contacts
+- ONLY populate "website" if the resume explicitly lists a personal website/portfolio/blog in the contact section
+- When in doubt, leave "website" empty and put the URL in the appropriate project's "link" field instead
+- Examples:
+  * ✓ CORRECT: Resume says "Portfolio: johndoe.com" → put in contacts.website
+  * ✓ CORRECT: Resume says "Personal Project: TodoApp - https://todoapp.com" → put in projects[].link
+  * ✗ WRONG: Taking a project URL and putting it in contacts.website
 - Return ONLY valid JSON matching this structure:
 {
   "header": {

@@ -160,18 +160,30 @@ function normalizeUrl(
 
 function parseMonthName(monthStr: string): string | null {
   const months: Record<string, string> = {
-    jan: "01", january: "01",
-    feb: "02", february: "02",
-    mar: "03", march: "03",
-    apr: "04", april: "04",
+    jan: "01",
+    january: "01",
+    feb: "02",
+    february: "02",
+    mar: "03",
+    march: "03",
+    apr: "04",
+    april: "04",
     may: "05",
-    jun: "06", june: "06",
-    jul: "07", july: "07",
-    aug: "08", august: "08",
-    sep: "09", sept: "09", september: "09",
-    oct: "10", october: "10",
-    nov: "11", november: "11",
-    dec: "12", december: "12",
+    jun: "06",
+    june: "06",
+    jul: "07",
+    july: "07",
+    aug: "08",
+    august: "08",
+    sep: "09",
+    sept: "09",
+    september: "09",
+    oct: "10",
+    october: "10",
+    nov: "11",
+    november: "11",
+    dec: "12",
+    december: "12",
   };
   return months[monthStr.toLowerCase()] || null;
 }
@@ -180,19 +192,14 @@ function normalizeDate(value: unknown): string {
   if (!value || typeof value !== "string") return "";
   const trimmed = value.trim().toLowerCase();
 
-  // Handle empty, present, or current
   if (!trimmed || trimmed === "present" || trimmed === "current") return "";
 
-  // Remove any explanatory text in parentheses (e.g., "(1 year 2 months)")
   const cleaned = trimmed.replace(/\s*\([^)]*\)\s*/g, "").trim();
 
-  // If already in ISO format (YYYY-MM-DD or YYYY-MM or YYYY), return as is
   if (/^\d{4}(-\d{2})?(-\d{2})?$/.test(cleaned)) {
     return cleaned;
   }
 
-  // Try to parse natural language dates like "October 2024" or "Jan 2023"
-  // Pattern: "Month Year" or "Month, Year"
   const naturalDateMatch = cleaned.match(/^([a-z]+),?\s+(\d{4})$/);
   if (naturalDateMatch) {
     const [, monthStr, year] = naturalDateMatch;
@@ -202,13 +209,11 @@ function normalizeDate(value: unknown): string {
     }
   }
 
-  // Try to parse "YYYY" only
   const yearOnlyMatch = cleaned.match(/^(\d{4})$/);
   if (yearOnlyMatch) {
     return yearOnlyMatch[1];
   }
 
-  // If we can't parse it, try creating a Date object and extract components
   try {
     const date = new Date(cleaned);
     if (!isNaN(date.getTime())) {
@@ -217,11 +222,8 @@ function normalizeDate(value: unknown): string {
       const day = String(date.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
     }
-  } catch {
-    // Ignore parsing errors
-  }
+  } catch {}
 
-  // Return empty string if we can't parse the date
   return "";
 }
 
@@ -239,18 +241,19 @@ function sanitizeResumeData(data: unknown): unknown {
 
       const cleanedContacts: Record<string, string> = {};
 
-      // Only add contact fields if they have valid, non-empty values
       if (contacts?.email && typeof contacts.email === "string") {
         const email = contacts.email.trim();
         if (email && email.includes("@")) cleanedContacts.email = email;
       }
       if (contacts?.phone && typeof contacts.phone === "string") {
         const phone = contacts.phone.trim();
-        if (phone && phone !== "null" && phone !== "undefined") cleanedContacts.phone = phone;
+        if (phone && phone !== "null" && phone !== "undefined")
+          cleanedContacts.phone = phone;
       }
       if (contacts?.twitter && typeof contacts.twitter === "string") {
         const twitter = contacts.twitter.trim();
-        if (twitter && twitter !== "null" && twitter !== "undefined") cleanedContacts.twitter = twitter;
+        if (twitter && twitter !== "null" && twitter !== "undefined")
+          cleanedContacts.twitter = twitter;
       }
       if (contacts?.linkedin && typeof contacts.linkedin === "string") {
         const linkedin = normalizeUrl(contacts.linkedin, "linkedin");
@@ -270,13 +273,16 @@ function sanitizeResumeData(data: unknown): unknown {
         shortAbout:
           typeof header.shortAbout === "string" ? header.shortAbout.trim() : "",
         location:
-          typeof header.location === "string" && header.location.trim() ? header.location.trim() : undefined,
-        contacts: Object.keys(cleanedContacts).length > 0 ? cleanedContacts : undefined,
+          typeof header.location === "string" && header.location.trim()
+            ? header.location.trim()
+            : undefined,
+        contacts:
+          Object.keys(cleanedContacts).length > 0 ? cleanedContacts : undefined,
         skills: Array.isArray(header.skills)
           ? header.skills
-            .filter((s): s is string => typeof s === "string")
-            .map((s) => s.trim())
-            .filter(s => s.length > 0)
+              .filter((s): s is string => typeof s === "string")
+              .map((s) => s.trim())
+              .filter((s) => s.length > 0)
           : [],
       };
     })(),
@@ -325,14 +331,14 @@ function sanitizeResumeData(data: unknown): unknown {
               : "",
           technologies: Array.isArray(project.technologies)
             ? project.technologies
-              .filter((t): t is string => typeof t === "string")
-              .map((t) => t.trim())
+                .filter((t): t is string => typeof t === "string")
+                .map((t) => t.trim())
             : [],
           date: typeof project.date === "string" ? project.date.trim() : "",
           highlights: Array.isArray(project.highlights)
             ? project.highlights
-              .filter((h): h is string => typeof h === "string")
-              .map((h) => h.trim())
+                .filter((h): h is string => typeof h === "string")
+                .map((h) => h.trim())
             : [],
         }));
     })(),

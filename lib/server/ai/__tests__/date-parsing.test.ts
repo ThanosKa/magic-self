@@ -1,10 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-// Note: We're testing the internal utility functions that would be exported
-// For full integration tests with the OpenRouter API, those would require mocking
-
 describe("Date parsing for LinkedIn-style PDFs", () => {
-    // Helper function to simulate the normalizeDate function from generate-resume-object.ts
     function parseMonthName(monthStr: string): string | null {
         const months: Record<string, string> = {
             jan: "01", january: "01",
@@ -27,19 +23,14 @@ describe("Date parsing for LinkedIn-style PDFs", () => {
         if (!value || typeof value !== "string") return "";
         const trimmed = value.trim().toLowerCase();
 
-        // Handle empty, present, or current
         if (!trimmed || trimmed === "present" || trimmed === "current") return "";
 
-        // Remove any explanatory text in parentheses (e.g., "(1 year 2 months)")
         const cleaned = trimmed.replace(/\s*\([^)]*\)\s*/g, "").trim();
 
-        // If already in ISO format (YYYY-MM-DD or YYYY-MM or YYYY), return as is
         if (/^\d{4}(-\d{2})?(-\d{2})?$/.test(cleaned)) {
             return cleaned;
         }
 
-        // Try to parse natural language dates like "October 2024" or "Jan 2023"
-        // Pattern: "Month Year" or "Month, Year"
         const naturalDateMatch = cleaned.match(/^([a-z]+),?\s+(\d{4})$/);
         if (naturalDateMatch) {
             const [, monthStr, year] = naturalDateMatch;
@@ -49,13 +40,11 @@ describe("Date parsing for LinkedIn-style PDFs", () => {
             }
         }
 
-        // Try to parse "YYYY" only
         const yearOnlyMatch = cleaned.match(/^(\d{4})$/);
         if (yearOnlyMatch) {
             return yearOnlyMatch[1];
         }
 
-        // If we can't parse it, try creating a Date object and extract components
         try {
             const date = new Date(cleaned);
             if (!isNaN(date.getTime())) {
@@ -65,10 +54,8 @@ describe("Date parsing for LinkedIn-style PDFs", () => {
                 return `${year}-${month}-${day}`;
             }
         } catch {
-            // Ignore parsing errors
         }
 
-        // Return empty string if we can't parse the date
         return "";
     }
 
@@ -128,7 +115,6 @@ describe("Contact field sanitization", () => {
             github: "johndoe",
         };
 
-        // Simulating the sanitization logic
         const cleanedContacts: Record<string, string> = {};
 
         if (contacts.email && contacts.email !== "null" && contacts.email !== "undefined") {
@@ -183,7 +169,6 @@ describe("Contact field sanitization", () => {
 
 describe("LinkedIn PDF simulation", () => {
     it("should handle a typical LinkedIn work experience entry", () => {
-        // Simulating data extracted from LinkedIn PDF
         const linkedInData = {
             company: "Tech Corp",
             title: "Senior Software Engineer",

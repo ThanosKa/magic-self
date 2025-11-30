@@ -50,7 +50,6 @@ export function useFileUpload(options?: UseFileUploadOptions) {
 
         const xhr = new XMLHttpRequest();
 
-        // Track upload progress
         xhr.upload.addEventListener("progress", (e) => {
           if (e.lengthComputable) {
             const percentComplete = Math.round((e.loaded / e.total) * 100);
@@ -58,7 +57,6 @@ export function useFileUpload(options?: UseFileUploadOptions) {
           }
         });
 
-        // Handle completion
         xhr.addEventListener("load", () => {
           setIsUploading(false);
 
@@ -98,7 +96,6 @@ export function useFileUpload(options?: UseFileUploadOptions) {
           }
         });
 
-        // Handle errors
         xhr.addEventListener("error", () => {
           setIsUploading(false);
           const message = "Network error occurred";
@@ -107,7 +104,6 @@ export function useFileUpload(options?: UseFileUploadOptions) {
           resolve({ success: false, error: message });
         });
 
-        // Handle abort
         xhr.addEventListener("abort", () => {
           setIsUploading(false);
           const message = "Upload cancelled";
@@ -116,7 +112,6 @@ export function useFileUpload(options?: UseFileUploadOptions) {
           resolve({ success: false, error: message });
         });
 
-        // Send the request
         xhr.open("POST", "/api/upload");
         xhr.send(formData);
       });

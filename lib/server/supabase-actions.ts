@@ -213,8 +213,6 @@ export async function deleteUserFile(fileUrl: string | null) {
   if (!fileUrl) return;
 
   try {
-    // Extract the file path from the public URL
-    // URL format: https://<project-id>.supabase.co/storage/v1/object/public/resumes/<user_id>/<filename>
     const url = new URL(fileUrl);
     const pathParts = url.pathname.split("/");
     const bucketIndex = pathParts.indexOf("resumes");
@@ -224,7 +222,6 @@ export async function deleteUserFile(fileUrl: string | null) {
       return;
     }
 
-    // Get the path after 'resumes/' bucket name
     const filePath = pathParts.slice(bucketIndex + 1).join("/");
 
     const { error } = await supabase.storage
@@ -256,15 +253,12 @@ export async function deleteUserData(userId: string) {
   try {
     logger.info({ userId }, "Starting user data deletion");
 
-    // Get the resume to find the file URL before deletion
     const resume = await getResume(userId);
 
-    // Delete the uploaded file from storage if it exists
     if (resume?.file_url) {
       await deleteUserFile(resume.file_url);
     }
 
-    // Delete from resumes table
     const { error: resumeError } = await supabase
       .from("resumes")
       .delete()
@@ -278,7 +272,6 @@ export async function deleteUserData(userId: string) {
       throw resumeError;
     }
 
-    // Delete from usernames table
     const { error: usernameError } = await supabase
       .from("usernames")
       .delete()

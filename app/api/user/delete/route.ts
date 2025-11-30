@@ -13,10 +13,8 @@ export async function DELETE() {
 
         logger.info({ userId }, "Initiating user account deletion");
 
-        // Delete all user data from database and storage
         await deleteUserData(userId);
 
-        // Delete the Clerk user account
         const client = await clerkClient();
         await client.users.deleteUser(userId);
 

@@ -17,7 +17,6 @@ export function Footer() {
     >
       <div className="container mx-auto max-w-6xl px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
-          {/* Left section - Logo and App Name */}
           <div className="flex items-center gap-4">
             <Logo className="h-10 w-10" />
             <span className="text-xl font-semibold text-foreground">
@@ -25,7 +24,6 @@ export function Footer() {
             </span>
           </div>
 
-          {/* Center section - Social Links */}
           <div className="flex items-center justify-center gap-8">
             <Link
               href="https://github.com/ThanosKa/magic-self"
@@ -52,7 +50,6 @@ export function Footer() {
             </Link>
           </div>
 
-          {/* Right section - Copyright */}
           <div className="flex flex-col items-end gap-2">
             <p className="text-sm text-muted-foreground">
               © 2025 Thaka. All rights reserved.

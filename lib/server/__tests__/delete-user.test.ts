@@ -1,13 +1,11 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-// Mock config - must be before imports
 vi.mock("@/lib/config", () => ({
     FORBIDDEN_USERNAMES: ["admin", "api"],
     MAX_USERNAME_LENGTH: 30,
     MIN_USERNAME_LENGTH: 3,
 }));
 
-// Mock logger
 vi.mock("@/lib/server/logger", () => ({
     logger: {
         info: vi.fn(),
@@ -17,7 +15,6 @@ vi.mock("@/lib/server/logger", () => ({
     },
 }));
 
-// Create mock Supabase client using vi.hoisted
 const mockSupabaseClient = vi.hoisted(() => ({
     from: vi.fn(),
     storage: {
@@ -25,12 +22,10 @@ const mockSupabaseClient = vi.hoisted(() => ({
     },
 }));
 
-// Mock the Supabase admin client  
 vi.mock("@/lib/supabase/admin", () => ({
     createAdminClient: vi.fn(() => mockSupabaseClient),
 }));
 
-// Import after mocks are set up
 import { deleteUserData, deleteUserFile } from "../supabase-actions";
 
 describe("deleteUserFile", () => {
@@ -75,7 +70,6 @@ describe("deleteUserFile", () => {
 
         const fileUrl = "https://example.com/invalid/path";
 
-        // Should not throw, just warn and return
         await deleteUserFile(fileUrl);
 
         expect(mockSupabaseClient.storage.from).not.toHaveBeenCalled();
@@ -129,14 +123,11 @@ describe("deleteUserData", () => {
 
         await deleteUserData(userId);
 
-        // Verify resume deletion
         expect(mockSupabaseClient.from).toHaveBeenCalledWith("resumes");
         expect(mockDelete).toHaveBeenCalled();
 
-        // Verify username deletion
         expect(mockSupabaseClient.from).toHaveBeenCalledWith("usernames");
 
-        // Verify file deletion
         expect(mockSupabaseClient.storage.from).toHaveBeenCalledWith("resumes");
         expect(mockRemove).toHaveBeenCalledWith(["user123/resume.pdf"]);
     });
@@ -176,10 +167,8 @@ describe("deleteUserData", () => {
 
         await deleteUserData(userId);
 
-        // Verify storage was not called since no file exists
         expect(mockSupabaseClient.storage.from).not.toHaveBeenCalled();
 
-        // Verify deletions still happened
         expect(mockDelete).toHaveBeenCalled();
     });
 

@@ -31,9 +31,10 @@ const getHostname = (url: string | undefined): string => {
   if (!url) return "magic-self.dev";
 
   try {
-    const normalizedUrl = url.startsWith("http://") || url.startsWith("https://")
-      ? url
-      : `https://${url}`;
+    const normalizedUrl =
+      url.startsWith("http://") || url.startsWith("https://")
+        ? url
+        : `https://${url}`;
 
     return new URL(normalizedUrl).hostname;
   } catch {
@@ -42,14 +43,13 @@ const getHostname = (url: string | undefined): string => {
 };
 
 const getUrl = (url: string | undefined): string => {
-  // Try provided URL first
   if (url && url.trim() !== "") {
     try {
-      const normalizedUrl = url.startsWith("http://") || url.startsWith("https://")
-        ? url
-        : `https://${url}`;
+      const normalizedUrl =
+        url.startsWith("http://") || url.startsWith("https://")
+          ? url
+          : `https://${url}`;
 
-      // Validate URL by attempting to construct it
       new URL(normalizedUrl);
       return normalizedUrl;
     } catch {
@@ -57,12 +57,10 @@ const getUrl = (url: string | undefined): string => {
     }
   }
 
-  // Try Vercel automatic URL (available in preview/production deployments)
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
 
-  // Final fallback
   return "https://magic-self.dev";
 };
 
@@ -84,6 +82,26 @@ export const SITE_CONFIG = {
     "online resume",
     "resume to website converter",
     "professional website builder",
+    "CV to website converter",
+    "CV website builder",
+    "online CV builder",
+    "turn resume into website",
+    "convert PDF resume to website",
+    "create portfolio from LinkedIn",
+    "job application website",
+    "professional online presence",
+    "career website builder",
+    "AI-powered resume parser",
+    "automatic resume website",
+    "AI resume to portfolio",
+    "LinkedIn profile to website",
+    "PDF resume converter",
+    "developer portfolio builder",
+    "designer portfolio website",
+    "engineer resume website",
+    "portfolio website builder",
+    "personal website creator",
+    "resume portfolio generator",
   ],
   ogImage: "/og-image.png",
   twitterHandle: "@magic_self",

@@ -3,10 +3,6 @@
 import { useEffect } from "react";
 import { onCLS, onINP, onLCP, onFCP, onTTFB, type Metric } from "web-vitals";
 
-/**
- * Web Vitals tracking component
- * Monitors Core Web Vitals and sends metrics to console (dev) or analytics endpoint (prod)
- */
 export function WebVitals() {
   useEffect(() => {
     const sendToAnalytics = (metric: Metric) => {

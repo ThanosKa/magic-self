@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * SEO Validation Script for magic-self.dev
  *

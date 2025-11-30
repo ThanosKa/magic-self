@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1>Magic Self</h1>
+<h1>✨ Magic Self ✨</h1>
 
 ### Transform your resume PDF into a beautiful personal website instantly
 

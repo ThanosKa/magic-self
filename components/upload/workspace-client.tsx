@@ -7,7 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { toast } from "sonner";
-import { Sparkles, Info, X, FileText, File as FileIcon, Loader2 } from "lucide-react";
+import {
+  Sparkles,
+  Info,
+  X,
+  FileText,
+  File as FileIcon,
+  Loader2,
+} from "lucide-react";
 
 const Dialog = lazy(() =>
   import("@/components/ui/dialog").then((mod) => ({ default: mod.Dialog }))
@@ -93,11 +100,11 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
       setResume((prev) =>
         prev
           ? {
-            ...prev,
-            file_name: null,
-            file_url: null,
-            file_size: null,
-          }
+              ...prev,
+              file_name: null,
+              file_url: null,
+              file_size: null,
+            }
           : null
       );
       toast.success("Resume removed");
@@ -130,7 +137,8 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           Turn your resume into a <span className="text-primary">website</span>
         </h1>
         <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed">
-          Upload your LinkedIn PDF or standard resume. We&apos;ll handle the rest.
+          Upload your LinkedIn PDF or standard resume. We&apos;ll handle the
+          rest.
         </p>
 
         <Suspense
@@ -156,20 +164,25 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
                 How to export from LinkedIn
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="max-w-4xl">
               <DialogHeader>
                 <DialogTitle>How to Export from LinkedIn</DialogTitle>
                 <DialogDescription className="text-base pt-2">
-                  Go to your profile → Click on &quot;Resources&quot; → Then &quot;Save to PDF&quot;
+                  Go to your profile → Click on &quot;Resources&quot; → Then
+                  &quot;Save to PDF&quot;
                 </DialogDescription>
               </DialogHeader>
-              <div className="mt-4 relative w-full aspect-video">
-                <Image
-                  src="/linkedin.png"
-                  alt="LinkedIn export instructions"
-                  fill
-                  className="rounded-lg border object-contain"
-                />
+              <div className="mt-6 flex justify-center">
+                <div className="relative max-w-full max-h-[70vh] overflow-hidden rounded-lg border shadow-lg">
+                  <Image
+                    src="/linkedin.png"
+                    alt="LinkedIn export instructions"
+                    width={1618}
+                    height={1506}
+                    className="w-full h-auto"
+                    priority
+                  />
+                </div>
               </div>
             </DialogContent>
           </Dialog>
@@ -181,8 +194,9 @@ export function WorkspaceClient({ initialResume }: WorkspaceClientProps) {
           <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary/20 to-secondary/20 opacity-50 blur transition duration-500 group-hover:opacity-100" />
           <div className="relative rounded-xl bg-background p-2 ring-1 ring-border">
             <div
-              className={`flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors ${!hasFile ? "hover:bg-muted/50 cursor-pointer" : ""
-                }`}
+              className={`flex justify-center rounded-md border mt-2 border-dashed border-input px-6 py-12 transition-colors ${
+                !hasFile ? "hover:bg-muted/50 cursor-pointer" : ""
+              }`}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onClick={handleBoxClick}

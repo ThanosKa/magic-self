@@ -87,7 +87,9 @@ export function UsernameEditDialog({
             <div className="grid gap-2">
               <Label htmlFor="username">Username</Label>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">self.so/</span>
+                <span className="text-sm text-muted-foreground">
+                  magic-self.dev/
+                </span>
                 <Input
                   id="username"
                   value={username}

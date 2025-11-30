@@ -157,4 +157,25 @@ describe("validateResumeData", () => {
 
     expect(result.success).toBe(true);
   });
+  it("accepts work experience without location or contract", () => {
+    const result = validateResumeData({
+      header: baseHeader,
+      workExperience: [
+        {
+          company: "Startup",
+          title: "Founder",
+          start: "2024-01",
+          end: null,
+          description: "Building",
+          // location and contract omitted
+        },
+      ],
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.workExperience[0].location).toBeUndefined();
+      expect(result.data.workExperience[0].contract).toBeUndefined();
+    }
+  });
 });

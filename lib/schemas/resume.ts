@@ -19,8 +19,8 @@ const HeaderSchema = z.object({
 const WorkExperienceSchema = z.object({
   company: z.string().default(""),
   link: z.string().optional(),
-  location: z.string().default(""),
-  contract: z.string().default("Full-time"),
+  location: z.string().optional(),
+  contract: z.string().optional(),
   title: z.string().default(""),
   start: z.string().default(""),
   end: z.string().nullable().optional(),

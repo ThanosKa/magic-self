@@ -15,7 +15,7 @@ export function ResumeSection({
   return (
     <section className={cn("space-y-4", className)}>
       {title && (
-        <h2 className="text-lg font-semibold tracking-tight print:text-base">
+        <h2 className="text-xl font-bold tracking-tight print:text-base">
           {title}
         </h2>
       )}

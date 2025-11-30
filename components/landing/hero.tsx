@@ -3,6 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { AnimatedBadge } from "@/components/ui/animated-badge";
+import { BlurFade } from "@/components/ui/blur-fade";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -33,12 +34,8 @@ export function Hero1({
   description = "Turn your resume or LinkedIn PDF export into a beautiful, professional website. Share your profile with a simple link.",
   buttons = {
     primary: {
-      text: "Get Started",
+      text: "Upload Resume",
       url: "/upload",
-    },
-    secondary: {
-      text: "View on GitHub",
-      url: "https://github.com/ThanosKa/magic-self",
     },
   },
   image = {
@@ -81,47 +78,57 @@ export function Hero1({
             >
               {description}
             </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex w-full flex-col justify-center gap-3 sm:flex-row lg:justify-start"
-            >
-              {buttons.primary && (
-                <Button asChild size="lg" className="w-full sm:w-auto">
-                  <a href={buttons.primary.url}>{buttons.primary.text}</a>
-                </Button>
-              )}
-              {buttons.secondary && (
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto"
-                >
-                  <a href={buttons.secondary.url}>
-                    {buttons.secondary.text}
-                    <ArrowRight className="ml-2 size-4" />
-                  </a>
-                </Button>
-              )}
-            </motion.div>
+            <div className="flex flex-col items-center w-full md:w-fit lg:items-start">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="flex w-full flex-col gap-3"
+              >
+                {buttons.primary && (
+                  <Button asChild size="lg" className="w-full sm:w-auto">
+                    <a href={buttons.primary.url}>{buttons.primary.text}</a>
+                  </Button>
+                )}
+                {buttons.secondary && (
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto"
+                  >
+                    <a href={buttons.secondary.url}>
+                      {buttons.secondary.text}
+                      <ArrowRight className="ml-2 size-4" />
+                    </a>
+                  </Button>
+                )}
+              </motion.div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="text-muted-foreground text-sm text-center mt-4 w-full"
+              >
+                Takes 2 Clicks!
+              </motion.p>
+            </div>
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="relative aspect-square w-full overflow-hidden rounded-xl border bg-muted shadow-2xl lg:aspect-auto lg:h-[600px]"
-          >
-            <div className="absolute inset-0 bg-gradient-to-tr from-muted to-muted/50" />
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className="object-cover object-top"
-              priority
-            />
-          </motion.div>
+          <div className="w-full md:w-1/2 max-h-[800px] min-w-[50%] lg:min-w-[600px]">
+            <BlurFade delay={0.25} yOffset={6} blur="6px">
+              <div className="relative">
+                <div className="absolute inset-0 -bottom-4 rounded-3xl bg-black/5 blur-xl" />
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={600}
+                  height={800}
+                  className="relative w-full max-w-[600px] h-full object-cover overflow-hidden rounded-3xl border border-border/50"
+                  priority
+                />
+              </div>
+            </BlurFade>
+          </div>
         </div>
       </div>
     </section>

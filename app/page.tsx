@@ -72,8 +72,8 @@ export default async function HomePage() {
       <main className="flex-1">
         <Hero1
           image={{
-            src: "/cv-home.png",
-            alt: "Resume Builder Preview"
+            src: "/scr2.png",
+            alt: "Resume Builder Preview",
           }}
         />
         <Features />

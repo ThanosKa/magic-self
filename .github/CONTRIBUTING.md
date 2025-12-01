@@ -114,17 +114,25 @@ Example: `feat: add dark mode toggle to preview page`
 
 \`\`\`bash
 
+# Run tests once
+
+pnpm test
+
+# Run tests in watch mode (recommended during development)
+
+pnpm test:watch
+
 # Run type checking
 
-pnpm typecheck
+pnpm tsc --noEmit
 
 # Run linting
 
 pnpm lint
 
-# Run all checks
+# Run formatting check
 
-pnpm check
+pnpm format:check
 \`\`\`
 
 ## Questions?

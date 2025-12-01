@@ -193,6 +193,33 @@ cd magic-self
 pnpm install
 ```
 
+3. **Run tests** (optional but recommended)
+
+```bash
+pnpm test
+```
+
+---
+
+### Testing
+
+```bash
+# Run tests once
+pnpm test
+
+# Run tests in watch mode during development
+pnpm test:watch
+
+# Run linting
+pnpm lint
+
+# Check formatting
+pnpm format:check
+
+# Type checking
+pnpm tsc --noEmit
+```
+
 ---
 
 ### Environment Setup

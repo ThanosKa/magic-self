@@ -1,0 +1,18 @@
+{
+  "name": "magic-self",
+  "short_name": "MagicSelf",
+  "description": "Turn your resume into a beautiful personal website instantly with AI-powered resume extraction",
+  "start_url": "/",
+  "scope": "/",
+  "display": "minimal-ui",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icon",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -114,7 +114,7 @@ export function Hero1({
               </motion.p>
             </div>
           </div>
-          <div className="w-full md:w-1/2 max-h-[800px] min-w-[50%] lg:min-w-[600px]">
+          <div className="w-full max-w-lg mx-auto lg:max-w-none lg:w-full">
             <BlurFade delay={0.25} yOffset={6} blur="6px">
               <div className="relative">
                 <div className="absolute inset-0 -bottom-4 rounded-3xl bg-black/5 blur-xl" />
@@ -123,7 +123,7 @@ export function Hero1({
                   alt={image.alt}
                   width={600}
                   height={800}
-                  className="relative w-full max-w-[600px] h-full object-cover overflow-hidden rounded-3xl border border-border/50"
+                  className="relative w-full h-auto object-cover overflow-hidden rounded-3xl border border-border/50"
                   priority
                 />
               </div>

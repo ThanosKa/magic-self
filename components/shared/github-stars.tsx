@@ -60,10 +60,10 @@ export function GitHubStars() {
           "dark:group-hover:from-violet-500/20 dark:group-hover:via-pink-500/20 dark:group-hover:to-cyan-500/20"
         )}
       />
-      <div className="relative z-10 px-3 text-sm font-medium">
+      <div className="relative z-10 px-3 text-sm font-medium hidden sm:block">
         Star on GitHub
       </div>
-      <div className="relative z-10 flex h-full items-center border-l border-border/60 bg-primary/5 px-3 text-xs font-semibold">
+      <div className="relative z-10 flex h-full items-center sm:border-l border-border/60 bg-primary/5 px-3 text-xs font-semibold">
         <motion.div
           animate={isHovered ? { rotate: 180 } : { rotate: 0 }}
           transition={{ duration: 0.3 }}

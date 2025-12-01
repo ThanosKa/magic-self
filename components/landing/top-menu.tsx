@@ -3,24 +3,62 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { SITE_CONFIG } from "@/lib/config";
 import { UserButton } from "@clerk/nextjs";
 import { scrollToSection } from "@/lib/utils/scroll";
 import { GitHubStars } from "@/components/shared/github-stars";
 import { Logo } from "@/components/logo";
+import { Menu } from "lucide-react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { useState } from "react";
 
 type TopMenuProps = {
   userId: string | null;
 };
 
 export function TopMenu({ userId }: TopMenuProps) {
+  const [open, setOpen] = useState(false);
+
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     sectionId: string
   ) => {
     e.preventDefault();
     scrollToSection(sectionId);
+    setOpen(false);
   };
+
+  const NavLinks = ({ mobile = false }: { mobile?: boolean }) => (
+    <>
+      <a
+        href="#features"
+        onClick={(e) => handleNavClick(e, "features")}
+        className={
+          mobile
+            ? "text-lg font-medium py-2"
+            : "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        }
+      >
+        Features
+      </a>
+      <a
+        href="#faq"
+        onClick={(e) => handleNavClick(e, "faq")}
+        className={
+          mobile
+            ? "text-lg font-medium py-2"
+            : "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+        }
+      >
+        FAQ
+      </a>
+    </>
+  );
 
   return (
     <motion.header
@@ -41,33 +79,51 @@ export function TopMenu({ userId }: TopMenuProps) {
           </a>
         </div>
 
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
-          <a
-            href="#features"
-            onClick={(e) => handleNavClick(e, "features")}
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Features
-          </a>
-          <a
-            href="#faq"
-            onClick={(e) => handleNavClick(e, "faq")}
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            FAQ
-          </a>
+          <NavLinks />
         </nav>
 
         <div className="flex items-center gap-2">
-          <GitHubStars />
+          <div className="hidden sm:block">
+            <GitHubStars />
+          </div>
 
           {userId ? (
             <UserButton afterSignOutUrl="/" />
           ) : (
             <Button size="sm" asChild>
-              <Link href="/sign-up">Sign up</Link>
+              <Link href="/sign-up">Sign Up</Link>
             </Button>
           )}
+
+          {/* Mobile Menu Trigger */}
+          <div className="md:hidden ml-2">
+            <Drawer open={open} onOpenChange={setOpen}>
+              <DrawerTrigger asChild>
+                <Button variant="ghost" size="icon" className="-mr-2">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader className="text-left">
+                  <DrawerTitle>Menu</DrawerTitle>
+                </DrawerHeader>
+                <div className="flex flex-col px-4 pb-8 gap-2">
+                  <NavLinks mobile />
+                  <div className="mt-4 pt-4 border-t flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Support us
+                      </span>
+                      <GitHubStars />
+                    </div>
+                  </div>
+                </div>
+              </DrawerContent>
+            </Drawer>
+          </div>
         </div>
       </div>
     </motion.header>

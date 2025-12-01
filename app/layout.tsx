@@ -1,5 +1,6 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -94,16 +95,19 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <script
+          <Script
+            id="organization-schema"
             type="application/ld+json"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(organizationSchema),
             }}
           />
-          <script
+          <Script
+            id="bmc-widget"
+            src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
             data-name="BMC-Widget"
             data-cfasync="false"
-            src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
             data-id="thaka"
             data-description="Support me on Buy me a coffee!"
             data-message=""
@@ -111,6 +115,7 @@ export default function RootLayout({
             data-position="Right"
             data-x_margin="18"
             data-y_margin="18"
+            strategy="lazyOnload"
           />
         </head>
         <body

@@ -1,7 +1,9 @@
 "use client";
 
+import type React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { UserButton } from "@clerk/nextjs";
 import { scrollToSection } from "@/lib/utils/scroll";
@@ -15,11 +17,45 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useState } from "react";
 
 type TopMenuProps = {
   userId: string | null;
 };
+
+type NavLinksProps = {
+  mobile?: boolean;
+  onNavClick: (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    sectionId: string
+  ) => void;
+};
+
+const NavLinks = ({ mobile = false, onNavClick }: NavLinksProps) => (
+  <>
+    <a
+      href="#features"
+      onClick={(e) => onNavClick(e, "features")}
+      className={
+        mobile
+          ? "text-lg font-medium py-2"
+          : "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+      }
+    >
+      Features
+    </a>
+    <a
+      href="#faq"
+      onClick={(e) => onNavClick(e, "faq")}
+      className={
+        mobile
+          ? "text-lg font-medium py-2"
+          : "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+      }
+    >
+      FAQ
+    </a>
+  </>
+);
 
 export function TopMenu({ userId }: TopMenuProps) {
   const [open, setOpen] = useState(false);
@@ -32,33 +68,6 @@ export function TopMenu({ userId }: TopMenuProps) {
     scrollToSection(sectionId);
     setOpen(false);
   };
-
-  const NavLinks = ({ mobile = false }: { mobile?: boolean }) => (
-    <>
-      <a
-        href="#features"
-        onClick={(e) => handleNavClick(e, "features")}
-        className={
-          mobile
-            ? "text-lg font-medium py-2"
-            : "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-        }
-      >
-        Features
-      </a>
-      <a
-        href="#faq"
-        onClick={(e) => handleNavClick(e, "faq")}
-        className={
-          mobile
-            ? "text-lg font-medium py-2"
-            : "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-        }
-      >
-        FAQ
-      </a>
-    </>
-  );
 
   return (
     <motion.header
@@ -81,7 +90,7 @@ export function TopMenu({ userId }: TopMenuProps) {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
-          <NavLinks />
+          <NavLinks onNavClick={handleNavClick} />
         </nav>
 
         <div className="flex items-center gap-2">
@@ -111,7 +120,7 @@ export function TopMenu({ userId }: TopMenuProps) {
                   <DrawerTitle>Menu</DrawerTitle>
                 </DrawerHeader>
                 <div className="flex flex-col px-4 pb-8 gap-2">
-                  <NavLinks mobile />
+                  <NavLinks mobile onNavClick={handleNavClick} />
                   <div className="mt-4 pt-4 border-t flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">

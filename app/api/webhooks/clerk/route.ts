@@ -53,6 +53,42 @@ export async function POST(request: NextRequest) {
 
     logger.info({ eventType }, "Received Clerk webhook event");
 
+    // Handle user.deleted asynchronously to prevent timeouts
+    if (eventType === "user.deleted") {
+      const userId = eventData.id;
+
+      if (!userId || typeof userId !== "string") {
+        logger.error({ eventType }, "Invalid user ID in user.deleted event");
+        return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
+      }
+
+      logger.info(
+        { userId },
+        "Processing user deletion webhook - starting async deletion"
+      );
+
+      // Fire-and-forget: acknowledge receipt immediately, process deletion in background
+      deleteUserData(userId)
+        .then(() => {
+          logger.info({ userId }, "User data deleted successfully via webhook");
+        })
+        .catch((error) => {
+          logger.error(
+            {
+              userId,
+              error: error instanceof Error ? error.message : "Unknown error",
+            },
+            "Failed to delete user data via webhook"
+          );
+          // TODO: Consider implementing retry logic or dead letter queue for failed deletions
+        });
+
+      return NextResponse.json(
+        { message: "User deletion initiated successfully" },
+        { status: 200 }
+      );
+    }
+
     if (eventType === "user.created") {
       const userData = eventData as {
         id: string;
@@ -94,32 +130,6 @@ export async function POST(request: NextRequest) {
         { emailId, emailAddress, userId },
         "Email created via webhook"
       );
-    } else if (eventType === "user.deleted") {
-      const userId = eventData.id;
-
-      if (!userId || typeof userId !== "string") {
-        logger.error({ eventType }, "Invalid user ID in user.deleted event");
-        return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
-      }
-
-      logger.info({ userId }, "Processing user deletion webhook");
-
-      try {
-        await deleteUserData(userId);
-        logger.info({ userId }, "User data deleted successfully via webhook");
-      } catch (error) {
-        logger.error(
-          {
-            userId,
-            error: error instanceof Error ? error.message : "Unknown error",
-          },
-          "Failed to delete user data via webhook"
-        );
-        return NextResponse.json(
-          { error: "Failed to delete user data" },
-          { status: 500 }
-        );
-      }
     }
 
     return NextResponse.json(

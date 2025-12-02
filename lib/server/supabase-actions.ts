@@ -224,9 +224,7 @@ export async function deleteUserFile(fileUrl: string | null) {
 
     const filePath = pathParts.slice(bucketIndex + 1).join("/");
 
-    const { error } = await supabase.storage
-      .from("resumes")
-      .remove([filePath]);
+    const { error } = await supabase.storage.from("resumes").remove([filePath]);
 
     if (error) {
       logger.error(
@@ -254,6 +252,12 @@ export async function deleteUserData(userId: string) {
     logger.info({ userId }, "Starting user data deletion");
 
     const resume = await getResume(userId);
+
+    // Idempotency: if no resume exists, data already deleted
+    if (!resume) {
+      logger.info({ userId }, "User data already deleted or never existed");
+      return;
+    }
 
     if (resume?.file_url) {
       await deleteUserFile(resume.file_url);

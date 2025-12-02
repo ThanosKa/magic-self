@@ -172,8 +172,37 @@ describe("deleteUserData", () => {
         expect(mockDelete).toHaveBeenCalled();
     });
 
+    it("should return early if user has no resume (idempotency)", async () => {
+        const userId = "user123";
+
+        const mockSelect = vi.fn().mockReturnValue({
+            eq: vi.fn().mockReturnValue({
+                single: vi.fn().mockResolvedValue({ data: null, error: null }),
+            }),
+        });
+
+        const mockDelete = vi.fn();
+
+        mockSupabaseClient.from = vi.fn(() => ({
+            select: mockSelect,
+            delete: mockDelete,
+        }));
+
+        await deleteUserData(userId);
+
+        expect(mockDelete).not.toHaveBeenCalled();
+    });
+
     it("should throw error if resume deletion fails", async () => {
         const userId = "user123";
+        const mockResume = {
+            id: "resume-id",
+            user_id: userId,
+            file_url: null,
+            file_name: null,
+            resume_data: null,
+            status: "draft",
+        };
         const mockError = { message: "Database error", code: "ERROR" };
 
         const mockDelete = vi.fn().mockReturnValue({
@@ -182,7 +211,7 @@ describe("deleteUserData", () => {
 
         const mockSelect = vi.fn().mockReturnValue({
             eq: vi.fn().mockReturnValue({
-                single: vi.fn().mockResolvedValue({ data: null, error: null }),
+                single: vi.fn().mockResolvedValue({ data: mockResume, error: null }),
             }),
         });
 
@@ -196,10 +225,18 @@ describe("deleteUserData", () => {
 
     it("should throw error if username deletion fails", async () => {
         const userId = "user123";
+        const mockResume = {
+            id: "resume-id",
+            user_id: userId,
+            file_url: null,
+            file_name: null,
+            resume_data: null,
+            status: "draft",
+        };
 
         const mockSelect = vi.fn().mockReturnValue({
             eq: vi.fn().mockReturnValue({
-                single: vi.fn().mockResolvedValue({ data: null, error: null }),
+                single: vi.fn().mockResolvedValue({ data: mockResume, error: null }),
             }),
         });
 

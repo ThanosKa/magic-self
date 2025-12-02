@@ -4,69 +4,110 @@ import { deleteUserData } from "@/lib/server/supabase-actions";
 import { logger } from "@/lib/server/logger";
 
 export async function POST(request: NextRequest) {
-    try {
-        const signingSecret = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
+  try {
+    const signingSecret = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
 
-        if (!signingSecret) {
-            logger.error("Missing CLERK_WEBHOOK_SIGNING_SECRET environment variable");
-            return NextResponse.json(
-                { error: "Webhook configuration error" },
-                { status: 500 }
-            );
-        }
-
-        const evt = await verifyWebhook(request, {
-            signingSecret,
-        });
-
-        const eventType = evt.type;
-        const { id } = evt.data;
-
-        if (!id || typeof id !== "string") {
-            logger.error({ eventType }, "Invalid user ID in webhook event");
-            return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
-        }
-
-        const userId = id;
-
-        logger.info({ eventType, userId }, "Received Clerk webhook event");
-
-        if (eventType === "user.deleted") {
-            logger.info({ userId }, "Processing user deletion webhook");
-
-            try {
-                await deleteUserData(userId);
-                logger.info({ userId }, "User data deleted successfully via webhook");
-            } catch (error) {
-                logger.error(
-                    {
-                        userId,
-                        error: error instanceof Error ? error.message : "Unknown error",
-                    },
-                    "Failed to delete user data via webhook"
-                );
-                return NextResponse.json(
-                    { error: "Failed to delete user data" },
-                    { status: 500 }
-                );
-            }
-        }
-
-        return NextResponse.json(
-            { message: "Webhook processed successfully" },
-            { status: 200 }
-        );
-    } catch (error) {
-        logger.error(
-            {
-                error: error instanceof Error ? error.message : "Unknown error",
-            },
-            "Webhook verification failed"
-        );
-
-        return NextResponse.json(
-            { error: "Invalid webhook signature" },
-            { status: 400 }
-        );
+    if (!signingSecret) {
+      logger.error("Missing CLERK_WEBHOOK_SIGNING_SECRET environment variable");
+      return NextResponse.json(
+        { error: "Webhook configuration error" },
+        { status: 500 }
+      );
     }
+
+    const evt = await verifyWebhook(request, {
+      signingSecret,
+    });
+
+    const eventType = evt.type;
+    const eventData = evt.data;
+
+    logger.info({ eventType }, "Received Clerk webhook event");
+
+    if (eventType === "user.created") {
+      const userData = eventData as {
+        id: string;
+        email_addresses?: Array<{ id: string; email_address: string }>;
+        primary_email_address_id?: string;
+      };
+      const userId = userData.id;
+      const emailAddresses = userData.email_addresses || [];
+      const primaryEmail =
+        emailAddresses.find(
+          (email) => email.id === userData.primary_email_address_id
+        )?.email_address ||
+        emailAddresses[0]?.email_address ||
+        "unknown";
+
+      logger.info({ userId, email: primaryEmail }, "User created via webhook");
+    } else if (eventType === "user.updated") {
+      const userData = eventData as unknown as {
+        id: string;
+        [key: string]: unknown;
+      };
+      const userId = userData.id;
+      const updatedFields = Object.keys(userData).filter(
+        (key) => !["id", "object"].includes(key)
+      );
+
+      logger.info({ userId, updatedFields }, "User updated via webhook");
+    } else if (eventType === "email.created") {
+      const emailData = eventData as {
+        id: string;
+        email_address?: string;
+        user_id?: string;
+      };
+      const emailId = emailData.id;
+      const emailAddress = emailData.email_address || "unknown";
+      const userId = emailData.user_id || "unknown";
+
+      logger.info(
+        { emailId, emailAddress, userId },
+        "Email created via webhook"
+      );
+    } else if (eventType === "user.deleted") {
+      const userId = eventData.id;
+
+      if (!userId || typeof userId !== "string") {
+        logger.error({ eventType }, "Invalid user ID in user.deleted event");
+        return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
+      }
+
+      logger.info({ userId }, "Processing user deletion webhook");
+
+      try {
+        await deleteUserData(userId);
+        logger.info({ userId }, "User data deleted successfully via webhook");
+      } catch (error) {
+        logger.error(
+          {
+            userId,
+            error: error instanceof Error ? error.message : "Unknown error",
+          },
+          "Failed to delete user data via webhook"
+        );
+        return NextResponse.json(
+          { error: "Failed to delete user data" },
+          { status: 500 }
+        );
+      }
+    }
+
+    return NextResponse.json(
+      { message: "Webhook processed successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    logger.error(
+      {
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      "Webhook verification failed"
+    );
+
+    return NextResponse.json(
+      { error: "Invalid webhook signature" },
+      { status: 400 }
+    );
+  }
 }

@@ -102,7 +102,7 @@ export const SITE_CONFIG = {
     "personal website creator",
     "resume portfolio generator",
   ],
-  ogImage: "/og-image.png",
+  ogImage: "/opengraph-image",
   twitterHandle: "@magic_self",
   githubUrl: "https://github.com/ThanosKa/magic-self",
   referralParam: "magicselfref",

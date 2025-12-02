@@ -10,7 +10,7 @@ This command helps you create a pull request following magic-self.dev's contribu
 
 ## What this command does
 
-1. **Checks current branch** - Ensures you're not on main/master
+1. **Checks current branch** - Ensures you're not on main
 2. **Runs tests** - Validates your changes don't break existing functionality
 3. **Runs linting** - Ensures code style compliance
 4. **Runs type checking** - Validates TypeScript types

@@ -15,6 +15,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const svixId = request.headers.get("svix-id");
+    const svixTimestamp = request.headers.get("svix-timestamp");
+    const svixSignature = request.headers.get("svix-signature");
+
+    logger.info(
+      {
+        svixId,
+        svixTimestamp,
+        svixSignature: svixSignature ? "present" : "missing",
+        allHeaders: Object.fromEntries(request.headers.entries()),
+      },
+      "Webhook headers received"
+    );
+
+    if (!svixId || !svixTimestamp || !svixSignature) {
+      logger.error(
+        {
+          svixId: !!svixId,
+          svixTimestamp: !!svixTimestamp,
+          svixSignature: !!svixSignature,
+        },
+        "Missing required Svix headers"
+      );
+      return NextResponse.json(
+        { error: "Missing required webhook headers" },
+        { status: 400 }
+      );
+    }
+
     const evt = await verifyWebhook(request, {
       signingSecret,
     });

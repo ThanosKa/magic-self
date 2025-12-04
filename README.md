@@ -222,6 +222,23 @@ pnpm tsc --noEmit
 
 ---
 
+### SEO check
+
+Run the SEO validator after the app is serving (required):
+
+```bash
+# terminal 1: start the dev server
+pnpm dev
+
+# terminal 2: run checks (defaults to http://localhost:3000)
+pnpm seo:check
+
+# optionally target a deployed URL
+NEXT_PUBLIC_APP_URL=https://magic-self.dev pnpm seo:check
+```
+
+---
+
 ### Environment Setup
 
 1. **Copy the example environment file**
@@ -318,7 +335,7 @@ Magic Self uses Clerk webhooks to automatically clean up user data when accounts
    - Navigate to **Webhooks** in the sidebar
    - Click **Add Endpoint**
    - Set the URL to: `https://yourdomain.com/api/webhooks/clerk`
-   - Select the following events: `user.created`, `user.updated`, `email.created`, `user.deleted`
+   - Select the **user.deleted** event
    - Copy the **Signing Secret**
 
 2. **Configure the webhook secret**
@@ -333,11 +350,8 @@ Magic Self uses Clerk webhooks to automatically clean up user data when accounts
 
    The webhook handler (`app/api/webhooks/clerk/route.ts`) automatically:
    - Verifies webhook signatures for security
-   - Processes the following events:
-     - `user.created` - Logs new user registration
-     - `user.updated` - Logs user profile updates
-     - `email.created` - Logs email address additions
-     - `user.deleted` - Cleans up all user data from Supabase (resumes, usernames, uploaded files)
+   - Processes `user.deleted` events
+   - Cleans up all user data from Supabase (resumes, usernames, uploaded files)
    - Logs all operations for debugging
 
 ---
@@ -346,8 +360,8 @@ Magic Self uses Clerk webhooks to automatically clean up user data when accounts
 
 ### Uploading a Resume
 
-1. Sign up at `/sign-up` or sign in via Clerk's hosted authentication
-2. Navigate to `/upload` to upload your resume
+1. Sign up or log in at `/sign-up` or `/sign-in`
+2. Click **Upload Resume** on the dashboard
 3. Select your PDF file (LinkedIn export or resume)
 4. Wait for AI to extract and structure your data
 5. Review and edit your information in the preview
@@ -356,7 +370,7 @@ Magic Self uses Clerk webhooks to automatically clean up user data when accounts
 
 ### Editing Your Profile
 
-- Navigate to `/preview` to edit your resume information
+- Navigate to `/dashboard` to update your information
 - Changes are saved automatically
 - Switch between draft and live modes
 

@@ -22,7 +22,7 @@ Magic Self uses a modern serverless architecture built on:
 - **Authentication**: Clerk
 - **Database**: Supabase PostgreSQL
 - **File Storage**: Supabase Storage (S3-compatible)
-- **AI Processing**: OpenAI GPT-OSS 20B via OpenRouter
+- **AI Processing**: DeepSeek R1 via OpenRouter
 
 ### High-Level Flow
 
@@ -113,12 +113,12 @@ const { data: urlData } = supabase.storage
 ```typescript
 export async function deleteUserFile(fileUrl: string | null) {
   if (!fileUrl) return;
-  
+
   const url = new URL(fileUrl);
   const pathParts = url.pathname.split("/");
   const bucketIndex = pathParts.indexOf("resumes");
   const filePath = pathParts.slice(bucketIndex + 1).join("/");
-  
+
   await supabase.storage.from("resumes").remove([filePath]);
 }
 ```
@@ -223,7 +223,7 @@ await storeResume(userId, { fileContent });
 #### Step 2b: AI Resume Parsing
 
 ```typescript
-// Send to OpenAI GPT-OSS 20B via OpenRouter
+// Send to DeepSeek R1 via OpenRouter
 const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
   method: "POST",
   headers: {
@@ -231,7 +231,7 @@ const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    model: "openai/gpt-oss-20b:free",
+    model:"deepseek/deepseek-r1-0528:free"
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
       { role: "user", content: `Parse this resume: ${fileContent}` }
@@ -532,7 +532,7 @@ Magic Self transforms a PDF into a live website through this flow:
 
 1. **Upload** → PDF stored in Supabase bucket
 2. **Extract** → PDF text extracted with pdf-ts
-3. **Parse** → OpenAI GPT-OSS 20B structures the data
+3. **Parse** → DeepSeek R1 structures the data
 4. **Draft** → User edits and previews
 5. **Publish** → Status changes to "live"
 6. **Share** → Available at `magic-self.dev/{username}`

@@ -15,7 +15,7 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.com/)
-[![OpenAI GPT-OSS](https://img.shields.io/badge/OpenAI_GPT--OSS_20B-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![DeepSeek R1](https://img.shields.io/badge/DeepSeek_R1-000000?style=for-the-badge&logo=deepseek&logoColor=white)](https://deepseek.com/)
 [![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)](https://tanstack.com/query)
 [![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white)](https://zod.dev/)
 
@@ -74,7 +74,7 @@ Perfect for:
 ## Features
 
 - **One-Click Conversion** — Upload a PDF and get a live website in seconds
-- **AI-Powered Extraction** — Automatically structures your resume data using OpenAI GPT-OSS 20B
+- **AI-Powered Extraction** — Automatically structures your resume data using DeepSeek R1
 - **Custom URLs** — Claim your own `magic-self.dev/yourname` subdomain
 - **Live Editing** — Edit your information directly in the preview
 - **Light Theme** — Clean and modern design
@@ -129,17 +129,17 @@ For developers interested in the technical architecture, see the comprehensive g
 
 **Core Stack:**
 
-| Technology                                    | Purpose                                        |
-| --------------------------------------------- | ---------------------------------------------- |
-| [Next.js 16](https://nextjs.org/)             | React framework with App Router + SEO          |
-| [TypeScript](https://www.typescriptlang.org/) | Type-safe development                          |
-| [Tailwind CSS v4](https://tailwindcss.com/)   | Utility-first styling                          |
-| [shadcn/ui](https://ui.shadcn.com/)           | Accessible component library                   |
-| [Supabase](https://supabase.com/)             | PostgreSQL database & storage                  |
-| [Clerk](https://clerk.com/)                   | Authentication                                 |
-| [OpenRouter](https://openrouter.ai/)          | AI-powered resume parsing (OpenAI GPT-OSS 20B) |
-| [TanStack Query](https://tanstack.com/query)  | Server state management                        |
-| [Zod](https://zod.dev/)                       | Schema validation                              |
+| Technology                                    | Purpose                                 |
+| --------------------------------------------- | --------------------------------------- |
+| [Next.js 16](https://nextjs.org/)             | React framework with App Router + SEO   |
+| [TypeScript](https://www.typescriptlang.org/) | Type-safe development                   |
+| [Tailwind CSS v4](https://tailwindcss.com/)   | Utility-first styling                   |
+| [shadcn/ui](https://ui.shadcn.com/)           | Accessible component library            |
+| [Supabase](https://supabase.com/)             | PostgreSQL database & storage           |
+| [Clerk](https://clerk.com/)                   | Authentication                          |
+| [OpenRouter](https://openrouter.ai/)          | AI-powered resume parsing (DeepSeek R1) |
+| [TanStack Query](https://tanstack.com/query)  | Server state management                 |
+| [Zod](https://zod.dev/)                       | Schema validation                       |
 
 **SEO & Performance:**
 
@@ -544,7 +544,7 @@ Distributed under the Apache License 2.0. See [LICENSE](LICENSE) for more inform
 ## Acknowledgments
 
 - UI components from [shadcn/ui](https://ui.shadcn.com)
-- AI powered by [OpenRouter](https://openrouter.ai) with [OpenAI GPT-OSS](https://openai.com/)
+- AI powered by [OpenRouter](https://openrouter.ai) with [DeepSeek R1](https://deepseek.com/)
 
 ---
 

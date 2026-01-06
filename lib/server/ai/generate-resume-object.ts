@@ -217,7 +217,7 @@ function normalizeDate(value: unknown): string {
       const day = String(date.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
     }
-  } catch { }
+  } catch {}
 
   return "";
 }
@@ -271,9 +271,9 @@ function sanitizeResumeData(data: unknown): unknown {
           Object.keys(cleanedContacts).length > 0 ? cleanedContacts : undefined,
         skills: Array.isArray(header.skills)
           ? header.skills
-            .filter((s): s is string => typeof s === "string")
-            .map((s) => s.trim())
-            .filter((s) => s.length > 0)
+              .filter((s): s is string => typeof s === "string")
+              .map((s) => s.trim())
+              .filter((s) => s.length > 0)
           : [],
       };
     })(),
@@ -291,11 +291,10 @@ function sanitizeResumeData(data: unknown): unknown {
             typeof job.link === "string"
               ? normalizeUrl(job.link, "company")
               : "",
-          location: typeof job.location === "string" ? job.location.trim() : undefined,
+          location:
+            typeof job.location === "string" ? job.location.trim() : undefined,
           contract:
-            typeof job.contract === "string"
-              ? job.contract.trim()
-              : undefined,
+            typeof job.contract === "string" ? job.contract.trim() : undefined,
           title: typeof job.title === "string" ? job.title.trim() : "",
           start: normalizeDate(job.start),
           end: normalizeDate(job.end) || null,
@@ -322,14 +321,14 @@ function sanitizeResumeData(data: unknown): unknown {
               : "",
           technologies: Array.isArray(project.technologies)
             ? project.technologies
-              .filter((t): t is string => typeof t === "string")
-              .map((t) => t.trim())
+                .filter((t): t is string => typeof t === "string")
+                .map((t) => t.trim())
             : [],
           date: typeof project.date === "string" ? project.date.trim() : "",
           highlights: Array.isArray(project.highlights)
             ? project.highlights
-              .filter((h): h is string => typeof h === "string")
-              .map((h) => h.trim())
+                .filter((h): h is string => typeof h === "string")
+                .map((h) => h.trim())
             : [],
         }));
     })(),

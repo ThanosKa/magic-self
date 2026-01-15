@@ -374,7 +374,7 @@ export async function generateResumeObject(
           "X-Title": "magic-self.dev Resume Parser",
         },
         body: JSON.stringify({
-          model: "deepseek/deepseek-r1-0528:free",
+          model: "z-ai/glm-4.5-air:free",
           messages: [
             {
               role: "system",

@@ -15,7 +15,7 @@ A professional portfolio site featuring AI-powered resume extraction and custom 
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.com/)
-[![DeepSeek R1](https://img.shields.io/badge/DeepSeek_R1-000000?style=for-the-badge&logo=deepseek&logoColor=white)](https://deepseek.com/)
+[![GLM 4.5 Air](https://img.shields.io/badge/GLM_4.5_Air-FF6B35?style=for-the-badge&logo=ai&logoColor=white)](https://openrouter.ai/models/z-ai/glm-4.5-air:free)
 [![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=for-the-badge&logo=react-query&logoColor=white)](https://tanstack.com/query)
 [![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white)](https://zod.dev/)
 
@@ -74,7 +74,7 @@ Perfect for:
 ## Features
 
 - **One-Click Conversion** — Upload a PDF and get a live website in seconds
-- **AI-Powered Extraction** — Automatically structures your resume data using DeepSeek R1
+- **AI-Powered Extraction** — Automatically structures your resume data using GLM 4.5 Air
 - **Custom URLs** — Claim your own `magic-self.dev/yourname` subdomain
 - **Live Editing** — Edit your information directly in the preview
 - **Light Theme** — Clean and modern design
@@ -137,7 +137,7 @@ For developers interested in the technical architecture, see the comprehensive g
 | [shadcn/ui](https://ui.shadcn.com/)           | Accessible component library            |
 | [Supabase](https://supabase.com/)             | PostgreSQL database & storage           |
 | [Clerk](https://clerk.com/)                   | Authentication                          |
-| [OpenRouter](https://openrouter.ai/)          | AI-powered resume parsing (DeepSeek R1) |
+| [OpenRouter](https://openrouter.ai/)          | AI-powered resume parsing (GLM 4.5 Air) |
 | [TanStack Query](https://tanstack.com/query)  | Server state management                 |
 | [Zod](https://zod.dev/)                       | Schema validation                       |
 
@@ -544,7 +544,7 @@ Distributed under the Apache License 2.0. See [LICENSE](LICENSE) for more inform
 ## Acknowledgments
 
 - UI components from [shadcn/ui](https://ui.shadcn.com)
-- AI powered by [OpenRouter](https://openrouter.ai) with [DeepSeek R1](https://deepseek.com/)
+- AI powered by [OpenRouter](https://openrouter.ai) with [GLM 4.5 Air](https://openrouter.ai/models/z-ai/glm-4.5-air:free)
 
 ---
 

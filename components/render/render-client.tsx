@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
@@ -9,7 +9,12 @@ export function RenderClient() {
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState(true);
 
+  const hasCalled = useRef(false);
+
   useEffect(() => {
+    if (hasCalled.current) return;
+    hasCalled.current = true;
+
     const generateWebsite = async () => {
       try {
         const response = await fetch("/api/generate", { method: "POST" });

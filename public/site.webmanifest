@@ -1,18 +1,36 @@
 {
-  "name": "magic-self",
-  "short_name": "MagicSelf",
+  "name": "Magic Self",
+  "short_name": "Magic Self",
   "description": "Turn your resume into a beautiful personal website instantly with AI-powered resume extraction",
   "start_url": "/",
   "scope": "/",
   "display": "minimal-ui",
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
+  "theme_color": "#09090b",
+  "background_color": "#09090b",
   "icons": [
     {
       "src": "/icon",
       "sizes": "32x32",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-icon",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-icon",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/apple-icon",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

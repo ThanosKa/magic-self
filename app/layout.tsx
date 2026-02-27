@@ -1,6 +1,5 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -8,6 +7,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
 import { ReactQueryProvider } from "@/components/providers/react-query-provider";
 import { WebVitals } from "@/components/web-vitals";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { SITE_CONFIG } from "@/lib/config";
 import "./globals.css";
 
@@ -21,13 +21,16 @@ export const metadata: Metadata = {
   },
   description: SITE_CONFIG.description,
   keywords: [...SITE_CONFIG.keywords],
-  authors: [{ name: SITE_CONFIG.name }],
-  creator: SITE_CONFIG.name,
-  publisher: SITE_CONFIG.name,
+  authors: [{ name: "Magic Self" }],
+  creator: "Magic Self",
+  publisher: "Magic Self",
   icons: {
     icon: "/icon",
     shortcut: "/icon",
-    apple: "/icon",
+    apple: "/apple-icon",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   },
   formatDetection: {
     email: false,
@@ -86,42 +89,52 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const organizationSchema = {
+  const schemaGraph = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: SITE_CONFIG.name,
-    url: siteUrl,
-    logo: `${siteUrl}/icon`,
-    description: SITE_CONFIG.description,
-    sameAs: [SITE_CONFIG.githubUrl],
+    "@graph": [
+      {
+        "@type": "Organization",
+        name: "Magic Self",
+        url: siteUrl,
+        logo: `${siteUrl}/icon`,
+        description: SITE_CONFIG.description,
+        sameAs: [SITE_CONFIG.githubUrl, "https://x.com/magic_self"],
+      },
+      {
+        "@type": "WebSite",
+        name: "Magic Self",
+        url: siteUrl,
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${siteUrl}/{search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "SoftwareApplication",
+        name: "Magic Self",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
+        description:
+          "Convert your PDF resume or LinkedIn export into a live personal website in one click. Free and open source.",
+      },
+    ],
   };
 
   return (
     <ClerkProvider>
       <html lang="en">
         <head>
-          <Script
-            id="organization-schema"
+          <script
             type="application/ld+json"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(organizationSchema),
-            }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaGraph) }}
           />
-          <Script
-            id="bmc-widget"
-            src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-            data-name="BMC-Widget"
-            data-cfasync="false"
-            data-id="thaka"
-            data-description="Support me on Buy me a coffee!"
-            data-message=""
-            data-color="#5F7FFF"
-            data-position="Right"
-            data-x_margin="18"
-            data-y_margin="18"
-            strategy="lazyOnload"
-          />
+          <link rel="preconnect" href="https://clerk.accounts.dev" />
         </head>
         <body
           className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}
@@ -132,6 +145,19 @@ export default function RootLayout({
           </ReactQueryProvider>
           <WebVitals />
           <Analytics />
+          <GoogleAnalytics />
+          {/* Buy Me a Coffee Widget */}
+          <script
+            data-name="BMC-Widget"
+            data-cfasync="false"
+            src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+            data-id="thaka"
+            data-description="Support me on Buy me a coffee!"
+            data-color="#5F7FFF"
+            data-position="Right"
+            data-x_margin="18"
+            data-y_margin="18"
+          />
         </body>
       </html>
     </ClerkProvider>

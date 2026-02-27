@@ -51,6 +51,20 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col items-center md:items-end gap-2">
+            <nav className="flex gap-4 text-sm text-muted-foreground">
+              <Link href="/blog" className="hover:text-foreground transition-colors">
+                Blog
+              </Link>
+              <Link href="/about" className="hover:text-foreground transition-colors">
+                About
+              </Link>
+              <Link href="/vs/linkedin" className="hover:text-foreground transition-colors">
+                vs LinkedIn
+              </Link>
+              <Link href="/privacy" className="hover:text-foreground transition-colors">
+                Privacy
+              </Link>
+            </nav>
             <p className="text-sm text-muted-foreground">
               © 2025 Thaka. All rights reserved.
             </p>

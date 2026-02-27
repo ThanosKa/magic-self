@@ -29,13 +29,17 @@ export async function generateMetadata({
 
   const resumeData = resume.resume_data as ResumeData;
   const { name, shortAbout } = resumeData.header;
+  const description = (shortAbout || resumeData.summary || "").slice(0, 155);
 
   return {
     title: `${name}'s Resume | ${SITE_CONFIG.name}`,
-    description: shortAbout || resumeData.summary,
+    description,
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/${username}`,
+    },
     openGraph: {
       title: `${name}'s Resume | ${SITE_CONFIG.name}`,
-      description: shortAbout || resumeData.summary,
+      description,
       type: "profile",
       url: `${SITE_CONFIG.url}/${username}`,
       images: [
@@ -50,7 +54,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: `${name}'s Resume | ${SITE_CONFIG.name}`,
-      description: shortAbout || resumeData.summary,
+      description,
       images: [`${SITE_CONFIG.url}/${username}/og`],
     },
   };
@@ -91,40 +95,61 @@ export default async function ProfilePage({
     console.error("Failed to fetch user data from Clerk:", error);
   }
 
-  const jsonLd = {
+  const schemaGraph = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: resumeData.header.name,
-    description: resumeData.summary || resumeData.header.shortAbout,
-    jobTitle: resumeData.header.shortAbout,
-    url: `${SITE_CONFIG.url}/${username}`,
-    email: resumeData.header.contacts?.email,
-    knowsAbout: resumeData.header.skills,
-    worksFor: resumeData.workExperience[0]
-      ? {
-        "@type": "Organization",
-        name: resumeData.workExperience[0].company,
-        url: resumeData.workExperience[0].link,
-      }
-      : undefined,
-    alumniOf: resumeData.education.map((edu) => ({
-      "@type": "EducationalOrganization",
-      name: edu.school,
-    })),
-    sameAs: [
-      resumeData.header.contacts?.linkedin,
-      resumeData.header.contacts?.github,
-      resumeData.header.contacts?.twitter
-        ? `https://x.com/${resumeData.header.contacts.twitter.replace("@", "")}`
-        : undefined,
-    ].filter(Boolean),
+    "@graph": [
+      {
+        "@type": "Person",
+        name: resumeData.header.name,
+        description: resumeData.summary || resumeData.header.shortAbout,
+        jobTitle: resumeData.header.shortAbout,
+        url: `${SITE_CONFIG.url}/${username}`,
+        email: resumeData.header.contacts?.email,
+        knowsAbout: resumeData.header.skills,
+        worksFor: resumeData.workExperience[0]
+          ? {
+              "@type": "Organization",
+              name: resumeData.workExperience[0].company,
+              url: resumeData.workExperience[0].link,
+            }
+          : undefined,
+        alumniOf: resumeData.education.map((edu) => ({
+          "@type": "EducationalOrganization",
+          name: edu.school,
+        })),
+        sameAs: [
+          resumeData.header.contacts?.linkedin,
+          resumeData.header.contacts?.github,
+          resumeData.header.contacts?.twitter
+            ? `https://x.com/${resumeData.header.contacts.twitter.replace("@", "")}`
+            : undefined,
+        ].filter(Boolean),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: SITE_CONFIG.url,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: `${resumeData.header.name}'s Resume`,
+            item: `${SITE_CONFIG.url}/${username}`,
+          },
+        ],
+      },
+    ],
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaGraph) }}
       />
       <main className="min-h-screen bg-background">
         <div className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-16">

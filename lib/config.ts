@@ -13,6 +13,15 @@ export const FORBIDDEN_USERNAMES = [
   "settings",
   "profile",
   "dashboard",
+  "blog",
+  "vs",
+  "for",
+  "examples",
+  "compare",
+  "alternatives",
+  "render",
+  "about",
+  "pricing",
 ] as const;
 
 export const MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -65,6 +74,7 @@ const getUrl = (url: string | undefined): string => {
 
 export const SITE_CONFIG = {
   name: getHostname(process.env.NEXT_PUBLIC_APP_URL),
+  brandName: "Magic Self",
   domain: getHostname(process.env.NEXT_PUBLIC_APP_URL),
   url: getUrl(process.env.NEXT_PUBLIC_APP_URL),
   description:

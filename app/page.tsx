@@ -65,8 +65,83 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const { userId } = await auth();
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Is Magic Self really free?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, the core features are 100% free and open source under the Apache 2.0 license. You can create your resume website and share it without any cost.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does the PDF import work?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Magic Self uses advanced AI parsing technology to read the structure of your LinkedIn PDF export or standard resume PDF. The AI then maps this data to your website automatically — no manual data entry required.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can I customize the design of my resume website?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Absolutely. You can customize colors, fonts, and layout options to match your personal brand. You can also edit all content directly through the built-in editor.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is my resume data secure?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Your privacy is our top priority. We do not sell your data. Your resume information is used solely to generate your personal website.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What happens to my resume website and data?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Your site remains in your account until you delete your account. You can keep it as a draft (not publicly accessible) or publish it to make it live at your personal magic-self.dev/yourname URL.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can I use my own custom domain?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Currently, Magic Self provides a free custom URL at magic-self.dev/yourname. Custom domain support is on the roadmap.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How do I convert my LinkedIn profile to a website?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Go to your LinkedIn profile, click 'Resources' or 'More', then 'Save to PDF'. Upload that PDF to Magic Self and your personal website is generated in seconds.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What is the best free resume website builder?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Magic Self is a free, AI-powered resume website builder that converts your PDF resume or LinkedIn export into a live personal portfolio website in seconds. No coding or design skills required.",
+        },
+      },
+    ],
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <ScrollHeader userId={userId} />
 
       <main className="flex-1">

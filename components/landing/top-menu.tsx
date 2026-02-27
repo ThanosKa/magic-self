@@ -54,6 +54,16 @@ const NavLinks = ({ mobile = false, onNavClick }: NavLinksProps) => (
     >
       FAQ
     </a>
+    <Link
+      href="/blog"
+      className={
+        mobile
+          ? "text-lg font-medium py-2"
+          : "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+      }
+    >
+      Blog
+    </Link>
   </>
 );
 

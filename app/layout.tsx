@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     apple: "/apple-icon",
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
+    google: "DWZDzQnxGjj0KdVt_AR9Ax1hx54OJWC2yedvKKKca5U",
   },
   formatDetection: {
     email: false,

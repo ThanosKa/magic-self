@@ -373,8 +373,11 @@ export async function generateResumeObject(
           "HTTP-Referer": appUrl,
           "X-Title": "magic-self.dev Resume Parser",
         },
+        
         body: JSON.stringify({
-          model: "z-ai/glm-4.5-air:free",
+          // model: "openai/gpt-4o-mini",
+          model: "minimax/minimax-m2.5:free",
+          // model: "z-ai/glm-4.5-air:free",
           messages: [
             {
               role: "system",

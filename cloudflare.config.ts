@@ -7,9 +7,10 @@ export default defineConfig({
     compatibilityDate: "2026-11-07",
     compatibilityFlags: ["nodejs_compat"],
     observability: { enabled: true },
-    // No custom domain yet: magic-self.dev is not a Cloudflare zone. Add
-    // `domains: ["magic-self.dev", "www.magic-self.dev"]` once it is, and keep
-    // workersDev on, because declaring a domain would otherwise switch it off.
+    // www is the canonical host, as it was on Vercel. The apex redirects to
+    // www through a Cloudflare Redirect Rule on the magic-self.dev zone.
+    domains: ["www.magic-self.dev"],
+    // Keep workersDev on: declaring a domain would otherwise switch it off.
     workersDev: true,
     assets: {
       htmlHandling: "none",

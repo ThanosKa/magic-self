@@ -80,4 +80,4 @@ jobs:
       # Switch to https://magic-self.dev/ once the domain is attached to the Worker.
       - name: Check the live site
         run: |
-          curl -fsS -o /dev/null --retry 5 --retry-delay 5 --retry-all-errors https://magic-self.kazakis-th.workers.dev/
+          curl -fsS -o /dev/null --retry 5 --retry-delay 5 --retry-all-errors https://www.magic-self.dev/

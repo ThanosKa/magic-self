@@ -119,7 +119,7 @@ export async function GET(
               color: "#6B7280",
             }}
           >
-            {SITE_CONFIG.domain}/{username}
+            {`${SITE_CONFIG.domain}/${username}`}
           </div>
         </div>
       </div>,

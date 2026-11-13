@@ -3,10 +3,8 @@ import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
 import { ReactQueryProvider } from "@/components/providers/react-query-provider";
-import { WebVitals } from "@/components/web-vitals";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { SITE_CONFIG } from "@/lib/config";
 import "./globals.css";
@@ -143,8 +141,6 @@ export default function RootLayout({
             {children}
             <Toaster position="bottom-right" richColors />
           </ReactQueryProvider>
-          <WebVitals />
-          <Analytics />
           <GoogleAnalytics />
           {/* Buy Me a Coffee Widget */}
           <script

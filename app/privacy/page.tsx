@@ -23,7 +23,7 @@ export default function PrivacyPage() {
 
       <main className="container mx-auto px-4 py-16 max-w-3xl">
         <h1 className="text-4xl font-bold tracking-tight mb-2">Privacy Policy</h1>
-        <p className="text-muted-foreground mb-12">Last updated: January 1, 2026</p>
+        <p className="text-muted-foreground mb-12">Last updated: November 13, 2026</p>
 
         <div className="space-y-10 text-muted-foreground leading-relaxed">
           <section>
@@ -56,8 +56,8 @@ export default function PrivacyPage() {
                 education, skills)
               </li>
               <li>
-                <strong className="text-foreground">Usage data</strong> — pages visited, features
-                used, and interactions with the platform, collected via Vercel Analytics
+                <strong className="text-foreground">Usage data</strong> — request logs (pages
+                visited and errors) kept by our hosting provider, Cloudflare
               </li>
               <li>
                 <strong className="text-foreground">Username</strong> — the URL slug you choose
@@ -144,7 +144,7 @@ export default function PrivacyPage() {
                 of your resume PDF (data is processed and not retained by the AI provider)
               </li>
               <li>
-                <strong className="text-foreground">Vercel</strong> — hosting and analytics
+                <strong className="text-foreground">Cloudflare</strong> — hosting
               </li>
             </ul>
           </section>

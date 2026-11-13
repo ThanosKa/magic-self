@@ -521,7 +521,7 @@ Authentication is handled at the **application level** via Clerk, not database p
 1. **Lazy image loading** on landing page components
 2. **Index on username** for fast lookups
 3. **JSONB storage** for flexible resume data
-4. **Edge functions** via Vercel for low latency
+4. **Cloudflare Workers** hosting, close to the visitor
 5. **Caching** via React Query on client
 
 ---

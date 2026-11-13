@@ -456,8 +456,7 @@ magic-self/
 │   │   └── github-stars.tsx     # GitHub stars component
 │   ├── logo.tsx                 # Logo component
 │   ├── logos/                   # Logo assets
-│   ├── theme-provider.tsx       # Theme provider
-│   └── web-vitals.tsx           # Web vitals tracking
+│   └── theme-provider.tsx       # Theme provider
 ├── lib/
 │   ├── schemas/                 # Zod validation schemas
 │   │   └── resume.ts            # Resume data schema

@@ -6,25 +6,35 @@ on:
   pull_request:
     branches: ["main"]
 
+# Cancel superseded runs for the same branch / PR.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # No `version` input: pnpm is read from the `packageManager` field in
+      # package.json, so local and CI use the same pnpm.
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
+      # Node 24: the Worker build and `cf` need it locally too (24.22 or newer).
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "24"
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -35,20 +45,28 @@ jobs:
       - name: Run Tests
         run: pnpm run test
 
-      - name: Build
+      - name: Build (Next)
         run: pnpm run build
         env:
-          # Skip static page generation during CI
-          SKIP_ENV_VALIDATION: "true"
-          # Disable Next.js telemetry
           NEXT_TELEMETRY_DISABLED: "1"
-          # Dummy values for build time
+          # Dummy values for build time. Not real credentials; CI uses no secrets.
           NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co"
           NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key"
           SUPABASE_SERVICE_ROLE_KEY: "dummy-key"
-          SUPABASE_DB_URL: "postgresql://postgres:postgres@localhost:5432/postgres"
-          # Use properly formatted dummy Clerk keys to pass validation
+          # Properly formatted dummy Clerk keys to pass validation
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_Y2xlcmsuZXhhbXBsZS5jb20k"
           CLERK_SECRET_KEY: "sk_test_Y2xlcmsuZXhhbXBsZS5jb20k"
           OPENROUTER_API_KEY: "dummy-key"
           NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+
+      # The build that goes live. A change can pass the Next build and still
+      # break the vinext/Worker build. The build refuses missing NEXT_PUBLIC_*
+      # values and a non-https app URL (lib/public-env.ts); placeholders only.
+      - name: Build (Worker)
+        run: pnpm run build:vinext
+        env:
+          CLOUDFLARE_VITE_FORCE_LOCAL: "true"
+          NEXT_PUBLIC_APP_URL: "https://ci-placeholder.example"
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_Y2xlcmsuZXhhbXBsZS5jb20k"
+          NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co"
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy-key"

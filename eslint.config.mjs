@@ -1,6 +1,8 @@
 import next from "eslint-config-next";
 
-export default [
+const eslintConfig = [
   ...next,
   { ignores: [".cloudflare/**", ".vinext/**", "dist/**"] },
 ];
+
+export default eslintConfig;

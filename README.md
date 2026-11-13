@@ -456,8 +456,7 @@ magic-self/
 │   │   └── github-stars.tsx     # GitHub stars component
 │   ├── logo.tsx                 # Logo component
 │   ├── logos/                   # Logo assets
-│   ├── theme-provider.tsx       # Theme provider
-│   └── web-vitals.tsx           # Web vitals tracking
+│   └── theme-provider.tsx       # Theme provider
 ├── lib/
 │   ├── schemas/                 # Zod validation schemas
 │   │   └── resume.ts            # Resume data schema
@@ -499,17 +498,17 @@ magic-self/
 
 ## Deployment
 
-### Deploy to Vercel
+### Deploy to Cloudflare Workers
 
-The easiest way to deploy magic-self.dev is with Vercel:
+magic-self.dev runs on a Cloudflare Worker named `magic-self`, built with [vinext](https://github.com/cloudflare/vinext). Use Node 24.22 or newer.
 
-1. Push your code to GitHub
-2. Import the project in [Vercel](https://vercel.com)
-3. Add all environment variables from `.env.local`
-4. Update `NEXT_PUBLIC_APP_URL` to your production domain
-5. Deploy!
+1. Put every value in `.env.production.local`, with `NEXT_PUBLIC_APP_URL` set to your `https://` production domain
+2. Build with `pnpm build:vinext`, which bakes in the `NEXT_PUBLIC_*` values. It stops if `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SUPABASE_URL` or `NEXT_PUBLIC_SUPABASE_ANON_KEY` is missing, or if the app URL is not `https://`
+3. Put the server values (`CLERK_SECRET_KEY`, `CLERK_WEBHOOK_SIGNING_SECRET`, `LOG_LEVEL`, `OPENROUTER_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`) in a JSON file outside the repo, then deploy with `pnpm exec cf deploy --prebuilt --secrets-file <file>`. Later deploys keep them, so the flag is only needed when a value changes
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/ThanosKa/magic-self)
+Only names declared in `cloudflare.config.ts` reach the Worker, so a new server variable must be added there too. Preview the Worker locally with `pnpm build:vinext && pnpm start:vinext`.
+
+Merging to `main` updates the Worker: `.github/workflows/deploy.yml` builds and deploys once CI passes on `main`. It needs the `CLOUDFLARE_API_TOKEN` secret and the `CLOUDFLARE_ACCOUNT_ID` and `NEXT_PUBLIC_*` variables in the repo settings. If `scripts/*.sql` changed it stops: apply the SQL in Supabase, then press Run workflow in the Actions tab.
 
 ### Production Checklist
 

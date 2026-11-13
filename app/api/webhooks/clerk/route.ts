@@ -62,29 +62,30 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
       }
 
-      logger.info(
-        { userId },
-        "Processing user deletion webhook - starting async deletion"
-      );
+      logger.info({ userId }, "Processing user deletion webhook");
 
-      // Fire-and-forget: acknowledge receipt immediately, process deletion in background
-      deleteUserData(userId)
-        .then(() => {
-          logger.info({ userId }, "User data deleted successfully via webhook");
-        })
-        .catch((error) => {
-          logger.error(
-            {
-              userId,
-              error: error instanceof Error ? error.message : "Unknown error",
-            },
-            "Failed to delete user data via webhook"
-          );
-          // TODO: Consider implementing retry logic or dead letter queue for failed deletions
-        });
+      // Awaited because a Worker can drop work left running after the response.
+      // A failure returns 500 so Clerk retries the event.
+      try {
+        await deleteUserData(userId);
+      } catch (error) {
+        logger.error(
+          {
+            userId,
+            error: error instanceof Error ? error.message : "Unknown error",
+          },
+          "Failed to delete user data via webhook"
+        );
+        return NextResponse.json(
+          { error: "Failed to delete user data" },
+          { status: 500 }
+        );
+      }
+
+      logger.info({ userId }, "User data deleted successfully via webhook");
 
       return NextResponse.json(
-        { message: "User deletion initiated successfully" },
+        { message: "User data deleted successfully" },
         { status: 200 }
       );
     }

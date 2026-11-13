@@ -1,0 +1,23 @@
+# pnpm settings (pnpm >= 10.26). See https://pnpm.io/settings/build
+#
+# pnpm blocks dependency lifecycle scripts by default. Every package that ships
+# a build script must be listed here: true = allowed to run, false = reviewed
+# and denied. strictDepBuilds makes `pnpm install` fail on any new, unreviewed
+# build script instead of silently skipping it.
+allowBuilds:
+  # Verifies/installs the native esbuild binary used by Vite/Vitest.
+  esbuild: true
+  # Image optimisation for next/image under `next start`.
+  sharp: true
+  # Native resolver used by eslint-config-next.
+  unrs-resolver: true
+  # Restores the Tailwind v4 native binary if the optional dependency is missing.
+  '@tailwindcss/oxide': true
+  # Downloads and validates the local Workers runtime used by the vinext preview.
+  workerd: true
+  # Old macOS file watcher pulled in transitively; not needed.
+  fsevents: false
+  # Only prints a telemetry notice; not needed.
+  '@clerk/shared': false
+
+strictDepBuilds: true

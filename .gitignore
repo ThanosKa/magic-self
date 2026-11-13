@@ -175,3 +175,9 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# vinext and Cloudflare output
+/dist/
+.vinext/
+.cloudflare/
+.dev.vars*
